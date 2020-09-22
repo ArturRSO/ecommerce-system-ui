@@ -6,7 +6,9 @@ import { UnavailabilityComponent } from './unavailability/unavailability.compone
 
 
 @NgModule({
-  declarations: [UnavailabilityComponent],
+  declarations: [
+    UnavailabilityComponent
+  ],
   imports: [
     CommonModule,
     ErrorRoutingModule

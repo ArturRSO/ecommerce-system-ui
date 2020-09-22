@@ -1,10 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'auth',
+    loadChildren: () => import('../pages/authentication/authentication.module').then(m => m.AuthenticationModule)
+  },
+  {
+    path: 'cadastro',
+    loadChildren: () => import('../pages/registration/registration.module').then(m => m.RegistrationModule)
+  },
+  {
+    path: 'erro',
+    loadChildren: () => import('../pages/error/error.module').then(m => m.ErrorModule)
+  }
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes)
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class CoreRoutingModule { }
