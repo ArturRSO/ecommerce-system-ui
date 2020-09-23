@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private loader: LoaderService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +53,10 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.loader.enable();
 
-    this.authenticationService.login(this.f.email.value, this.f.password.value).subscribe(() => {
+    this.authenticationService.login(this.f.email.value, this.f.password.value).subscribe(response => {
+      this.storageService.setLocalItem('authToken', response.data.token);
+      this.storageService.setLocalItem('tokenExpiration', response.data.expiration);
+
       this.loader.disable();
       this.navigateToPage('/navegar/home');
     });

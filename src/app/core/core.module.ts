@@ -8,10 +8,13 @@ import { MainComponent } from './main/main.component';
 import { SessionService } from './services/session.service';
 import { SharedModule } from '../shared/shared.module';
 import { UserService } from './services/user.service';
+import { LoaderService } from './services/loader.service';
+import { StorageService } from './services/storage.service';
 
 @NgModule({
   declarations: [
-    MainComponent, LoaderComponent
+    MainComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +23,9 @@ import { UserService } from './services/user.service';
   ],
   providers: [
     AuthenticationService,
+    LoaderService,
     SessionService,
+    StorageService,
     UserService
   ],
   exports: [
