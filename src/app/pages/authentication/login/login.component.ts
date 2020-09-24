@@ -13,7 +13,6 @@ import { StorageService } from 'src/app/core/services/storage.service';
 export class LoginComponent implements OnInit {
 
   public form: FormGroup;
-  public loading = false;
   public submitted = false;
 
   constructor(
@@ -50,7 +49,6 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
     this.loader.enable();
 
     this.authenticationService.login(this.f.email.value, this.f.password.value).subscribe(response => {

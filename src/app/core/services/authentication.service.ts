@@ -10,7 +10,7 @@ import { StorageService } from './storage.service';
 })
 export class AuthenticationService {
 
-  private baseApiUrl = environment.API_URL;
+  private baseApiUrl = `${environment.API_URL}/auth`;
 
   constructor(
     private http: HttpClient,
@@ -24,7 +24,7 @@ export class AuthenticationService {
       password: password
     }
 
-    return this.http.post<any>(`${this.baseApiUrl}/auth/login`, body).pipe(
+    return this.http.post<any>(`${this.baseApiUrl}/login`, body).pipe(
       map(response => {
         return response;
       }),
@@ -40,7 +40,7 @@ export class AuthenticationService {
 
       const expiration = new Date(this.storageService.getLocalItem('expiration'));
 
-      if ( expiration >= now ) {
+      if (expiration >= now) {
         return false;
 
       } else {
