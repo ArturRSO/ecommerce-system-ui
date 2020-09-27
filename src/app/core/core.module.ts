@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { UserService } from './services/user.service';
 import { LoaderService } from './services/loader.service';
 import { StorageService } from './services/storage.service';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { StorageService } from './services/storage.service';
   imports: [
     CommonModule,
     CoreRoutingModule,
-    SharedModule
+    SharedModule,
+    ToastModule
   ],
   providers: [
     AuthenticationService,

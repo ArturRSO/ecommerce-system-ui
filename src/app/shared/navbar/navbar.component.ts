@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { StorageService } from 'src/app/core/services/storage.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,6 +15,9 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private loader: LoaderService,
+    private storageService: StorageService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -19,7 +25,16 @@ export class NavbarComponent implements OnInit {
   }
 
   private loadOptions(): void {
-    console.log('TO DO');
+    if (this.storageService.getSessionItem('userOptions')) {
+      this.options = JSON.parse(this.storageService.getSessionItem('userOptions'));
+
+    } else {
+      this.loader.enable();
+      this.userService.getUserOptionsByRole().subscribe(response => {
+        this.options = response.data;
+        this.loader.disable();
+      });
+    }
   }
 
   private navigateToPage(route: string) {
@@ -36,7 +51,7 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  public navClick (option: any) {
+  public navClick(option: any) {
     if (option.samePage) {
       this.scrollToElement(option.elementId);
 

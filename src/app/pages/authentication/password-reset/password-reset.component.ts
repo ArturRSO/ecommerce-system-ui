@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { RegexEnum } from 'src/app/shared/utils/regex.enum';
 import { MustMatch } from 'src/app/shared/validators/must-match.validator';
@@ -23,7 +25,9 @@ export class PasswordResetComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private loader: LoaderService,
+    private messageService: MessageService,
     private router: Router,
+    private storageService: StorageService,
     private userService: UserService
   ) { }
 
@@ -70,10 +74,23 @@ export class PasswordResetComponent implements OnInit {
 
     this.userService.resetPassword(this.token, this.f.password.value).subscribe(response => {
       if (response.success) {
-        // TO DO
+        this.storageService.setSessionItem('lastScreen', 'passwordReset');
+        this.storageService.setSessionItem('currentMessage', response.message);
+
+        this.loader.disable();
+        this.navigateToPage('/auth/login');
 
       } else {
-        // TO DO
+        this.loader.disable();
+
+        const message = {
+          severity: 'error',
+          summary: 'Erro',
+          detail: response.message
+        }
+
+        this.messageService.clear();
+        this.messageService.add(message);
       }
     })
 

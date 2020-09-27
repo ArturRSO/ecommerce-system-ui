@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'erro',
     loadChildren: () => import('../pages/error/error.module').then(m => m.ErrorModule)
+  },
+  {
+    path: 'navegar',
+    loadChildren: () => import('../pages/navigation/navigation.module').then(m => m.NavigationModule)
   }
 ];
 

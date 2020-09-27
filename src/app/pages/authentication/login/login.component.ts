@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { UserService } from 'src/app/core/services/user.service';
+import { Roles } from 'src/app/shared/utils/roles.enum';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loader: LoaderService,
     private router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -55,8 +58,18 @@ export class LoginComponent implements OnInit {
       this.storageService.setLocalItem('authToken', response.data.token);
       this.storageService.setLocalItem('tokenExpiration', response.data.expiration);
 
-      this.loader.disable();
-      this.navigateToPage('/navegar/home');
+      this.userService.getProfile().subscribe(result => {
+        this.storageService.setSessionItem('userProfile', JSON.stringify(result.data));
+
+        this.loader.disable();
+
+        if (result.data.roleId === Roles.CUSTOMER) {
+          this.navigateToPage('/navegar/home');
+
+        } else {
+          this.navigateToPage('/navegar/dashboard');
+        }
+      });
     });
   }
 }
