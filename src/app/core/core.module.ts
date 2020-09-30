@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AuthenticationService } from './services/authentication.service';
 import { CoreRoutingModule } from './core-routing.module';
@@ -11,6 +12,7 @@ import { UserService } from './services/user.service';
 import { LoaderService } from './services/loader.service';
 import { StorageService } from './services/storage.service';
 import { ToastModule } from 'primeng/toast';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { ToastModule } from 'primeng/toast';
   imports: [
     CommonModule,
     CoreRoutingModule,
+    HttpClientModule,
+    MessageModule,
     SharedModule,
     ToastModule
   ],

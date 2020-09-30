@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { Roles } from '../utils/roles.enum';
 
 @Component({
   selector: 'app-navbar',
@@ -25,12 +26,12 @@ export class NavbarComponent implements OnInit {
   }
 
   private loadOptions(): void {
-    if (this.storageService.getSessionItem('userOptions')) {
-      this.options = JSON.parse(this.storageService.getSessionItem('userOptions'));
+    if (this.storageService.getSessionItem('userProfile')) {
+      this.options = JSON.parse(this.storageService.getSessionItem('userProfile')).options;
 
     } else {
       this.loader.enable();
-      this.userService.getUserOptionsByRole().subscribe(response => {
+      this.userService.getUserOptionsByRole(Roles.CUSTOMER).subscribe(response => {
         this.options = response.data;
         this.loader.disable();
       });

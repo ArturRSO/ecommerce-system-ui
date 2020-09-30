@@ -6,8 +6,6 @@ import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { LoginComponent } from './login/login.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
-import { MessageModule } from 'primeng/message';
-
 
 @NgModule({
   declarations: [
@@ -18,7 +16,6 @@ import { MessageModule } from 'primeng/message';
   imports: [
     CommonModule,
     AuthenticationRoutingModule,
-    MessageModule,
     ReactiveFormsModule
   ]
 })

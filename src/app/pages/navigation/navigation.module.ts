@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { NavigationRoutingModule } from './navigation-routing.module';
 import { HomeComponent } from './home/home.component';
-import { SharedModule } from 'primeng/api';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [

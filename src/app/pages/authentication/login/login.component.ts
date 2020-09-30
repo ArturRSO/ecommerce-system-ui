@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private loader: LoaderService,
+    private messageService: MessageService,
     private router: Router,
     private storageService: StorageService,
     private userService: UserService
@@ -36,7 +38,7 @@ export class LoginComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required, Validators.email],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
@@ -55,21 +57,34 @@ export class LoginComponent implements OnInit {
     this.loader.enable();
 
     this.authenticationService.login(this.f.email.value, this.f.password.value).subscribe(response => {
-      this.storageService.setLocalItem('authToken', response.data.token);
-      this.storageService.setLocalItem('tokenExpiration', response.data.expiration);
+      if (response.success) {
+        this.storageService.setLocalItem('authToken', response.data.token);
+        this.storageService.setLocalItem('tokenExpiration', response.data.expiration);
 
-      this.userService.getProfile().subscribe(result => {
-        this.storageService.setSessionItem('userProfile', JSON.stringify(result.data));
+        this.userService.getProfile().subscribe(result => {
+          this.storageService.setSessionItem('userProfile', JSON.stringify(result.data));
 
+          this.loader.disable();
+
+          if (result.data.roleId === Roles.CUSTOMER) {
+            this.navigateToPage('/navegar/home');
+
+          } else {
+            this.navigateToPage('/navegar/dashboard');
+          }
+        });
+      } else {
         this.loader.disable();
 
-        if (result.data.roleId === Roles.CUSTOMER) {
-          this.navigateToPage('/navegar/home');
-
-        } else {
-          this.navigateToPage('/navegar/dashboard');
+        const message = {
+          severity: 'error',
+          summary: 'Erro',
+          detail: response.data
         }
-      });
+
+        this.messageService.clear();
+        this.messageService.add(message);
+      }
     });
   }
 }

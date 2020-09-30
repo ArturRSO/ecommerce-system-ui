@@ -2,9 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Roles } from 'src/app/shared/utils/roles.enum';
 import { environment } from 'src/environments/environment';
-import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +12,7 @@ export class UserService {
   private baseApiUrl =  `${environment.API_URL}/users`;
 
   constructor(
-    private http: HttpClient,
-    private storageService: StorageService
+    private http: HttpClient
   ) { }
 
   public getPasswordResetTokenStatus(token: string): any {
@@ -38,15 +35,7 @@ export class UserService {
     );
   }
 
-  public getUserOptionsByRole() {
-    let roleId: number;
-
-    if (this.storageService.getSessionItem('userProfile')) {
-      roleId = JSON.parse(this.storageService.getSessionItem('userProfile')).roleId;
-
-    } else {
-      roleId = Roles.CUSTOMER;
-    }
+  public getUserOptionsByRole(roleId: number) {
 
     return this.http.get<any>(`${this.baseApiUrl}/options/${roleId}`).pipe(
       map(response => {
