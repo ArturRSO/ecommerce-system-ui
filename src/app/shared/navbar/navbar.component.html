@@ -8,9 +8,35 @@
     <ul class="navbar-nav">
       <ng-container *ngFor="let option of options">
         <li class="nav-item">
-          <a class="nav-link" (click)="navClick(option)">{{ option.name }}</a>
+          <a class="nav-link" (click)="navClick(option)">
+            <i [class]="option.icon"></i>
+            {{ option.name }}
+          </a>
         </li>
       </ng-container>
     </ul>
+    <form [formGroup]="searchForm" (ngSubmit)="search()" class="form-inline ml-auto">
+      <input class="form-control mr-sm-2" formControlName="searchField" type="search" placeholder="Pesquisar"
+        aria-label="Pesquisar">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+    </form>
+    <ng-container *ngIf="!authenticated">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" (click)="navigateToPage('/auth/login')">Entrar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link">Cadastre-se</a>
+        </li>
+      </ul>
+    </ng-container>
+    <ng-container *ngIf="authenticated">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <span>Olá {{ userName }}</span>
+          <a class="nav-link" (click)="logout()">Sair</a>
+        </li>
+      </ul>
+    </ng-container>
   </div>
 </nav>

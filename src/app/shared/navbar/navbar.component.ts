@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -12,22 +14,44 @@ import { Roles } from '../utils/roles.enum';
 })
 export class NavbarComponent implements OnInit {
 
+  public authenticated: boolean;
   public options: any;
+  public searchForm: FormGroup;
+  public userName: string;
 
   constructor(
-    private router: Router,
+    private authenticationService: AuthenticationService,
+    private formBuilder: FormBuilder,
     private loader: LoaderService,
+    private router: Router,
     private storageService: StorageService,
     private userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.loadOptions();
+    this.buildForm();
+    this.checkAuthentication();
+  }
+
+  get f() {
+    return this.searchForm.controls;
+  }
+
+  private buildForm(): void {
+    this.searchForm = this.formBuilder.group({
+      searchField: ['']
+    });
+  }
+
+  private checkAuthentication(): void {
+    this.authenticated = this.authenticationService.checkAuth();
   }
 
   private loadOptions(): void {
     if (this.storageService.getSessionItem('userProfile')) {
       this.options = JSON.parse(this.storageService.getSessionItem('userProfile')).options;
+      this.userName = JSON.parse(this.storageService.getSessionItem('userProfile')).firstName;
 
     } else {
       this.loader.enable();
@@ -36,10 +60,6 @@ export class NavbarComponent implements OnInit {
         this.loader.disable();
       });
     }
-  }
-
-  private navigateToPage(route: string) {
-    this.router.navigateByUrl(route);
   }
 
   private scrollToElement(id: string) {
@@ -52,6 +72,11 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  public logout(): void {
+    this.authenticationService.logout();
+    this.navigateToPage('/navegar/home');
+  }
+
   public navClick(option: any) {
     if (option.samePage) {
       this.scrollToElement(option.elementId);
@@ -59,5 +84,15 @@ export class NavbarComponent implements OnInit {
     } else {
       this.navigateToPage(option.route);
     }
+  }
+
+  public navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
+  }
+
+  public search() {
+    // TO DO
+
+    console.log(this.f.searchField.value);
   }
 }

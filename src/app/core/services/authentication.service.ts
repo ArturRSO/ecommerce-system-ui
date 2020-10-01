@@ -36,21 +36,19 @@ export class AuthenticationService {
 
     const now = new Date();
 
-    if (this.storageService.getLocalItem('authToken') && this.storageService.getLocalItem('expiration')) {
+    if (this.storageService.getLocalItem('authToken') && this.storageService.getLocalItem('tokenExpiration')) {
+      const expiration = new Date(this.storageService.getLocalItem('tokenExpiration'));
 
-      const expiration = new Date(this.storageService.getLocalItem('expiration'));
-
-      if (expiration >= now) {
-        return false;
-
-      } else {
-
-        return true;
-      }
+      return expiration > now;
 
     } else {
 
       return false;
     }
+  }
+
+  public logout(): void {
+    this.storageService.clearLocal();
+    this.storageService.clearSession();
   }
 }
