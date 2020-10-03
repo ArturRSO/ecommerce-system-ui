@@ -9,6 +9,10 @@ const routes: Routes = [
     component: UserRegistrationComponent
   },
   {
+    path: 'vendedor',
+    component: UserRegistrationComponent
+  },
+  {
     path: 'usuario',
     component: UserRegistrationComponent
   },

@@ -15,7 +15,6 @@ import { MustMatch } from 'src/app/shared/validators/must-match.validator';
 })
 export class PasswordResetComponent implements OnInit {
 
-  private passwordRegex = new RegExp(RegexEnum.PASSWORD);
   private token = null;
   public form: FormGroup;
   public submitted = false;
@@ -43,7 +42,7 @@ export class PasswordResetComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.pattern(this.passwordRegex)]],
+      password: ['', [Validators.required, Validators.pattern(RegexEnum.PASSWORD)]],
       confirmPassword: ['', Validators.required],
   }, {
       validator: MustMatch('password', 'confirmPassword')

@@ -1,1 +1,77 @@
-<p>user-registration works!</p>
+<h3 class="card-header">Cadastro</h3>
+<div class="card-body">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group col-5">
+        <label>Nome</label>
+        <input type="text" formControlName="firstName" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+          <div *ngIf="f.firstName.errors.required">Digite o nome</div>
+          <div *ngIf="f.firstName.errors.pattern">Digite um nome válido</div>
+        </div>
+      </div>
+      <div class="form-group col-5">
+        <label>Sobrenome</label>
+        <input type="text" formControlName="lastName" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+          <div *ngIf="f.lastName.errors.required">Digite o sobrenome</div>
+          <div *ngIf="f.lastName.errors.pattern">Digite um sobrenome válido</div>
+        </div>
+      </div>
+      <div class="form-group col-5">
+        <label>CPF</label>
+        <input type="text" formControlName="documentNumber" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.documentNumber.errors }" [mask]="cpfMask" />
+        <div *ngIf="submitted && f.documentNumber.errors" class="invalid-feedback">
+          <div *ngIf="f.documentNumber.errors.required">Digite o CPF</div>
+          <div *ngIf="f.documentNumber.errors.pattern">Digite um CPF válido</div>
+        </div>
+      </div>
+      <div class="form-group col">
+        <label>Data de aniversário</label>
+        <p-calendar formControlName="birthday" dateFormat="dd/mm/yy" [minDate]="minBirthday" [maxDate]="maxBirthday"
+          [defaultDate]="maxBirthday" [readonlyInput]="true" [monthNavigator]="true" [yearNavigator]="true"
+          [yearRange]="birthdayYearRange" [ngClass]="{ 'is-invalid': submitted && f.birthday.errors }"></p-calendar>
+        <div *ngIf="submitted && f.birthday.errors" class="invalid-feedback">
+          <div *ngIf="f.birthday.errors.required">Digite a data de nascimento</div>
+        </div>
+      </div>
+      <div class="form-group col-5">
+        <label>E-mail</label>
+        <input type="text" formControlName="email" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.required">Digite o e-mail</div>
+          <div *ngIf="f.email.errors.email">Digite um e-mail válido</div>
+        </div>
+      </div>
+      <div class="form-group col-5">
+        <label>Senha</label>
+        <input type="password" formControlName="password" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Digite a senha</div>
+          <div *ngIf="f.password.errors.pattern">
+            A senha deve possuir de 8 a 16 caracters e conter ao menos um número, uma letra maiúscula e uma minúscula.
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-5">
+        <label>Confirmar Senha</label>
+        <input type="password" formControlName="confirmPassword" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+        <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+          <div *ngIf="f.confirmPassword.errors.required">Confirme a senha</div>
+          <div *ngIf="f.confirmPassword.errors.mustMatch">As senhas devem ser iguais</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary">
+        Confirmar
+      </button>
+    </div>
+  </form>
+</div>

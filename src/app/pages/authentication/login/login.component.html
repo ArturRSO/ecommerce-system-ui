@@ -1,35 +1,35 @@
-<div class="card">
-  <h4 class="card-header">Login</h4>
-  <div class="card-body">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">E-mail</label>
-        <input type="text" formControlName="email" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-          <div *ngIf="f.email.errors.required">Digite seu e-mail</div>
-          <div *ngIf="f.email.errors.email">Digite um e-mail válido</div>
+<div class="wrapper fadeInDown">
+  <div class="card">
+    <h4 class="card-header fadeIn first">Login</h4>
+    <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="email" class="fadeIn second">E-mail</label>
+          <input type="text" formControlName="email" class="form-control fadeIn second"
+            [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">Digite seu e-mail</div>
+            <div *ngIf="f.email.errors.email">Digite um e-mail válido</div>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Senha</label>
-        <input type="password" formControlName="password" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">Digite sua senha</div>
+        <div class="form-group">
+          <label for="password" class="fadeIn third">Senha</label>
+          <input type="password" formControlName="password" class="form-control fadeIn third"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Digite sua senha</div>
+          </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col">
+        <div class="form-group fadeIn fourth">
           <button class="btn btn-primary">Entrar</button>
-          <button (click)="navigateToPage('/cadastro/cliente')" class="btn btn-link">
-            Ainda não possui conta? Cadastre-se!
-          </button>
         </div>
-        <div class="form-group col text-right">
-          <button (click)="navigateToPage('/auth/esqueci-a-senha')" class="btn btn-link pr-0">Esqueci minha senha</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
+    <div class="card-footer">
+      <button (click)="navigateToPage('/cadastro/cliente')" class="btn btn-link">
+        Ainda não possui conta? Cadastre-se!
+      </button>
+      <button (click)="navigateToPage('/auth/esqueci-a-senha')" class="btn btn-link pr-0">Esqueci minha senha</button>
+    </div>
   </div>
 </div>
