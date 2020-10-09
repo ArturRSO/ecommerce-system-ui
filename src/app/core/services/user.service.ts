@@ -17,7 +17,7 @@ export class UserService {
 
   public createUser(user: any): any {
 
-    this.http.post<any>(`${this.baseApiUrl}/create`, user).pipe(
+    return this.http.post<any>(`${this.baseApiUrl}/create`, user).pipe(
       map(response => {
         return response;
       }),
@@ -27,7 +27,7 @@ export class UserService {
 
   public createCustomer(user: any): any {
 
-    this.http.post<any>(`${this.baseApiUrl}/create/customer`, user).pipe(
+    return this.http.post<any>(`${this.baseApiUrl}/create/customer`, user).pipe(
       map(response => {
         return response;
       }),

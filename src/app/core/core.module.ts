@@ -13,6 +13,7 @@ import { LoaderService } from './services/loader.service';
 import { StorageService } from './services/storage.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
+import { UtilService } from './services/util.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MessageModule } from 'primeng/message';
     LoaderService,
     SessionService,
     StorageService,
-    UserService
+    UserService,
+    UtilService
   ],
   exports: [
     MainComponent

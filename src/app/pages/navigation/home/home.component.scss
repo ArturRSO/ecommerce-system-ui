@@ -1,0 +1,74 @@
+@import '../../../../assets/sass/config.scss';
+
+.container {
+  margin-top: 65px;
+  margin-bottom: 20px;
+}
+
+.card {
+  border: none;
+}
+
+.card-title {
+  color: $c-dark;
+  text-align: center;
+  font-size: 32px;
+
+  margin-bottom: 25px;
+}
+
+.card-text {
+  color: $c-black;
+  text-align: center;
+  font-size: 16px;
+
+  margin-bottom: 25px;
+}
+
+.button-dark {
+  background-color: $c-dark;
+  color: $c-white;
+}
+
+.button-light {
+  background-color: $c-white;
+  color: $c-dark;
+}
+
+.card-buttons {
+  text-align: center;
+}
+
+button {
+  height: 42px;
+  width: 180px;
+  margin: 20px;
+  border: 1px solid $c-dark;
+}
+
+.carousel-title {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-caption {
+  h5 {
+    color: $c-white;
+    font-size: 32px;
+    text-shadow: 2px 2px $c-black;
+  }
+
+  p {
+    color: $c-white;
+    font-size: 20px;
+    text-shadow: 2px 2px $c-black;
+  }
+}
+
+.carousel-inner {
+  img {
+    max-height: 700px;
+  }
+}

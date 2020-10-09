@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { UtilService } from 'src/app/core/services/util.service';
 import { InputMasks } from 'src/app/shared/utils/input-masks.enum';
 import { RegexEnum } from 'src/app/shared/utils/regex.enum';
 import { MustMatch } from 'src/app/shared/validators/must-match.validator';
@@ -29,13 +30,13 @@ export class UserRegistrationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loader: LoaderService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private utilService: UtilService
   ) { }
 
   ngOnInit(): void {
-    this.getRegistrationType();
     this.buildForm();
-    this.getBirthdayRange();
+    this.getInitialData();
   }
 
   get f() {
@@ -56,16 +57,13 @@ export class UserRegistrationComponent implements OnInit {
     });
   }
 
-  public getBirthdayRange(): void {
-    const minDate = new Date();
-    minDate.setFullYear(minDate.getFullYear() - 100);
+  private getInitialData(): void {
+    const birthdayRange = this.utilService.getBirthdayRange();
+    this.minBirthday = birthdayRange.minDate;
+    this.maxBirthday = birthdayRange.maxDate;
+    this.birthdayYearRange = `${birthdayRange.minDate.getFullYear()}:${birthdayRange.maxDate.getFullYear()}`;
 
-    const maxDate = new Date();
-    maxDate.setFullYear(maxDate.getFullYear() - 16);
-
-    this.birthdayYearRange = `${minDate.getFullYear()}:${maxDate.getFullYear()}`
-    this.minBirthday = minDate;
-    this.maxBirthday = maxDate;
+    this.registrationType = this.router.url.split('/')[2];
   }
 
   public onSubmit(): void {
@@ -75,20 +73,16 @@ export class UserRegistrationComponent implements OnInit {
       return;
     }
 
-    // TO DO
-
-    // this.loader.enable();
     const user = this.form.value;
-
     delete user.confirmPassword;
-    user.documentType = 1;
-    user.role = 4;
+    user.birthday = this.utilService.formatDateString(user.birthday);
+    user.documentTypeId = 1;
+    user.roleId = 4;
 
-    console.log(user);
-    console.log(user.birthday.toLocaleDateString('en-US'));
-  }
-
-  public getRegistrationType(): void {
-    this.registrationType = this.router.url.split('/')[2];
+    this.loader.enable();
+    this.userService.createCustomer(user).subscribe(response => {
+      this.loader.disable();
+      console.log(response);
+    })
   }
 }
