@@ -9,11 +9,31 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
 
-  private baseApiUrl =  `${environment.API_URL}/users`;
+  private baseApiUrl = `${environment.API_URL}/users`;
 
   constructor(
     private http: HttpClient
   ) { }
+
+  public createUser(user: any): any {
+
+    this.http.post<any>(`${this.baseApiUrl}/create`, user).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public createCustomer(user: any): any {
+
+    this.http.post<any>(`${this.baseApiUrl}/create/customer`, user).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
 
   public getPasswordResetTokenStatus(token: string): any {
 
@@ -55,7 +75,7 @@ export class UserService {
     );
   }
 
-  public sendResetPasswordMail(email: string, ): any {
+  public sendResetPasswordMail(email: string): any {
     const body = {
       email: email
     }

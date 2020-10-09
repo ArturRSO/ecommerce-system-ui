@@ -42,7 +42,7 @@ export class PasswordResetComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      password: ['', [Validators.required, Validators.pattern(RegexEnum.PASSWORD)]],
+      password: ['', [Validators.required, Validators.pattern(new RegExp(RegexEnum.PASSWORD))]],
       confirmPassword: ['', Validators.required],
   }, {
       validator: MustMatch('password', 'confirmPassword')

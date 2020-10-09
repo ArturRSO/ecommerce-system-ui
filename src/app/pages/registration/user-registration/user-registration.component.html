@@ -21,9 +21,9 @@
         </div>
       </div>
       <div class="form-group col-5">
-        <label>CPF</label>
+        <label>{{ documentLabel }}</label>
         <input type="text" formControlName="documentNumber" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.documentNumber.errors }" [mask]="cpfMask" />
+          [ngClass]="{ 'is-invalid': submitted && f.documentNumber.errors }" [mask]="documentMask" />
         <div *ngIf="submitted && f.documentNumber.errors" class="invalid-feedback">
           <div *ngIf="f.documentNumber.errors.required">Digite o CPF</div>
           <div *ngIf="f.documentNumber.errors.pattern">Digite um CPF válido</div>
