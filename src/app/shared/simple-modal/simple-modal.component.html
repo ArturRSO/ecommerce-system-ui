@@ -1,0 +1,19 @@
+<ng-container *ngIf="bsModalRef.content">
+  <div class="container">
+    <div class="title">
+      {{ bsModalRef.content.title }}
+    </div>
+    <div class="content">
+      <p>
+        {{ bsModalRef.content.message }}
+      </p>
+      <div class="button">
+        <ng-container *ngFor="let button of bsModalRef.content.buttons">
+          <button class="btn" (click)="buttonClick(button.text)">
+            {{ button.text }}
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>

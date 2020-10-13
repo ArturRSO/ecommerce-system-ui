@@ -14,6 +14,7 @@ import { StorageService } from './services/storage.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
 import { UtilService } from './services/util.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { UtilService } from './services/util.service';
     CoreRoutingModule,
     HttpClientModule,
     MessageModule,
+    ModalModule.forRoot(),
     SharedModule,
     ToastModule
   ],

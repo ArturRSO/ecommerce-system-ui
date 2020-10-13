@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SimpleModalComponent } from './simple-modal/simple-modal.component';
 
 @NgModule({
   declarations: [
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    SimpleModalComponent
   ],
   imports: [
     CommonModule,
@@ -16,7 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   exports: [
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    SimpleModalComponent
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA

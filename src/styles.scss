@@ -1,4 +1,8 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~primeicons/primeicons.css';
 @import '~primeng/resources/primeng.min.css';
-@import '~primeng/resources/themes/nova/theme.css'
+@import '~primeng/resources/themes/nova/theme.css';
+
+.modal-content {
+  border: none;
+}
