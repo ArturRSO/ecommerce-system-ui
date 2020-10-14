@@ -2,18 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { SimpleModalComponent } from 'src/app/shared/simple-modal/simple-modal.component';
 import { LoaderService } from '../services/loader.service';
 import { StorageService } from '../services/storage.service';
 import { Router } from '@angular/router';
+import { ModalService } from '../services/modal.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(
     private loader: LoaderService,
-    private modalService: BsModalService,
+    private modalService: ModalService,
     private router: Router,
     private storageService: StorageService
   ) { }
@@ -32,7 +31,13 @@ export class ErrorInterceptor implements HttpInterceptor {
 
       } else {
         this.resetLoader();
-        this.showErrorModal(error.error.message);
+
+        if (error.error.message) {
+          this.showErrorModal(error.error.message);
+
+        } else {
+          this.showErrorModal('Serviço indisponível, tente novamente mais tarde.');
+        }
       }
 
       return throwError(error);
@@ -45,15 +50,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   private showErrorModal(message: string): void {
-    const config = {
-      animated: true,
-      keyboard: true,
-      backdrop: true,
-      ignoreBackdropClick: false,
-      class: 'error-modal'
-    };
-
-    const content = {
+    const initialState = {
       title: 'Erro',
       message: message,
       buttons: [
@@ -63,7 +60,6 @@ export class ErrorInterceptor implements HttpInterceptor {
       ]
     }
 
-    const modal = this.modalService.show(SimpleModalComponent, config);
-    modal.content = content;
+    this.modalService.openSimpleModal(initialState);
   }
 }

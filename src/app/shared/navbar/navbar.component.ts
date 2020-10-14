@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { Roles } from '../utils/roles.enum';
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private formBuilder: FormBuilder,
     private loader: LoaderService,
+    private modalService: ModalService,
     private router: Router,
     private storageService: StorageService,
     private userService: UserService
@@ -88,6 +90,30 @@ export class NavbarComponent implements OnInit {
 
   public navigateToPage(route: string) {
     this.router.navigateByUrl(route);
+  }
+
+  public register(): void {
+    const initialState = {
+      title: 'Cadastro',
+      message: 'O que você quer fazer?',
+      buttons: [
+        {
+          text: 'Comprar'
+        },
+        {
+          text: 'Vender'
+        }
+      ]
+    }
+
+    this.modalService.openSimpleModal(initialState).then(value => {
+      if (value === 'Comprar') {
+        this.navigateToPage('cadastro/cliente');
+
+      } else if (value === 'Vender') {
+        this.navigateToPage('cadastro/vendedor');
+      }
+    });
   }
 
   public search() {

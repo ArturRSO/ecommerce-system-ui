@@ -15,6 +15,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
 import { UtilService } from './services/util.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ModalService } from './services/modal.service';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
   providers: [
     AuthenticationService,
     LoaderService,
+    ModalService,
     SessionService,
     StorageService,
     UserService,

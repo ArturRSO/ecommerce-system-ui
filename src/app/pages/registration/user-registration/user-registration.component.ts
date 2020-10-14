@@ -6,6 +6,8 @@ import { UserService } from 'src/app/core/services/user.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { InputMasks } from 'src/app/shared/utils/input-masks.enum';
 import { RegexEnum } from 'src/app/shared/utils/regex.enum';
+import { Roles } from 'src/app/shared/utils/roles.enum';
+import { DocumentType } from 'src/app/shared/utils/document-type.enum';
 import { MustMatch } from 'src/app/shared/validators/must-match.validator';
 
 @Component({
@@ -16,7 +18,7 @@ import { MustMatch } from 'src/app/shared/validators/must-match.validator';
 export class UserRegistrationComponent implements OnInit {
 
   private documentRegex = new RegExp(RegexEnum.CPF);
-  private registrationType: string;
+  private roleId: number;
 
   public birthdayYearRange: string;
   public documentLabel = 'CPF';
@@ -24,6 +26,7 @@ export class UserRegistrationComponent implements OnInit {
   public form: FormGroup;
   public minBirthday: Date;
   public maxBirthday: Date;
+  public selectRole = false;
   public submitted = false;
 
   constructor(
@@ -49,6 +52,7 @@ export class UserRegistrationComponent implements OnInit {
       lastName: ['', [Validators.required, Validators.pattern(new RegExp(RegexEnum.NAME))]],
       documentNumber: ['', [Validators.required, Validators.pattern(this.documentRegex)]],
       birthday: ['', Validators.required],
+      roleId: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern(new RegExp(RegexEnum.PASSWORD))]],
       confirmPassword: ['', Validators.required]
@@ -63,11 +67,29 @@ export class UserRegistrationComponent implements OnInit {
     this.maxBirthday = birthdayRange.maxDate;
     this.birthdayYearRange = `${birthdayRange.minDate.getFullYear()}:${birthdayRange.maxDate.getFullYear()}`;
 
-    this.registrationType = this.router.url.split('/')[2];
+    const registrationType = this.router.url.split('/')[2];
+
+    switch (registrationType) {
+      case 'usuario':
+        this.selectRole = true;
+        break;
+      case 'cliente':
+        this.roleId = Roles.CUSTOMER;
+        break;
+      case 'vendedor':
+        this.roleId = Roles.STORE_ADMIN;
+        break;
+      default:
+        this.roleId = Roles.CUSTOMER;
+    }
   }
 
   public onSubmit(): void {
     this.submitted = true;
+
+    if (!this.selectRole) {
+      this.f.roleId.setValue(this.roleId);
+    }
 
     if (this.form.invalid) {
       return;
@@ -76,8 +98,7 @@ export class UserRegistrationComponent implements OnInit {
     const user = this.form.value;
     delete user.confirmPassword;
     user.birthday = this.utilService.formatDateString(user.birthday);
-    user.documentTypeId = 1;
-    user.roleId = 4;
+    user.documentTypeId = DocumentType.CPF;
 
     this.loader.enable();
     this.userService.createCustomer(user).subscribe(response => {

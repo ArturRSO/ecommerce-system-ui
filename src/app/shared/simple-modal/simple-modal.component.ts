@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-simple-modal',
@@ -8,21 +9,21 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class SimpleModalComponent implements OnInit {
 
-  @Output() customClick = new EventEmitter();
+  public buttons = [];
+  public message: string;
+  public onClose: Subject<string>;
+  public title: string;
 
   constructor(
     public bsModalRef: BsModalRef
   ) { }
 
   ngOnInit(): void {
-  }
-
-  private close(): void {
-    this.bsModalRef.hide();
+    this.onClose = new Subject();
   }
 
   public buttonClick(message: string): void {
-    this.customClick.emit(message);
-    this.close();
+    this.onClose.next(message);
+    this.bsModalRef.hide();
   }
 }

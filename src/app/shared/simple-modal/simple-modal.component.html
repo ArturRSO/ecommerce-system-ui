@@ -1,14 +1,14 @@
-<ng-container *ngIf="bsModalRef.content">
+<ng-container>
   <div class="container">
     <div class="title">
-      {{ bsModalRef.content.title }}
+      {{ title }}
     </div>
     <div class="content">
       <p>
-        {{ bsModalRef.content.message }}
+        {{ message }}
       </p>
       <div class="button">
-        <ng-container *ngFor="let button of bsModalRef.content.buttons">
+        <ng-container *ngFor="let button of buttons">
           <button class="btn" (click)="buttonClick(button.text)">
             {{ button.text }}
           </button>
