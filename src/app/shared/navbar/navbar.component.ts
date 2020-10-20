@@ -76,6 +76,7 @@ export class NavbarComponent implements OnInit {
 
   public logout(): void {
     this.authenticationService.logout();
+    this.checkAuthentication();
     this.navigateToPage('/navegar/home');
   }
 

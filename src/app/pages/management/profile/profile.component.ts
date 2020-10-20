@@ -24,11 +24,6 @@ export class ProfileComponent implements OnInit {
     this.user = JSON.parse(this.storageService.getSessionItem('userProfile'));
   }
 
-  public changeProfilePicture(): void {
-    // TO DO
-    console.log('CHANGE PROFILE PIC');
-  }
-
   public navigateToPage(route: string) {
     this.router.navigateByUrl(route);
   }

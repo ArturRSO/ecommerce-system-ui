@@ -47,26 +47,28 @@
           <div *ngIf="f.email.errors.email">Digite um e-mail válido</div>
         </div>
       </div>
-      <div class="form-group col-5">
-        <label>Senha</label>
-        <input type="password" formControlName="password" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">Digite a senha</div>
-          <div *ngIf="f.password.errors.pattern">
-            A senha deve possuir de 8 a 16 caracters e conter ao menos um número, uma letra maiúscula e uma minúscula.
+      <ng-container *ngIf="!update">
+        <div class="form-group col-5">
+          <label>Senha</label>
+          <input type="password" formControlName="password" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Digite a senha</div>
+            <div *ngIf="f.password.errors.pattern">
+              A senha deve possuir de 8 a 16 caracters e conter ao menos um número, uma letra maiúscula e uma minúscula.
+            </div>
           </div>
         </div>
-      </div>
-      <div class="form-group col-5">
-        <label>Confirmar Senha</label>
-        <input type="password" formControlName="confirmPassword" class="form-control"
-          [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
-        <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
-          <div *ngIf="f.confirmPassword.errors.required">Confirme a senha</div>
-          <div *ngIf="f.confirmPassword.errors.mustMatch">As senhas devem ser iguais</div>
+        <div class="form-group col-5">
+          <label>Confirmar Senha</label>
+          <input type="password" formControlName="confirmPassword" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+          <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+            <div *ngIf="f.confirmPassword.errors.required">Confirme a senha</div>
+            <div *ngIf="f.confirmPassword.errors.mustMatch">As senhas devem ser iguais</div>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </div>
     <div class="form-group">
       <button class="btn btn-primary">

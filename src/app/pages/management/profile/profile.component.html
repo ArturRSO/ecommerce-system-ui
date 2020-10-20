@@ -12,7 +12,7 @@
                 <h4>{{ user.firstName }}</h4>
                 <p class="text-secondary mb-1">Cadastrado desde {{user.creationDate | date: 'dd/MM/yyyy'}}</p>
                 <button class="btn button-dark" (click)="navigateToPage('gerenciar/pedidos')">Meus pedidos</button>
-                <button class="btn button-light">Atualizar perfil</button>
+                <button class="btn button-light" (click)="navigateToPage('cadastro/atualizar/perfil')">Atualizar perfil</button>
               </div>
             </div>
           </div>

@@ -10,6 +10,7 @@ import { Roles } from 'src/app/shared/utils/roles.enum';
 import { DocumentType } from 'src/app/shared/utils/document-type.enum';
 import { MustMatch } from 'src/app/shared/validators/must-match.validator';
 import { ModalService } from 'src/app/core/services/modal.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
   selector: 'app-user-registration',
@@ -20,6 +21,7 @@ export class UserRegistrationComponent implements OnInit {
 
   private documentRegex = new RegExp(RegexEnum.CPF);
   private roleId: number;
+  private user: any;
 
   public birthdayYearRange: string;
   public documentLabel = 'CPF';
@@ -29,12 +31,14 @@ export class UserRegistrationComponent implements OnInit {
   public maxBirthday: Date;
   public selectRole = false;
   public submitted = false;
+  public update = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private loader: LoaderService,
     private modalService: ModalService,
     private router: Router,
+    private storageService: StorageService,
     private userService: UserService,
     private utilService: UtilService
   ) { }
@@ -49,18 +53,30 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   private buildForm(): void {
-    this.form = this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.pattern(new RegExp(RegexEnum.NAME))]],
-      lastName: ['', [Validators.required, Validators.pattern(new RegExp(RegexEnum.NAME))]],
-      documentNumber: ['', [Validators.required, Validators.pattern(this.documentRegex)]],
-      birthday: ['', Validators.required],
-      roleId: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.pattern(new RegExp(RegexEnum.PASSWORD))]],
-      confirmPassword: ['', Validators.required]
-    }, {
-      validator: MustMatch('password', 'confirmPassword')
-    });
+    if (this.update) {
+      this.form = this.formBuilder.group({
+        firstName: [this.user.firstName, [Validators.required, Validators.pattern(new RegExp(RegexEnum.NAME))]],
+        lastName: [this.user.lastName, [Validators.required, Validators.pattern(new RegExp(RegexEnum.NAME))]],
+        documentNumber: [this.user.documentNumber, [Validators.required, Validators.pattern(this.documentRegex)]],
+        birthday: ['', Validators.required],
+        roleId: ['', Validators.required],
+        email: [this.user.email, [Validators.required, Validators.email]]
+      });
+
+    } else {
+      this.form = this.formBuilder.group({
+        firstName: ['', [Validators.required, Validators.pattern(new RegExp(RegexEnum.NAME))]],
+        lastName: ['', [Validators.required, Validators.pattern(new RegExp(RegexEnum.NAME))]],
+        documentNumber: ['', [Validators.required, Validators.pattern(this.documentRegex)]],
+        birthday: ['', Validators.required],
+        roleId: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.pattern(new RegExp(RegexEnum.PASSWORD))]],
+        confirmPassword: ['', Validators.required]
+      }, {
+        validator: MustMatch('password', 'confirmPassword')
+      });
+    }
   }
 
   private getInitialData(): void {
@@ -81,6 +97,18 @@ export class UserRegistrationComponent implements OnInit {
       case 'vendedor':
         this.roleId = Roles.STORE_ADMIN;
         break;
+      case 'atualizar':
+        this.update = true;
+
+        if (this.router.url.split('/')[3] === 'perfil') {
+          this.user = JSON.parse(this.storageService.getSessionItem('userProfile'));
+          this.roleId = this.user.roleId;
+
+        } else {
+          this.user = JSON.parse(this.storageService.getSessionItem('userToUpdate'));
+          this.selectRole = true;
+        }
+        break;
       default:
         this.roleId = Roles.CUSTOMER;
     }
@@ -93,32 +121,51 @@ export class UserRegistrationComponent implements OnInit {
   public onSubmit(): void {
     this.submitted = true;
 
-    if (!this.selectRole) {
-      this.f.roleId.setValue(this.roleId);
-    }
-
     if (this.form.invalid) {
       return;
     }
 
+    if (!this.selectRole) {
+      this.f.roleId.setValue(this.roleId);
+    }
+
     const user = this.form.value;
-    delete user.confirmPassword;
     user.birthday = this.utilService.formatDateString(user.birthday);
     user.documentTypeId = DocumentType.CPF;
 
-    this.loader.enable();
+    if (this.update) {
+      this.loader.enable();
 
-    if (this.selectRole) {
-      this.userService.createUser(user).subscribe(response => {
-        this.loader.disable();
-        this.processResponse(response);
-      });
+      if (this.selectRole) {
+        this.userService.updateUser(user).subscribe(response => {
+          this.loader.disable();
+          this.processResponse(response);
+        });
+
+      } else {
+        this.userService.updateUserProfile(user).subscribe(response => {
+          this.loader.disable();
+          this.processResponse(response);
+        })
+      }
 
     } else {
-      this.userService.createCustomer(user).subscribe(response => {
-        this.loader.disable();
-        this.processResponse(response);
-      });
+      delete user.confirmPassword;
+
+      this.loader.enable();
+
+      if (this.selectRole) {
+        this.userService.createUser(user).subscribe(response => {
+          this.loader.disable();
+          this.processResponse(response);
+        });
+
+      } else {
+        this.userService.createCustomer(user).subscribe(response => {
+          this.loader.disable();
+          this.processResponse(response);
+        });
+      }
     }
   }
 
@@ -136,12 +183,10 @@ export class UserRegistrationComponent implements OnInit {
 
     if (response.isSuccess) {
       if (this.selectRole) {
-        initialState.message = "Usuário cadastrado com sucesso!"
         this.modalService.openSimpleModal(initialState);
         this.navigateToPage('navegar/dashboard');
 
       } else {
-        initialState.message = "Cadastro concluído com sucesso! Faça login para utilizar o sistema.";
         this.modalService.openSimpleModal(initialState);
         this.navigateToPage('navegar/home');
       }

@@ -5,6 +5,14 @@ import { UserRegistrationComponent } from './user-registration/user-registration
 
 const routes: Routes = [
   {
+    path: 'atualizar/perfil',
+    component: UserRegistrationComponent
+  },
+  {
+    path: 'atualizar/usuario',
+    component: UserRegistrationComponent
+  },
+  {
     path: 'cliente',
     component: UserRegistrationComponent
   },

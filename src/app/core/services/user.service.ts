@@ -87,4 +87,24 @@ export class UserService {
       catchError((error: any) => throwError(error))
     );
   }
+
+  public updateUser(user: any): any {
+
+    return this.http.post<any>(`${this.baseApiUrl}/update`, user).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public updateUserProfile(user: any) {
+
+    return this.http.post<any>(`${this.baseApiUrl}/update/profile`, user).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
 }
