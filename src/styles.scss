@@ -2,7 +2,19 @@
 @import '~primeicons/primeicons.css';
 @import '~primeng/resources/primeng.min.css';
 @import '~primeng/resources/themes/nova/theme.css';
+@import './assets/sass/config.scss';
 
 .modal-content {
   border: none;
+}
+
+// Default buttons
+.button-dark {
+  background-color: $c-dark;
+  color: $c-white;
+}
+
+.button-light {
+  background-color: $c-white;
+  color: $c-dark;
 }

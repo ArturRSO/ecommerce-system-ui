@@ -13,7 +13,7 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
-    path: '',
+    path: '**',
     redirectTo: 'home',
     pathMatch: 'full'
   }

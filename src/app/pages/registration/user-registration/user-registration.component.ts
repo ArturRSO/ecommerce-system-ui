@@ -9,6 +9,7 @@ import { RegexEnum } from 'src/app/shared/utils/regex.enum';
 import { Roles } from 'src/app/shared/utils/roles.enum';
 import { DocumentType } from 'src/app/shared/utils/document-type.enum';
 import { MustMatch } from 'src/app/shared/validators/must-match.validator';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-user-registration',
@@ -32,6 +33,7 @@ export class UserRegistrationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private loader: LoaderService,
+    private modalService: ModalService,
     private router: Router,
     private userService: UserService,
     private utilService: UtilService
@@ -84,6 +86,10 @@ export class UserRegistrationComponent implements OnInit {
     }
   }
 
+  private navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
+  }
+
   public onSubmit(): void {
     this.submitted = true;
 
@@ -101,9 +107,48 @@ export class UserRegistrationComponent implements OnInit {
     user.documentTypeId = DocumentType.CPF;
 
     this.loader.enable();
-    this.userService.createCustomer(user).subscribe(response => {
-      this.loader.disable();
-      console.log(response);
-    })
+
+    if (this.selectRole) {
+      this.userService.createUser(user).subscribe(response => {
+        this.loader.disable();
+        this.processResponse(response);
+      });
+
+    } else {
+      this.userService.createCustomer(user).subscribe(response => {
+        this.loader.disable();
+        this.processResponse(response);
+      });
+    }
+  }
+
+  private processResponse(response: any): void {
+
+    const initialState = {
+      title: 'Sucesso',
+      message: response.message,
+      buttons: [
+        {
+          text: 'OK'
+        }
+      ]
+    }
+
+    if (response.isSuccess) {
+      if (this.selectRole) {
+        initialState.message = "Usuário cadastrado com sucesso!"
+        this.modalService.openSimpleModal(initialState);
+        this.navigateToPage('navegar/dashboard');
+
+      } else {
+        initialState.message = "Cadastro concluído com sucesso! Faça login para utilizar o sistema.";
+        this.modalService.openSimpleModal(initialState);
+        this.navigateToPage('navegar/home');
+      }
+
+    } else {
+      initialState.title = 'Atenção';
+      this.modalService.openSimpleModal(initialState);
+    }
   }
 }

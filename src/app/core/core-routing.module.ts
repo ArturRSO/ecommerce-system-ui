@@ -15,8 +15,17 @@ const routes: Routes = [
     loadChildren: () => import('../pages/error/error.module').then(m => m.ErrorModule)
   },
   {
+    path: 'gerenciar',
+    loadChildren: () => import('../pages/management/management.module').then(m => m.ManagementModule)
+  },
+  {
     path: 'navegar',
     loadChildren: () => import('../pages/navigation/navigation.module').then(m => m.NavigationModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'navegar',
+    pathMatch: 'full'
   }
 ];
 
