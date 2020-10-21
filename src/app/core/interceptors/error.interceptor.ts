@@ -50,16 +50,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   private showErrorModal(message: string): void {
-    const initialState = {
-      title: 'Erro',
-      message: message,
-      buttons: [
-        {
-          text: 'OK'
-        }
-      ]
-    }
 
-    this.modalService.openSimpleModal(initialState);
+    this.modalService.openSimpleModal('Erro', message, [{text: 'OK'}]);
   }
 }

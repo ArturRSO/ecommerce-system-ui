@@ -77,7 +77,7 @@ export class NavbarComponent implements OnInit {
   public logout(): void {
     this.authenticationService.logout();
     this.checkAuthentication();
-    this.navigateToPage('/navegar/home');
+    this.navigateToPage('navegar/home');
   }
 
   public navClick(option: any) {
@@ -94,20 +94,16 @@ export class NavbarComponent implements OnInit {
   }
 
   public register(): void {
-    const initialState = {
-      title: 'Cadastro',
-      message: 'O que você quer fazer?',
-      buttons: [
-        {
-          text: 'Comprar'
-        },
-        {
-          text: 'Vender'
-        }
-      ]
-    }
+    const buttons = [
+      {
+        text: 'Comprar'
+      },
+      {
+        text: 'Vender'
+      }
+    ];
 
-    this.modalService.openSimpleModal(initialState).then(value => {
+    this.modalService.openSimpleModal('Cadastro', 'O que você quer fazer?', buttons).subscribe(value => {
       if (value === 'Comprar') {
         this.navigateToPage('cadastro/cliente');
 

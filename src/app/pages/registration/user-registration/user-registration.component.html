@@ -32,7 +32,7 @@
       <div class="form-group col">
         <label>Data de aniversário</label>
         <p-calendar formControlName="birthday" dateFormat="dd/mm/yy" [minDate]="minBirthday" [maxDate]="maxBirthday"
-          [defaultDate]="maxBirthday" [readonlyInput]="true" [monthNavigator]="true" [yearNavigator]="true"
+          [defaultDate]="defaultBirthday" [readonlyInput]="true" [monthNavigator]="true" [yearNavigator]="true"
           [yearRange]="birthdayYearRange" [ngClass]="{ 'is-invalid': submitted && f.birthday.errors }"></p-calendar>
         <div *ngIf="submitted && f.birthday.errors" class="invalid-feedback">
           <div *ngIf="f.birthday.errors.required">Digite a data de nascimento</div>

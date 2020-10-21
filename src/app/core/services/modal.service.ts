@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { Observable, Subject } from 'rxjs';
 import { SimpleModalComponent } from 'src/app/shared/simple-modal/simple-modal.component';
 
 @Injectable({
@@ -11,7 +12,13 @@ export class ModalService {
     private modalService: BsModalService,
   ) { }
 
-  openSimpleModal(initialState: any): Promise<string> {
+  openSimpleModal(title: string, message: string, buttons: Array<any>): Observable<string> {
+
+    const initialState = {
+      title: title,
+      message: message,
+      buttons: buttons
+    }
 
     const config = {
       animated: true,
@@ -24,6 +31,13 @@ export class ModalService {
 
     const modal = this.modalService.show(SimpleModalComponent, config);
 
-    return new Promise<string>((resolve, reject) => modal.content.onClose.subscribe((result) => resolve(result)));
+    const subject = new Subject<string>();
+
+    modal.content.onClose.subscribe((result) => {
+      subject.next(result);
+      subject.complete();
+    });
+
+    return subject;
   }
 }

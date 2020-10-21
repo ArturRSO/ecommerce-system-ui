@@ -88,9 +88,9 @@ export class UserService {
     );
   }
 
-  public updateUser(user: any): any {
+  public updateUser(user: any, userid: number): any {
 
-    return this.http.post<any>(`${this.baseApiUrl}/update`, user).pipe(
+    return this.http.put<any>(`${this.baseApiUrl}/update/${userid}`, user).pipe(
       map(response => {
         return response;
       }),
@@ -98,9 +98,9 @@ export class UserService {
     );
   }
 
-  public updateUserProfile(user: any) {
+  public updateUserProfile(user: any, userid: number) {
 
-    return this.http.post<any>(`${this.baseApiUrl}/update/profile`, user).pipe(
+    return this.http.put<any>(`${this.baseApiUrl}/update/profile/${userid}`, user).pipe(
       map(response => {
         return response;
       }),

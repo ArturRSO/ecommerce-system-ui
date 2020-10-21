@@ -24,6 +24,7 @@ export class UserRegistrationComponent implements OnInit {
   private user: any;
 
   public birthdayYearRange: string;
+  public defaultBirthday: Date;
   public documentLabel = 'CPF';
   public documentMask = InputMasks.CPF;
   public form: FormGroup;
@@ -44,8 +45,8 @@ export class UserRegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.buildForm();
     this.getInitialData();
+    this.buildForm();
   }
 
   get f() {
@@ -58,7 +59,7 @@ export class UserRegistrationComponent implements OnInit {
         firstName: [this.user.firstName, [Validators.required, Validators.pattern(new RegExp(RegexEnum.NAME))]],
         lastName: [this.user.lastName, [Validators.required, Validators.pattern(new RegExp(RegexEnum.NAME))]],
         documentNumber: [this.user.documentNumber, [Validators.required, Validators.pattern(this.documentRegex)]],
-        birthday: ['', Validators.required],
+        birthday: [this.defaultBirthday, Validators.required],
         roleId: ['', Validators.required],
         email: [this.user.email, [Validators.required, Validators.email]]
       });
@@ -83,6 +84,7 @@ export class UserRegistrationComponent implements OnInit {
     const birthdayRange = this.utilService.getBirthdayRange();
     this.minBirthday = birthdayRange.minDate;
     this.maxBirthday = birthdayRange.maxDate;
+    this.defaultBirthday = birthdayRange.maxDate;
     this.birthdayYearRange = `${birthdayRange.minDate.getFullYear()}:${birthdayRange.maxDate.getFullYear()}`;
 
     const registrationType = this.router.url.split('/')[2];
@@ -102,10 +104,12 @@ export class UserRegistrationComponent implements OnInit {
 
         if (this.router.url.split('/')[3] === 'perfil') {
           this.user = JSON.parse(this.storageService.getSessionItem('userProfile'));
+          this.defaultBirthday = new Date(this.user.birthday);
           this.roleId = this.user.roleId;
 
         } else {
           this.user = JSON.parse(this.storageService.getSessionItem('userToUpdate'));
+          this.defaultBirthday = new Date(this.user.birthday);
           this.selectRole = true;
         }
         break;
@@ -121,12 +125,12 @@ export class UserRegistrationComponent implements OnInit {
   public onSubmit(): void {
     this.submitted = true;
 
-    if (this.form.invalid) {
-      return;
-    }
-
     if (!this.selectRole) {
       this.f.roleId.setValue(this.roleId);
+    }
+
+    if (this.form.invalid) {
+      return;
     }
 
     const user = this.form.value;
@@ -137,16 +141,29 @@ export class UserRegistrationComponent implements OnInit {
       this.loader.enable();
 
       if (this.selectRole) {
-        this.userService.updateUser(user).subscribe(response => {
+        this.userService.updateUser(user, this.user.userId).subscribe(response => {
           this.loader.disable();
-          this.processResponse(response);
+          this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(() => {
+            this.navigateToPage('navegar/dashboard');
+          });
         });
 
       } else {
-        this.userService.updateUserProfile(user).subscribe(response => {
-          this.loader.disable();
-          this.processResponse(response);
-        })
+        this.userService.updateUserProfile(user, this.user.userId).subscribe(response => {
+          if (response.success) {
+            this.userService.getProfile().subscribe(result => {
+              this.storageService.setSessionItem('userProfile', JSON.stringify(result.data));
+              this.loader.disable();
+              this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(() => {
+                this.navigateToPage('gerenciar/perfil');
+              });
+
+            });
+          } else {
+            this.loader.disable();
+            this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+          }
+        });
       }
 
     } else {
@@ -156,44 +173,34 @@ export class UserRegistrationComponent implements OnInit {
 
       if (this.selectRole) {
         this.userService.createUser(user).subscribe(response => {
-          this.loader.disable();
-          this.processResponse(response);
+          if (response.success) {
+            this.loader.disable();
+            this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(value => {
+              console.log(value);
+              this.navigateToPage('navegar/dashboard');
+            });
+
+          } else {
+            this.loader.disable();
+            this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+          }
         });
 
       } else {
         this.userService.createCustomer(user).subscribe(response => {
-          this.loader.disable();
-          this.processResponse(response);
+          if (response.success) {
+            this.loader.disable();
+            this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(value => {
+              console.log(value);
+              this.navigateToPage('navegar/home');
+            });
+
+          } else {
+            this.loader.disable();
+            this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+          }
         });
       }
-    }
-  }
-
-  private processResponse(response: any): void {
-
-    const initialState = {
-      title: 'Sucesso',
-      message: response.message,
-      buttons: [
-        {
-          text: 'OK'
-        }
-      ]
-    }
-
-    if (response.isSuccess) {
-      if (this.selectRole) {
-        this.modalService.openSimpleModal(initialState);
-        this.navigateToPage('navegar/dashboard');
-
-      } else {
-        this.modalService.openSimpleModal(initialState);
-        this.navigateToPage('navegar/home');
-      }
-
-    } else {
-      initialState.title = 'Atenção';
-      this.modalService.openSimpleModal(initialState);
     }
   }
 }
