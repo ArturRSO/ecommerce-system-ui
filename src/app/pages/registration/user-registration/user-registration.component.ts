@@ -175,8 +175,7 @@ export class UserRegistrationComponent implements OnInit {
         this.userService.createUser(user).subscribe(response => {
           if (response.success) {
             this.loader.disable();
-            this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(value => {
-              console.log(value);
+            this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(() => {
               this.navigateToPage('navegar/dashboard');
             });
 
@@ -190,8 +189,7 @@ export class UserRegistrationComponent implements OnInit {
         this.userService.createCustomer(user).subscribe(response => {
           if (response.success) {
             this.loader.disable();
-            this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(value => {
-              console.log(value);
+            this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(() => {
               this.navigateToPage('navegar/home');
             });
 

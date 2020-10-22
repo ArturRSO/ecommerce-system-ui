@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit {
   public options: any;
   public searchForm: FormGroup;
   public userName: string;
+  private authenticationState: Subscription;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -31,9 +33,9 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadOptions();
     this.buildForm();
     this.checkAuthentication();
+    this.checkAuthenticationChange();
   }
 
   get f() {
@@ -48,6 +50,13 @@ export class NavbarComponent implements OnInit {
 
   private checkAuthentication(): void {
     this.authenticated = this.authenticationService.checkAuth();
+    this.loadOptions();
+  }
+
+  private checkAuthenticationChange(): void {
+    this.authenticationState = this.authenticationService.getAuthChange().subscribe(() => {
+      this.checkAuthentication();
+    });
   }
 
   private loadOptions(): void {
@@ -57,7 +66,7 @@ export class NavbarComponent implements OnInit {
 
     } else {
       this.loader.enable();
-      this.userService.getUserOptionsByRole(Roles.CUSTOMER).subscribe(response => {
+      this.userService.getUserOptionsByRole(Roles.GUEST).subscribe(response => {
         this.options = response.data;
         this.loader.disable();
       });

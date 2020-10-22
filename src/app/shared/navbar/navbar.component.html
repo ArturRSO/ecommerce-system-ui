@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-  <a class="navbar-brand" href="#">E-commerce System</a>
+  <a class="navbar-brand" (click)="navigateToPage('navegar/home')">E-commerce System</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -16,7 +16,7 @@
       </ng-container>
     </ul>
     <form [formGroup]="searchForm" (ngSubmit)="search()" class="form-inline ml-auto">
-      <input class="form-control mr-sm-2" formControlName="searchField" type="search" placeholder="Pesquisar"
+      <input class="form-control mr-sm-2" formControlName="searchField" type="search" placeholder="Pesquisar produto"
         aria-label="Pesquisar">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
     </form>

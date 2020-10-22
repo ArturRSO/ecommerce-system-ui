@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { Observable, Subject, throwError } from 'rxjs';
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -11,6 +11,8 @@ import { StorageService } from './storage.service';
 export class AuthenticationService {
 
   private baseApiUrl = `${environment.API_URL}/auth`;
+
+  private authState = new Subject<boolean>();
 
   constructor(
     private http: HttpClient,
@@ -50,5 +52,15 @@ export class AuthenticationService {
   public logout(): void {
     this.storageService.clearLocal();
     this.storageService.clearSession();
+  }
+
+  public setAuthChange(authenticated: boolean): void {
+
+    this.authState.next(authenticated);
+  }
+
+  public getAuthChange(): Observable<boolean> {
+
+    return this.authState.asObservable();
   }
 }

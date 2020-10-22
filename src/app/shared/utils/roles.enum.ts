@@ -3,5 +3,6 @@ export enum Roles {
   STORE_ADMIN = 2,
   STORE_EMPLOYEE = 3,
   CUSTOMER = 4,
-  DELIVER_SERVICE = 5
+  DELIVER_SERVICE = 5,
+  GUEST = 6
 }

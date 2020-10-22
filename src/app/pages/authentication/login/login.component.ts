@@ -63,6 +63,7 @@ export class LoginComponent implements OnInit {
 
         this.userService.getProfile().subscribe(result => {
           this.storageService.setSessionItem('userProfile', JSON.stringify(result.data));
+          this.authenticationService.setAuthChange(true);
 
           this.loader.disable();
 
