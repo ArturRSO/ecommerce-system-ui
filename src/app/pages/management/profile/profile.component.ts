@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private modalService: ModalService
   ) { }
 
   ngOnInit(): void {
@@ -26,5 +28,26 @@ export class ProfileComponent implements OnInit {
 
   public navigateToPage(route: string) {
     this.router.navigateByUrl(route);
+  }
+
+  public openWarningModal(): void {
+    const buttons = [
+      {
+        text: 'Não'
+      },
+      {
+        text: 'Sim'
+      }
+    ]
+
+    // TO DO
+    this.modalService.openSimpleModal('Atenção', 'Deseja mesmo desativar a conta?', buttons).subscribe(response => {
+      if (response === 'Sim') {
+        console.log(response);
+
+      } else {
+        console.log(response);
+      }
+    })
   }
 }
