@@ -41,7 +41,14 @@ export class AuthenticationService {
     if (this.storageService.getLocalItem('authToken') && this.storageService.getLocalItem('tokenExpiration')) {
       const expiration = new Date(this.storageService.getLocalItem('tokenExpiration'));
 
-      return expiration > now;
+      const tokenStatus = expiration > now;
+
+      if (!tokenStatus) {
+        this.logout();
+        this.setAuthChange(false);
+      }
+
+      return tokenStatus;
 
     } else {
 

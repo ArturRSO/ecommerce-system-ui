@@ -87,9 +87,7 @@ export class UserRegistrationComponent implements OnInit {
     this.defaultBirthday = birthdayRange.maxDate;
     this.birthdayYearRange = `${birthdayRange.minDate.getFullYear()}:${birthdayRange.maxDate.getFullYear()}`;
 
-    const registrationType = this.router.url.split('/')[2];
-
-    switch (registrationType) {
+    switch (this.router.url.split('/')[2]) {
       case 'usuario':
         this.selectRole = true;
         break;

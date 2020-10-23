@@ -4,15 +4,19 @@ import { CommonModule } from '@angular/common';
 import { ManagementRoutingModule } from './management-routing.module';
 import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { UserManagementComponent } from './user-management/user-management.component';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
-    ProfileComponent
+    ProfileComponent,
+    UserManagementComponent
   ],
   imports: [
     CommonModule,
     ManagementRoutingModule,
-    SharedModule
+    SharedModule,
+    TableModule
   ]
 })
 export class ManagementModule { }

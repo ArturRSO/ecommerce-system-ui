@@ -45,7 +45,7 @@ export class UserService {
     );
   }
 
-  public getProfile() {
+  public getProfile(): any {
 
     return this.http.get<any>(`${this.baseApiUrl}/profile`).pipe(
       map(response => {
@@ -55,7 +55,27 @@ export class UserService {
     );
   }
 
-  public getUserOptionsByRole(roleId: number) {
+  public getAllUsers(): any {
+
+    return this.http.get<any>(`${this.baseApiUrl}/all`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getUsersByRoleId(roleId: number): any {
+
+    return this.http.get<any>(`${this.baseApiUrl}/role/${roleId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getUserOptionsByRole(roleId: number): any {
 
     return this.http.get<any>(`${this.baseApiUrl}/options/${roleId}`).pipe(
       map(response => {

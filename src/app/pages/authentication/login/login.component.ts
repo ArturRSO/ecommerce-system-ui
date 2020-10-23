@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
         const message = {
           severity: 'error',
           summary: 'Erro',
-          detail: response.data
+          detail: response.message
         }
 
         this.messageService.clear();

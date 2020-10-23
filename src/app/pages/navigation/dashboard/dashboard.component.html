@@ -1,0 +1,93 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-2 d-none d-md-block sidebar">
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link">
+              <i class="pi pi-home"></i>
+              Lojas
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <i class="pi pi-tags"></i>
+              Produtos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <i class="pi pi-dollar"></i>
+              Pedidos
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link dropdown-toggle" href="#userSubMenu" data-toggle="collapse" aria-expanded="false">
+              <i class="pi pi-users"></i>
+              Usuarios
+            </a>
+            <ul class="collapse list-unstyled" id="userSubMenu">
+              <li>
+                <a (click)="navigateToPage('gerenciar/usuarios/administradores')">Administradores</a>
+              </li>
+              <li>
+                <a (click)="navigateToPage('gerenciar/usuarios/clientes')">Compradores</a>
+              </li>
+              <li>
+                <a (click)="navigateToPage('gerenciar/usuarios/lojistas')">Lojistas</a>
+              </li>
+              <li>
+                <a (click)="navigateToPage('gerenciar/usuarios/todos')">Todos</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <i class="pi pi-chart-line"></i>
+              Relatorios
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Principais relatórios</span>
+          <a class="d-flex align-items-center text-muted">
+            <span data-feather="plus-circle"></span>
+          </a>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Faturamento do mês
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Vendas por tipo de produto no mês
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Vendas por produto no mês
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Vendas por loja no mês
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+      </div>
+    </main>
+  </div>
+</div>
