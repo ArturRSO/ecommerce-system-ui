@@ -9,6 +9,10 @@ const routes: Routes = [
     component: ProfileComponent
   },
   {
+    path: 'usuario',
+    component: ProfileComponent
+  },
+  {
     path: 'usuarios',
     children: [
       {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { Roles } from 'src/app/shared/utils/roles.enum';
 
@@ -12,13 +13,15 @@ import { Roles } from 'src/app/shared/utils/roles.enum';
 })
 export class UserManagementComponent implements OnInit {
 
-  public users = [];
   public cols = [];
+  public users = [];
+  public selectedUser: any;
 
   constructor(
     private loader: LoaderService,
     private messageService: MessageService,
     private router: Router,
+    private storageService: StorageService,
     private userService: UserService
   ) { }
 
@@ -77,6 +80,10 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  private navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
+  }
+
   private showMessage(message: string): void {
     const msgConfig = {
       severity: 'error',
@@ -86,5 +93,11 @@ export class UserManagementComponent implements OnInit {
 
     this.messageService.clear();
     this.messageService.add(msgConfig);
+  }
+
+  public selectUser(): void {
+    this.storageService.setSessionItem('userToUpdate', JSON.stringify(this.selectedUser));
+
+    this.navigateToPage('gerenciar/usuario');
   }
 }

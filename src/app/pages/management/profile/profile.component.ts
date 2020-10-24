@@ -10,6 +10,10 @@ import { StorageService } from 'src/app/core/services/storage.service';
 })
 export class ProfileComponent implements OnInit {
 
+  public orderText: string;
+  public orderRoute: string;
+  public updateText = 'Atualizar perfil';
+  public updateRoute: string;
   public user: any;
 
   constructor(
@@ -23,7 +27,20 @@ export class ProfileComponent implements OnInit {
   }
 
   private getInitialData(): void {
-    this.user = JSON.parse(this.storageService.getSessionItem('userProfile'));
+    switch (this.router.url.split('/')[2]) {
+      case 'perfil':
+        this.user = JSON.parse(this.storageService.getSessionItem('userProfile'));
+        this.orderRoute = 'gerenciar/perfil/pedidos';
+        this.orderText = 'Meus pedidos';
+        this.updateRoute = 'cadastro/atualizar/perfil';
+        break;
+      case 'usuario':
+        this.user = JSON.parse(this.storageService.getSessionItem('userToUpdate'));
+        this.orderRoute = 'gerenciar/usuario/pedidos';
+        this.orderText = 'Ver pedidos';
+        this.updateRoute = 'cadastro/atualizar/usuario';
+        break;
+    }
   }
 
   public navigateToPage(route: string) {

@@ -125,6 +125,9 @@ export class UserRegistrationComponent implements OnInit {
 
     if (!this.selectRole) {
       this.f.roleId.setValue(this.roleId);
+
+    } else { // TO DO
+      this.f.roleId.setValue(this.user.roleId);
     }
 
     if (this.form.invalid) {
