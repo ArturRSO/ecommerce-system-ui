@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
+import { Roles } from 'src/app/shared/utils/roles.enum';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 
@@ -10,7 +12,9 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN] }
   },
   {
     path: '**',

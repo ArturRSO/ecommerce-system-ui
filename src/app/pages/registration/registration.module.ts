@@ -7,11 +7,15 @@ import { UserRegistrationComponent } from './user-registration/user-registration
 import { ProductRegistrationComponent } from './product-registration/product-registration.component';
 import { CalendarModule } from 'primeng/calendar';
 import { NgxMaskModule } from 'ngx-mask';
+import { AddressRegistrationComponent } from './address-registration/address-registration.component';
+import { TelephoneRegistrationComponent } from './telephone-registration/telephone-registration.component';
 
 @NgModule({
   declarations: [
     UserRegistrationComponent,
-    ProductRegistrationComponent
+    ProductRegistrationComponent,
+    AddressRegistrationComponent,
+    TelephoneRegistrationComponent
   ],
   imports: [
     CommonModule,

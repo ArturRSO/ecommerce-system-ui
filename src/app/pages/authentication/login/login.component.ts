@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.checkAuth();
     this.buildForm();
   }
 
@@ -41,6 +42,12 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+  }
+
+  private checkAuth() {
+    if (this.authenticationService.checkAuth()) {
+      this.router.navigateByUrl('gerenciar/perfil');
+    }
   }
 
   public navigateToPage(route: string) {
@@ -68,10 +75,10 @@ export class LoginComponent implements OnInit {
           this.loader.disable();
 
           if (result.data.roleId === Roles.CUSTOMER) {
-            this.navigateToPage('/navegar/home');
+            this.navigateToPage('navegar/home');
 
           } else {
-            this.navigateToPage('/navegar/dashboard');
+            this.navigateToPage('navegar/dashboard');
           }
         });
       } else {

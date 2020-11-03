@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { InputMasks } from 'src/app/shared/utils/input-masks.enum';
 
 @Component({
   selector: 'app-profile',
@@ -10,11 +11,11 @@ import { StorageService } from 'src/app/core/services/storage.service';
 })
 export class ProfileComponent implements OnInit {
 
+  public isProfile = true;
   public orderText: string;
   public orderRoute: string;
-  public updateText = 'Atualizar perfil';
-  public updateRoute: string;
   public user: any;
+  public documentMask = InputMasks.CPF;
 
   constructor(
     private router: Router,
@@ -32,13 +33,12 @@ export class ProfileComponent implements OnInit {
         this.user = JSON.parse(this.storageService.getSessionItem('userProfile'));
         this.orderRoute = 'gerenciar/perfil/pedidos';
         this.orderText = 'Meus pedidos';
-        this.updateRoute = 'cadastro/atualizar/perfil';
         break;
       case 'usuario':
         this.user = JSON.parse(this.storageService.getSessionItem('userToUpdate'));
         this.orderRoute = 'gerenciar/usuario/pedidos';
         this.orderText = 'Ver pedidos';
-        this.updateRoute = 'cadastro/atualizar/usuario';
+        this.isProfile = false;
         break;
     }
   }

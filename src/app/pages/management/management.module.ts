@@ -6,6 +6,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { TableModule } from 'primeng/table';
+import { NgxMaskModule } from 'ngx-mask';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { TableModule } from 'primeng/table';
     CommonModule,
     ManagementRoutingModule,
     SharedModule,
-    TableModule
+    TableModule,
+    NgxMaskModule.forRoot(),
+    ToolbarModule
   ]
 })
 export class ManagementModule { }

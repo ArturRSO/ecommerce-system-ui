@@ -30,6 +30,17 @@
             <div *ngIf="f.documentNumber.errors.pattern">Digite um CPF válido</div>
           </div>
         </div>
+        <div class="form-group col-5" *ngIf="selectRole">
+          <label>Tipo de usuário</label>
+          <select type="text" formControlName="roleId" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }" >
+            <option value="" disabled>Escolha um tipo de usuário</option>
+            <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
+          </select>
+          <div *ngIf="submitted && f.roleId.errors" class="invalid-feedback">
+            <div *ngIf="f.documentNumber.errors.required">Escolha um tipo de usuário</div>
+          </div>
+        </div>
         <div class="form-group col">
           <label>Data de aniversário</label>
           <p-calendar formControlName="birthday" dateFormat="dd/mm/yy" [minDate]="minBirthday" [maxDate]="maxBirthday"

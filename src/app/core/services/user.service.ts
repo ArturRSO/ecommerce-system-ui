@@ -108,19 +108,9 @@ export class UserService {
     );
   }
 
-  public updateUser(user: any, userid: number): any {
+  public updateUserProfile(user: any) {
 
-    return this.http.put<any>(`${this.baseApiUrl}/update/${userid}`, user).pipe(
-      map(response => {
-        return response;
-      }),
-      catchError((error: any) => throwError(error))
-    );
-  }
-
-  public updateUserProfile(user: any, userid: number) {
-
-    return this.http.put<any>(`${this.baseApiUrl}/update/profile/${userid}`, user).pipe(
+    return this.http.put<any>(`${this.baseApiUrl}/update/profile`, user).pipe(
       map(response => {
         return response;
       }),

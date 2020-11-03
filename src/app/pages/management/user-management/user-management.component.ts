@@ -95,6 +95,10 @@ export class UserManagementComponent implements OnInit {
     this.messageService.add(msgConfig);
   }
 
+  public registerUser(): void {
+    this.navigateToPage('cadastro/usuario');
+  }
+
   public selectUser(): void {
     this.storageService.setSessionItem('userToUpdate', JSON.stringify(this.selectedUser));
 

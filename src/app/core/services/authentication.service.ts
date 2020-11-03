@@ -36,29 +36,21 @@ export class AuthenticationService {
 
   public checkAuth(): boolean {
 
-    const now = new Date();
-
     if (this.storageService.getLocalItem('authToken') && this.storageService.getLocalItem('tokenExpiration')) {
       const expiration = new Date(this.storageService.getLocalItem('tokenExpiration'));
+      const now = new Date();
 
-      const tokenStatus = expiration > now;
-
-      if (!tokenStatus) {
-        this.logout();
-        this.setAuthChange(false);
-      }
-
-      return tokenStatus;
-
-    } else {
-
-      return false;
+      return expiration > now;
     }
+
+    return false;
   }
 
   public logout(): void {
     this.storageService.clearLocal();
     this.storageService.clearSession();
+
+    this.setAuthChange(false);
   }
 
   public setAuthChange(authenticated: boolean): void {

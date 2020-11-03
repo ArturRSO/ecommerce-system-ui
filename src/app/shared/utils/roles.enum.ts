@@ -1,8 +1,6 @@
 export enum Roles {
   SYSTEM_ADMIN = 1,
   STORE_ADMIN = 2,
-  STORE_EMPLOYEE = 3,
-  CUSTOMER = 4,
-  DELIVER_SERVICE = 5,
-  GUEST = 6
+  CUSTOMER = 3,
+  GUEST = 4
 }
