@@ -13,6 +13,12 @@
   background-color: $c-dark;
   color: $c-white;
   margin: 5px;
+  outline: none;
+}
+
+.button-dark:hover {
+  color: $c-white;
+  background-color: $c-light;
 }
 
 .button-light {
@@ -20,6 +26,12 @@
   color: $c-dark;
   border: 1px solid $c-dark;
   margin: 5px;
+  outline: none;
+}
+
+.button-light:hover {
+  color: $c-white;
+  background-color: $c-light;
 }
 
 button i {

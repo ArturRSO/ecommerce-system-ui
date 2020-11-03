@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AddressService } from 'src/app/core/services/address.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { InputMasks } from 'src/app/shared/utils/input-masks.enum';
@@ -11,6 +13,7 @@ import { InputMasks } from 'src/app/shared/utils/input-masks.enum';
 })
 export class ProfileComponent implements OnInit {
 
+  public addresses = [];
   public isProfile = true;
   public orderText: string;
   public orderRoute: string;
@@ -18,13 +21,16 @@ export class ProfileComponent implements OnInit {
   public documentMask = InputMasks.CPF;
 
   constructor(
+    private addressService: AddressService,
+    private loader: LoaderService,
+    private modalService: ModalService,
     private router: Router,
-    private storageService: StorageService,
-    private modalService: ModalService
+    private storageService: StorageService
   ) { }
 
   ngOnInit(): void {
     this.getInitialData();
+    this.getProfileAdresses();
   }
 
   private getInitialData(): void {
@@ -43,28 +49,35 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  private getProfileAdresses(): any {
+    this.loader.enable();
+    this.addressService.getProfileAddresses(this.user.userId).subscribe(response => {
+      this.loader.disable();
+      if (response.success) {
+        this.addresses = response.data;
+      }
+    })
+  }
+
   public navigateToPage(route: string) {
     this.router.navigateByUrl(route);
   }
 
-  public openWarningModal(): void {
-    const buttons = [
-      {
-        text: 'Não'
-      },
-      {
-        text: 'Sim'
-      }
-    ]
+  public openDeletionModal(): void {
 
     // TO DO
-    this.modalService.openSimpleModal('Atenção', 'Deseja mesmo desativar a conta?', buttons).subscribe(response => {
+    this.modalService.openSimpleModal('Atenção', 'Deseja mesmo desativar a conta?', [{text: 'Não'}, {text: 'Sim'}]).subscribe(response => {
       if (response === 'Sim') {
         console.log(response);
 
       } else {
         console.log(response);
       }
-    })
+    });
+  }
+
+  public updateAddress(address: any) {
+    // TO DO
+    console.log(address);
   }
 }

@@ -36,6 +36,26 @@ export class AddressService {
     );
   }
 
+  public getAdressesByUserId(userId: number): any {
+
+    return this.http.get(`${this.baseApiUrl}/all/user/${userId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getProfileAddresses(userId: number): any {
+
+    return this.http.get(`${this.baseApiUrl}/all/profile/${userId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public updateAddress(address: any): any {
 
     return this.http.put(`${this.baseApiUrl}/update`, address).pipe(

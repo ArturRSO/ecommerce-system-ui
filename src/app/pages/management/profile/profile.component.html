@@ -11,8 +11,9 @@
                 <h4>{{ user.firstName }}</h4>
                 <p class="text-secondary mb-1">Cadastrado desde {{user.creationDate | date: 'dd/MM/yyyy'}}</p>
                 <button class="btn button-dark" (click)="navigateToPage(orderRoute)">{{ orderText }}</button>
-                <button class="btn button-light" (click)="navigateToPage('cadastro/atualizar/perfil')" *ngIf="isProfile">Atualizar perfil</button>
-                <button class="btn btn-danger" (click)="openWarningModal()">Desativar perfil</button>
+                <button class="btn button-light" (click)="navigateToPage('cadastro/atualizar/perfil')"
+                  *ngIf="isProfile">Atualizar perfil</button>
+                <button class="btn btn-danger" (click)="openDeletionModal()">Desativar perfil</button>
               </div>
             </div>
           </div>
@@ -54,6 +55,89 @@
               </div>
               <div class="col-sm-9 text-secondary">
                 {{ user.birthday | date:'dd/MM/yyyy' }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row gutters-sm">
+          <div class="col-sm-12">
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <h5 class="card-title mb-0">Endereços</h5>
+                  </div>
+                  <div class="col-sm-4">
+                    <button class="btn button-dark ml-auto mr-3" (click)="navigateToPage('cadastro/perfil/endereco')"><i
+                      class="pi pi-plus"></i>Cadastrar endereço</button>
+                  </div>
+                </div>
+                <hr>
+                <ng-container *ngIf="addresses.length === 0">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <h6 class="mb-0">Você ainda não possui endereços cadastrados.</h6>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="addresses.length > 0">
+                  <div class="row gutters-sm" *ngFor="let address of addresses; let i=index">
+                    <div class="col-sm-12">
+                      <div class="card mb-3">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-sm-9">
+                              <h5 class="mb-0">Endereço {{ i + 1 }}</h5>
+                            </div>
+                            <div class="col-sm-3">
+                              <button class="btn button-light ml-auto mr-3" (click)="updateAddress(address)">Atualizar</button>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">CEP</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{ address.postalCode }}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Rua</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{ address.address }}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Número</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{ address.number }}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Bairro e cidade</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{ address.district }} - {{ address.city }} - {{ address.stateCode }}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Complemento</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{ address.complement }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { AddressService } from 'src/app/core/services/address.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { StorageService } from 'src/app/core/services/storage.service';
+import { InputMasks } from 'src/app/shared/utils/input-masks.enum';
 
 @Component({
   selector: 'app-address-registration',
@@ -15,6 +16,7 @@ export class AddressRegistrationComponent implements OnInit {
 
   private address: any;
 
+  public postalCodeMask = InputMasks.CEP;
   public form: FormGroup;
   public submitted = false;
   public update = false;
@@ -71,21 +73,22 @@ export class AddressRegistrationComponent implements OnInit {
 
   public fillAddressByCep(): void {
 
-    this.loader.enable();
+    if (this.f.postalCode.value) {
+      this.loader.enable();
+      this.addressService.getAddressByPostalCode(this.f.postalCode.value).subscribe(response => {
+        this.loader.disable();
 
-    this.addressService.getAddressByPostalCode(this.f.postalCode.value).subscribe(response => {
-      this.loader.disable();
+        if (response.erro) {
+          this.modalService.openSimpleModal('Atenção', 'CEP não encontrado!', [{ text: 'OK' }]);
 
-      if (response.erro) {
-        this.modalService.openSimpleModal('Atenção', 'CEP não encontrado!', [{ text: 'OK' }]);
-
-      } else {
-        this.f.address.setValue(response.logradouro);
-        this.f.stateCode.setValue(response.uf);
-        this.f.city.setValue(response.localidade);
-        this.f.district.setValue(response.bairro);
-      }
-    });
+        } else {
+          this.f.address.setValue(response.logradouro);
+          this.f.stateCode.setValue(response.uf);
+          this.f.city.setValue(response.localidade);
+          this.f.district.setValue(response.bairro);
+        }
+      });
+    }
   }
 
   public onSubmit(): void {
@@ -119,7 +122,7 @@ export class AddressRegistrationComponent implements OnInit {
       this.addressService.createAddress(address).subscribe(response => {
         this.loader.disable();
         if (response.success) {
-          this.modalService.openSimpleModal('Sucesso', response.messagem, [{text:'OK'}]).subscribe(() => {
+          this.modalService.openSimpleModal('Sucesso', response.message, [{text:'OK'}]).subscribe(() => {
             this.router.navigateByUrl('gerenciar/perfil/enderecos');
           });
 
