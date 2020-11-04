@@ -61,15 +61,13 @@ export class NavbarComponent implements OnInit {
 
   private loadOptions(): void {
     if (this.storageService.getSessionItem('userProfile')) {
-      this.options = JSON.parse(this.storageService.getSessionItem('userProfile')).options;
-      this.userName = JSON.parse(this.storageService.getSessionItem('userProfile')).firstName;
+      const user = JSON.parse(this.storageService.getSessionItem('userProfile'));
+
+      this.options = this.userService.getUserOptionsByRole(user.roleId);
+      this.userName = user.firstName;
 
     } else {
-      this.loader.enable();
-      this.userService.getUserOptionsByRole(Roles.GUEST).subscribe(response => {
-        this.options = response.data;
-        this.loader.disable();
-      });
+      this.options = this.userService.getUserOptionsByRole(Roles.GUEST);
     }
   }
 

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { UserOption } from 'src/app/shared/utils/user-option.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -75,14 +76,9 @@ export class UserService {
     );
   }
 
-  public getUserOptionsByRole(roleId: number): any {
+  public getUserOptionsByRole(roleId: number): Array<UserOption> {
 
-    return this.http.get<any>(`${this.baseApiUrl}/options/${roleId}`).pipe(
-      map(response => {
-        return response;
-      }),
-      catchError((error: any) => throwError(error))
-    );
+    return environment.USER_OPTIONS.filter(option => option.allowedRoles.includes(roleId));
   }
 
   public resetPassword(token: string, password: string) {
