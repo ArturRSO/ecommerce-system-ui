@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 
@@ -20,6 +21,7 @@ export class ForgetPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loader: LoaderService,
     private messageService: MessageService,
+    private modalService: ModalService,
     private router: Router,
     private storageService: StorageService,
     private userService: UserService
@@ -52,16 +54,13 @@ export class ForgetPasswordComponent implements OnInit {
 
     this.loader.enable();
     this.userService.sendResetPasswordMail(this.f.email.value).subscribe(response => {
+      this.loader.disable();
       if (response.success) {
-        this.storageService.setSessionItem('lastScreen', 'forgetPassword');
-        this.storageService.setSessionItem('currentMessage', response.message);
-
-        this.loader.disable();
-        this.navigateToPage('/auth/login');
+        this.modalService.openSimpleModal("Sucesso", response.message, [{text: 'OK'}]).subscribe(() => {
+          this.navigateToPage('/auth/login');
+        });
 
       } else {
-        this.loader.disable();
-
         const message = {
           severity: 'error',
           summary: 'Erro',

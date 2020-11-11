@@ -36,19 +36,12 @@ export class UserService {
     );
   }
 
-  public getPasswordResetTokenStatus(token: string): any {
+  public createProfileImage(userId: number, image: any): any {
 
-    return this.http.get<any>(`${this.baseApiUrl}/recover/password/status/${token}`).pipe(
-      map(response => {
-        return response;
-      }),
-      catchError((error: any) => throwError(error))
-    );
-  }
+    const formData = new FormData();
+    formData.append('file', image);
 
-  public getProfile(): any {
-
-    return this.http.get<any>(`${this.baseApiUrl}/profile`).pipe(
+    return this.http.post<any>(`${this.baseApiUrl}/create/image/${userId}`, formData).pipe(
       map(response => {
         return response;
       }),
@@ -76,14 +69,69 @@ export class UserService {
     );
   }
 
-  public getUserOptionsByRole(roleId: number): Array<UserOption> {
+  public getUserById(id: number): any {
 
-    return environment.USER_OPTIONS.filter(option => option.allowedRoles.includes(roleId));
+    return this.http.get<any>(`${this.baseApiUrl}/${id}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
   }
 
-  public resetPassword(token: string, password: string) {
+  public getProfile(): any {
 
-    return this.http.post<any>(`${this.baseApiUrl}/recover/passowrd/${token}`, password).pipe(
+    return this.http.get<any>(`${this.baseApiUrl}/profile`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getProfileImage(userId: number, path: string): any {
+
+    return this.http.get<any>(`${this.baseApiUrl}/image/${userId}?path=${encodeURIComponent(path)}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getPasswordResetTokenStatus(token: string): any {
+
+    return this.http.get<any>(`${this.baseApiUrl}/recover/password/status?token=${encodeURIComponent(token)}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public updateUserPassword(userId: number, password: string): any {
+
+    return this.http.put<any>(`${this.baseApiUrl}/update/password/${userId}`, password).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public updateUserProfile(user: any): any {
+
+    return this.http.put<any>(`${this.baseApiUrl}/update/profile`, user).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public resetPassword(token: string, password: string): any {
+
+    return this.http.post<any>(`${this.baseApiUrl}/recover/password?token=${encodeURIComponent(token)}`, password).pipe(
       map(response => {
         return response;
       }),
@@ -92,11 +140,8 @@ export class UserService {
   }
 
   public sendResetPasswordMail(email: string): any {
-    const body = {
-      email: email
-    }
 
-    return this.http.post<any>(`${this.baseApiUrl}/recover/password/mail`, body).pipe(
+    return this.http.post<any>(`${this.baseApiUrl}/recover/password/mail`, email).pipe(
       map(response => {
         return response;
       }),
@@ -104,13 +149,28 @@ export class UserService {
     );
   }
 
-  public updateUserProfile(user: any) {
+  public deleteProfile(userId: number): any {
 
-    return this.http.put<any>(`${this.baseApiUrl}/update/profile`, user).pipe(
+    return this.http.delete<any>(`${this.baseApiUrl}/delete/profile/${userId}`).pipe(
       map(response => {
         return response;
       }),
       catchError((error: any) => throwError(error))
     );
+  }
+
+  public deleteUsers(ids: any): any {
+
+    return this.http.delete<any>(`${this.baseApiUrl}/delete`, ids).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getUserOptionsByRole(roleId: number): Array<UserOption> {
+
+    return environment.USER_OPTIONS.filter(option => option.allowedRoles.includes(roleId));
   }
 }

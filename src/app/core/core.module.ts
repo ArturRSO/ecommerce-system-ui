@@ -17,6 +17,7 @@ import { UtilService } from './services/util.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ModalService } from './services/modal.service';
 import { AddressService } from './services/address.service';
+import { TelephoneService } from './services/telephone.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AddressService } from './services/address.service';
     ModalService,
     SessionService,
     StorageService,
+    TelephoneService,
     UserService,
     UtilService
   ],

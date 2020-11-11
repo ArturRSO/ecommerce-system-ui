@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Roles } from 'src/app/shared/utils/roles.enum';
+import { TelephoneType } from 'src/app/shared/utils/telephone-type.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,23 @@ export class UtilService {
         name: 'Cliente'
       }
     ];
+  }
+
+  public getTelephoneTypes(): any {
+
+    return [
+      {
+        id: TelephoneType.CELULAR,
+        name: 'Celular'
+      },
+      {
+        id: TelephoneType.TELEFONE_COMERCIAL,
+        name: 'Telefone comercial'
+      },
+      {
+        id: TelephoneType.TELEFONE_RESIDENCIAL,
+        name: 'Telefone residencial'
+      }
+    ]
   }
 }

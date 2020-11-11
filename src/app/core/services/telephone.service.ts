@@ -7,18 +7,17 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AddressService {
+export class TelephoneService {
 
-  private baseApiUrl = `${environment.API_URL}/addresses`;
-  private viaCepUrl = environment.VIA_CEP_URL;
+  private baseApiUrl = `${environment.API_URL}/telephones`;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  public createAddress(address: any): any {
+  public createTelephone(telephone: any): any {
 
-    return this.http.post(`${this.baseApiUrl}/create`, address).pipe(
+    return this.http.post(`${this.baseApiUrl}/create`, telephone).pipe(
       map(response => {
         return response;
       }),
@@ -26,7 +25,7 @@ export class AddressService {
     );
   }
 
-  public getAllAddresses(): any {
+  public getAllTelephones(): any {
 
     return this.http.get(`${this.baseApiUrl}/all`).pipe(
       map(response => {
@@ -36,7 +35,7 @@ export class AddressService {
     );
   }
 
-  public getAdressesByUserId(userId: number): any {
+  public getTelephonesByUserId(userId: number): any {
 
     return this.http.get(`${this.baseApiUrl}/all/user/${userId}`).pipe(
       map(response => {
@@ -46,7 +45,7 @@ export class AddressService {
     );
   }
 
-  public getProfileAddresses(userId: number): any {
+  public getProfileTelephones(userId: number): any {
 
     return this.http.get(`${this.baseApiUrl}/all/profile/${userId}`).pipe(
       map(response => {
@@ -56,7 +55,7 @@ export class AddressService {
     );
   }
 
-  public getAddressById(id: number): any {
+  public getTelephoneById(id: number): any {
 
     return this.http.get(`${this.baseApiUrl}/${id}`).pipe(
       map(response => {
@@ -66,9 +65,9 @@ export class AddressService {
     );
   }
 
-  public getAddressByPostalCode(postalCode: string): any {
+  public updateTelephone(telephone: any): any {
 
-    return this.http.get(`${this.viaCepUrl}/${postalCode}/json`).pipe(
+    return this.http.put(`${this.baseApiUrl}/update`, telephone).pipe(
       map(response => {
         return response;
       }),
@@ -76,19 +75,9 @@ export class AddressService {
     );
   }
 
-  public updateAddress(address: any): any {
+  public deleteTelephones(ids: any) {
 
-    return this.http.put(`${this.baseApiUrl}/update`, address).pipe(
-      map(response => {
-        return response;
-      }),
-      catchError((error: any) => throwError(error))
-    );
-  }
-
-  public deleteAddresses(ids: any) {
-
-    return this.http.put(`${this.baseApiUrl}/update`, ids).pipe(
+    return this.http.delete(`${this.baseApiUrl}/update`, ids).pipe(
       map(response => {
         return response;
       }),

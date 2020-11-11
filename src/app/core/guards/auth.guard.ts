@@ -21,6 +21,7 @@ export class AuthGuard implements CanActivate {
 
       if (route.data.roles && !route.data.roles.includes(roleId)) {
         this.router.navigateByUrl('navegar/home');
+        console.log('ROUTE BLOCKED!');
         return false;
       }
 

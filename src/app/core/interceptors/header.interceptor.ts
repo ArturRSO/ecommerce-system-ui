@@ -21,11 +21,13 @@ export class HeaderInterceptor implements HttpInterceptor {
       });
     }
 
-    request = request.clone({
-      setHeaders: {
-        'Content-Type': 'application/json'
-      }
-    });
+    if (!request.url.includes(`/create/image`)) {
+      request = request.clone({
+        setHeaders: {
+          'Content-Type': 'application/json'
+        }
+      });
+    }
 
     return next.handle(request);
   }

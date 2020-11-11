@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { RegexEnum } from 'src/app/shared/utils/regex.enum';
@@ -24,7 +24,7 @@ export class PasswordResetComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private loader: LoaderService,
-    private messageService: MessageService,
+    private modalService: ModalService,
     private router: Router,
     private storageService: StorageService,
     private userService: UserService
@@ -72,24 +72,14 @@ export class PasswordResetComponent implements OnInit {
     this.loader.enable();
 
     this.userService.resetPassword(this.token, this.f.password.value).subscribe(response => {
+      this.loader.disable();
       if (response.success) {
-        this.storageService.setSessionItem('lastScreen', 'passwordReset');
-        this.storageService.setSessionItem('currentMessage', response.message);
-
-        this.loader.disable();
-        this.navigateToPage('/auth/login');
+        this.modalService.openSimpleModal('Sucesso', response.messagem, [{text: 'OK'}]).subscribe(() => {
+          this.navigateToPage('auth/login');
+        });
 
       } else {
-        this.loader.disable();
-
-        const message = {
-          severity: 'error',
-          summary: 'Erro',
-          detail: response.message
-        }
-
-        this.messageService.clear();
-        this.messageService.add(message);
+        this.modalService.openSimpleModal('Atenção', response.messagem, [{text: 'OK'}]);
       }
     })
 
