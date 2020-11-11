@@ -45,8 +45,8 @@ export class UserRegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.buildForm();
     this.getInitialData();
+    this.buildForm();
   }
 
   get f() {
@@ -60,7 +60,7 @@ export class UserRegistrationComponent implements OnInit {
         lastName: [this.user.lastName, [Validators.required, Validators.pattern(new RegExp(RegexEnum.NAME))]],
         documentNumber: [this.user.documentNumber, [Validators.required, Validators.pattern(this.documentRegex)]],
         birthday: [this.defaultBirthday, Validators.required],
-        roleId: ['', Validators.required],
+        roleId: [this.user.roleId, Validators.required],
         email: [this.user.email, [Validators.required, Validators.email]]
       });
 
@@ -102,7 +102,6 @@ export class UserRegistrationComponent implements OnInit {
         this.update = true;
         this.user = JSON.parse(this.storageService.getSessionItem('userProfile'));
         this.defaultBirthday = new Date(this.user.birthday);
-        this.f.roleId.setValue(this.user.roleId);
         break;
       default:
         this.f.roleId.setValue(Roles.CUSTOMER);

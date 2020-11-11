@@ -81,8 +81,6 @@ export class PasswordResetComponent implements OnInit {
       } else {
         this.modalService.openSimpleModal('Atenção', response.messagem, [{text: 'OK'}]);
       }
-    })
-
+    });
   }
-
 }

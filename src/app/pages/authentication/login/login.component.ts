@@ -69,16 +69,27 @@ export class LoginComponent implements OnInit {
         this.storageService.setLocalItem('tokenExpiration', response.data.expiration);
 
         this.userService.getProfile().subscribe(result => {
-          this.storageService.setSessionItem('userProfile', JSON.stringify(result.data));
-          this.authenticationService.setAuthChange(true);
-
           this.loader.disable();
+          if (response.success) {
+            this.storageService.setSessionItem('userProfile', JSON.stringify(result.data));
+            this.authenticationService.setAuthChange(true);
 
-          if (result.data.roleId === Roles.CUSTOMER) {
-            this.navigateToPage('navegar/home');
+            if (result.data.roleId === Roles.CUSTOMER) {
+              this.navigateToPage('navegar/home');
+
+            } else {
+              this.navigateToPage('navegar/dashboard');
+            }
 
           } else {
-            this.navigateToPage('navegar/dashboard');
+            const message = {
+              severity: 'error',
+              summary: 'Erro',
+              detail: response.message
+            }
+
+            this.messageService.clear();
+            this.messageService.add(message);
           }
         });
       } else {

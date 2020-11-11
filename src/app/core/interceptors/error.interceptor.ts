@@ -26,20 +26,21 @@ export class ErrorInterceptor implements HttpInterceptor {
 
         this.authService.logout();
 
-        this.showErrorModal('Sessão expirada, por favor, faça login novamente.');
-        this.router.navigateByUrl('auth/login');
+        this.modalService.openSimpleModal('Erro', 'Sessão expirada, por favor, faça login novamente.', [{text: 'OK'}]).subscribe(() => {
+          this.router.navigateByUrl('auth/login');
+        });
 
       } else {
         this.resetLoader();
 
         if (error.error.message) {
-          this.showErrorModal(error.error.message);
+          this.modalService.openSimpleModal('Erro', error.error.message, [{text: 'OK'}]);
 
         } else if (request.url.includes(environment.VIA_CEP_URL)) {
-          this.showErrorModal('CPF inválido!')
+          this.modalService.openSimpleModal('Erro', 'CPF inválido!', [{text: 'OK'}]);
 
         } else {
-          this.showErrorModal('Serviço indisponível, tente novamente mais tarde.');
+          this.modalService.openSimpleModal('Erro', 'Serviço indisponível, tente novamente mais tarde.', [{text: 'OK'}]);
         }
       }
 
@@ -50,10 +51,5 @@ export class ErrorInterceptor implements HttpInterceptor {
   private resetLoader(): void {
     this.loader.reset();
     this.loader.disable();
-  }
-
-  private showErrorModal(message: string): void {
-
-    this.modalService.openSimpleModal('Erro', message, [{text: 'OK'}]);
   }
 }

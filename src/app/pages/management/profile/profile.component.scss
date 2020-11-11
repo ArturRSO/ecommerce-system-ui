@@ -1,0 +1,26 @@
+.image-link:hover .overlay{
+  opacity: 1;
+}
+
+.overlay {
+  cursor: pointer;
+  position: absolute;
+  top: 5.6%;
+  height: 150px;
+  width: 150px;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #008CBA;
+}
+
+.image-text {
+  color: white;
+  font-size: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}

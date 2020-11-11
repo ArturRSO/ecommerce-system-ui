@@ -10,11 +10,20 @@ import { UserRegistrationComponent } from './user-registration/user-registration
 const routes: Routes = [
   {
     path: 'atualizar',
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'perfil',
         component: UserRegistrationComponent,
         canActivate: [AuthGuard]
+      },
+      {
+        path: 'endereco',
+        component: AddressRegistrationComponent
+      },
+      {
+        path: 'telefone',
+        component: TelephoneRegistrationComponent
       }
     ]
   },
