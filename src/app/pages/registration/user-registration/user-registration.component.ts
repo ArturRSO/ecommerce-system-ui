@@ -45,8 +45,8 @@ export class UserRegistrationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getInitialData();
     this.buildForm();
+    this.getInitialData();
   }
 
   get f() {
