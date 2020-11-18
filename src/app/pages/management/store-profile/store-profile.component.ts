@@ -8,6 +8,7 @@ import { StoreService } from 'src/app/core/services/store.service';
 import { DocumentType } from 'src/app/shared/utils/document-type.enum';
 import { InputMasks } from 'src/app/shared/utils/input-masks.enum';
 import { RegexEnum } from 'src/app/shared/utils/regex.enum';
+import { Roles } from 'src/app/shared/utils/roles.enum';
 
 @Component({
   selector: 'app-store-profile',
@@ -17,11 +18,12 @@ import { RegexEnum } from 'src/app/shared/utils/regex.enum';
 export class StoreProfileComponent implements OnInit {
 
   private imagePattern = new RegExp(RegexEnum.IMAGE_FILE);
-  private userId: number;
+  private user: any;
 
   public documentLabel: string;
   public documentMask: string;
   public imageOverlayText = "Cadastrar imagem de perfil";
+  public isStoreAdmin: boolean;
   public profileImageSrc: any;
   public store: any;
 
@@ -41,7 +43,9 @@ export class StoreProfileComponent implements OnInit {
   private getInitialData(): void {
 
     this.store = JSON.parse(this.storageService.getSessionItem('currentStore'));
-    this.userId = JSON.parse(this.storageService.getSessionItem('userProfile')).userId;
+    this.user = JSON.parse(this.storageService.getSessionItem('userProfile'));
+
+    this.isStoreAdmin = this.user.roleId === Roles.STORE_ADMIN;
 
     if (this.store.documentTypeId === DocumentType.CPF) {
       this.documentLabel = 'CPF';
@@ -55,7 +59,7 @@ export class StoreProfileComponent implements OnInit {
     if (this.store.profileImagePath) {
       this.loader.enable();
 
-      this.storeService.getProfileImage(this.store.storeId, this.userId, this.store.profileImagePath).subscribe(response => {
+      this.storeService.getProfileImage(this.store.storeId, this.user.userId, this.store.profileImagePath).subscribe(response => {
         this.loader.disable();
         if (response.success) {
           this.imageOverlayText = "Mudar foto de perfil";
@@ -85,12 +89,12 @@ export class StoreProfileComponent implements OnInit {
       if (file.type.match(this.imagePattern)) {
         this.loader.enable();
 
-        this.storeService.createProfileImage(this.store.storeId, this.userId, file).subscribe(response => {
+        this.storeService.createProfileImage(this.store.storeId, this.user.userId, file).subscribe(response => {
           this.loader.disable();
           if (response.success) {
             this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(() => {
               this.loader.enable();
-              this.storeService.getStoresByUserId(this.userId).subscribe(result => {
+              this.storeService.getStoresByUserId(this.user.userId).subscribe(result => {
                 this.loader.disable();
                 if (result.success) {
                   const store = result.data.find(store => store.storeId === this.store.storeId);

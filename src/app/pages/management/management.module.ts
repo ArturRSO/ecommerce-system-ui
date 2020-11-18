@@ -10,13 +10,15 @@ import { NgxMaskModule } from 'ngx-mask';
 import { ToolbarModule } from 'primeng/toolbar';
 import { StoreManagementComponent } from './store-management/store-management.component';
 import { StoreProfileComponent } from './store-profile/store-profile.component';
+import { ProductManagementComponent } from './product-management/product-management.component';
 
 @NgModule({
   declarations: [
     ProfileComponent,
     UserManagementComponent,
     StoreManagementComponent,
-    StoreProfileComponent
+    StoreProfileComponent,
+    ProductManagementComponent
   ],
   imports: [
     CommonModule,

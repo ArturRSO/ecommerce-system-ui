@@ -34,7 +34,7 @@ const routes: Routes = [
     path: 'loja',
     component: StoreProfileComponent,
     canActivate: [AuthGuard],
-    data: { roles: [Roles.STORE_ADMIN] }
+    data: { roles: [Roles.STORE_ADMIN, Roles.SYSTEM_ADMIN] }
   },
   {
     path: 'usuario',

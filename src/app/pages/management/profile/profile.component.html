@@ -75,7 +75,7 @@
                     <h5 class="card-title mb-0">Endereços</h5>
                   </div>
                   <div class="col-sm-4">
-                    <button class="btn button-dark ml-auto mr-3" (click)="navigateToPage('cadastro/perfil/endereco')"><i
+                    <button *ngIf="isProfile" class="btn button-dark ml-auto mr-3" (click)="navigateToPage('cadastro/perfil/endereco')"><i
                       class="pi pi-plus"></i>Cadastrar endereço</button>
                   </div>
                 </div>
@@ -83,7 +83,7 @@
                 <ng-container *ngIf="addresses.length === 0">
                   <div class="row">
                     <div class="col-sm-8">
-                      <h6 class="mb-0">Você ainda não possui endereços cadastrados.</h6>
+                      <h6 class="mb-0">Nenhum endereço cadastrado.</h6>
                     </div>
                   </div>
                 </ng-container>
@@ -159,7 +159,7 @@
                     <h5 class="card-title mb-0">Telefones</h5>
                   </div>
                   <div class="col-sm-4">
-                    <button class="btn button-dark ml-auto mr-3" (click)="navigateToPage('cadastro/perfil/telefone')"><i
+                    <button *ngIf="isProfile" class="btn button-dark ml-auto mr-3" (click)="navigateToPage('cadastro/perfil/telefone')"><i
                       class="pi pi-plus"></i>Cadastrar telefone</button>
                   </div>
                 </div>
@@ -167,7 +167,7 @@
                 <ng-container *ngIf="telephones.length === 0">
                   <div class="row">
                     <div class="col-sm-8">
-                      <h6 class="mb-0">Você ainda não possui telefones cadastrados.</h6>
+                      <h6 class="mb-0">Nenhum telefone cadastrado.</h6>
                     </div>
                   </div>
                 </ng-container>

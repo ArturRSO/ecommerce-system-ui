@@ -51,16 +51,20 @@ export class UtilService {
 
     return [
       {
-        id: TelephoneType.CELULAR,
-        name: 'Celular'
+        id: TelephoneType.PERSONAL_CELLPHONE,
+        name: 'Celular pessoal'
       },
       {
-        id: TelephoneType.TELEFONE_COMERCIAL,
-        name: 'Telefone comercial'
-      },
-      {
-        id: TelephoneType.TELEFONE_RESIDENCIAL,
+        id: TelephoneType.PERSONAL_TELEPHONE,
         name: 'Telefone residencial'
+      },
+      {
+        id: TelephoneType.COMMERCIAL_CELLPHONE,
+        name: 'Celular comercial'
+      },
+      {
+        id: TelephoneType.COMMERCIAL_TELEPHONE,
+        name: 'Telefone comercial'
       }
     ]
   }
