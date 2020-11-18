@@ -1,0 +1,106 @@
+<div class="container">
+  <div class="main-body">
+    <div class="row gutters-sm">
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <input id="store-image-upload" class="d-none" type="file" (change)="uploadImage($event)">
+              <a (click)="changeProfileImage()" class="image-link">
+                <img [src]="profileImageSrc" alt="profile-image" class="rounded-circle" width="150">
+                <div class="rounded-circle overlay">
+                  <div class="image-text">{{ imageOverlayText }}</div>
+                </div>
+              </a>
+              <div class="mt-3">
+                <h4>{{ store.name }}</h4>
+                <p class="text-secondary mb-1">Cadastrado desde {{store.creationDate | date: 'dd/MM/yyyy'}}</p>
+                <button class="btn button-dark">Pedidos</button>
+                <button class="btn button-light" (click)="updateStore()">Atualizar loja</button>
+                <button class="btn btn-danger" (click)="openDeletionModal()">Desativar loja</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <!-- Profile -->
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">{{ documentLabel }}</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{ store.documentNumber | mask: documentMask }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Adresses -->
+        <div class="row gutters-sm">
+          <div class="col-sm-12">
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <h5 class="card-title mb-0">Endereço</h5>
+                  </div>
+                </div>
+                <hr>
+                  <div class="row gutters-sm">
+                    <div class="col-sm-12">
+                      <div class="card mb-3">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">CEP</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{ store.address.postalCode }}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Rua</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{ store.address.address }}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Número</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{ store.address.number }}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Bairro e cidade</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{ store.address.district }} - {{ store.address.city }} - {{ store.address.stateCode }}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0">Complemento</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              {{ store.address.complement }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

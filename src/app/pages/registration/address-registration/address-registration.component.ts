@@ -123,7 +123,7 @@ export class AddressRegistrationComponent implements OnInit {
         this.loader.disable();
         if (response.success) {
           this.modalService.openSimpleModal('Sucesso', response.message, [{text:'OK'}]).subscribe(() => {
-            this.router.navigateByUrl('gerenciar/perfil/enderecos');
+            this.router.navigateByUrl('gerenciar/perfil');
           });
 
         } else {

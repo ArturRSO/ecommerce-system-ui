@@ -8,11 +8,15 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import { TableModule } from 'primeng/table';
 import { NgxMaskModule } from 'ngx-mask';
 import { ToolbarModule } from 'primeng/toolbar';
+import { StoreManagementComponent } from './store-management/store-management.component';
+import { StoreProfileComponent } from './store-profile/store-profile.component';
 
 @NgModule({
   declarations: [
     ProfileComponent,
-    UserManagementComponent
+    UserManagementComponent,
+    StoreManagementComponent,
+    StoreProfileComponent
   ],
   imports: [
     CommonModule,

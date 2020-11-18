@@ -1,6 +1,10 @@
 @import '../../../../assets/sass/config.scss';
 
 /* Sidebar */
+a {
+  cursor: pointer;
+}
+
 .sidebar {
   position: fixed;
   top: 80px;
@@ -56,5 +60,4 @@ a[data-toggle="collapse"] {
 ul ul a {
   font-size: 0.9em !important;
   padding-left: 30px !important;
-  cursor: pointer;
 }

@@ -9,13 +9,15 @@ import { CalendarModule } from 'primeng/calendar';
 import { NgxMaskModule } from 'ngx-mask';
 import { AddressRegistrationComponent } from './address-registration/address-registration.component';
 import { TelephoneRegistrationComponent } from './telephone-registration/telephone-registration.component';
+import { StoreRegistrationComponent } from './store-registration/store-registration.component';
 
 @NgModule({
   declarations: [
     UserRegistrationComponent,
     ProductRegistrationComponent,
     AddressRegistrationComponent,
-    TelephoneRegistrationComponent
+    TelephoneRegistrationComponent,
+    StoreRegistrationComponent
   ],
   imports: [
     CommonModule,

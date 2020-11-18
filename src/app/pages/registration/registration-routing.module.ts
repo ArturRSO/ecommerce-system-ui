@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { Roles } from 'src/app/shared/utils/roles.enum';
 import { AddressRegistrationComponent } from './address-registration/address-registration.component';
 import { ProductRegistrationComponent } from './product-registration/product-registration.component';
+import { StoreRegistrationComponent } from './store-registration/store-registration.component';
 import { TelephoneRegistrationComponent } from './telephone-registration/telephone-registration.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 
@@ -40,6 +41,14 @@ const routes: Routes = [
     component: UserRegistrationComponent,
     canActivate: [AuthGuard],
     data: { roles: [Roles.SYSTEM_ADMIN] }
+  },
+  {
+    path: 'loja/fisica',
+    component: StoreRegistrationComponent
+  },
+  {
+    path: 'loja/juridica',
+    component: StoreRegistrationComponent
   },
   {
     path: 'perfil',
