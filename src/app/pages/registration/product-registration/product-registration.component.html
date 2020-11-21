@@ -1,1 +1,73 @@
-<p>product-registration works!</p>
+<div class="container">
+  <h3 class="card-header">Cadastro de produto</h3>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group col-5">
+          <label>Nome</label>
+          <input type="text" formControlName="name" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Digite o nome</div>
+          </div>
+        </div>
+        <div class="form-group col-5">
+          <label>Descrição</label>
+          <textarea formControlName="description" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+          <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+            <div *ngIf="f.description.errors.required">Digite uma descrição</div>
+          </div>
+        </div>
+        <div class="form-group col-5">
+          <label>Tipo de produto</label>
+          <select type="text" formControlName="productType" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.productType.errors }"
+            (ngModelChange)="getProductSubtypes($event)">
+            <option value="" disabled>Escolha um tipo de produto</option>
+            <option *ngFor="let productType of productTypes" [ngValue]="productType">{{ productType.name }}</option>
+          </select>
+          <div *ngIf="submitted && f.productType.errors" class="invalid-feedback">
+            <div *ngIf="f.productType.errors.required">Escolha um tipo de produto</div>
+          </div>
+        </div>
+        <div class="form-group col-5">
+          <label>Subtipo de produto</label>
+          <select type="text" formControlName="productSubtype" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.productSubtype.errors }">
+            <option value="" disabled>Escolha um subtipo de produto</option>
+            <option *ngFor="let productSubtype of productSubtypes" [ngValue]="productSubtype">{{ productSubtype.name }}
+            </option>
+          </select>
+          <div *ngIf="submitted && f.productSubtype.errors" class="invalid-feedback">
+            <div *ngIf="f.productSubtype.errors.required">Escolha um subtipo de produto</div>
+          </div>
+        </div>
+        <div class="form-group col-5">
+          <label>Preço</label>
+          <input type="text" formControlName="price" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.price.errors }" mask="separator.2" [thousandSeparator]="'.'"
+            [decimalMarker]="','" prefix="R$ " />
+          <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+            <div *ngIf="f.price.errors.required">Digite o preço</div>
+            <div *ngIf="f.price.errors.min">Digite um preço válido</div>
+          </div>
+        </div>
+        <div class="form-group col-5">
+          <label>Quantidade em estoque</label>
+          <input type="number" formControlName="quantity" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }" />
+          <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+            <div *ngIf="f.quantity.errors.required">Digite a quantidade</div>
+            <div *ngIf="f.quantity.errors.min">Digite uma quantidade válida</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary">
+          Confirmar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

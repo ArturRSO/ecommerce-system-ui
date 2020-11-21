@@ -16,7 +16,7 @@
                 <h4>{{ store.name }}</h4>
                 <p class="text-secondary mb-1">Cadastrado desde {{store.creationDate | date: 'dd/MM/yyyy'}}</p>
                 <button class="btn button-dark">Pedidos</button>
-                <button class="btn button-dark">Produtos</button>
+                <button class="btn button-dark" (click)="navigateToPage('gerenciar/produtos/loja')">Produtos</button>
                 <button class="btn button-light" (click)="updateStore()" *ngIf="isStoreAdmin">Atualizar loja</button>
                 <button class="btn btn-danger" (click)="openDeletionModal()">Desativar loja</button>
               </div>

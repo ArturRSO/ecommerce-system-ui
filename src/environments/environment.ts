@@ -9,8 +9,7 @@ export const environment = {
   USER_OPTIONS: [
     new UserOption('Dashboard', null, 'navegar/dashboard', 'pi pi-table', false, [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]),
     new UserOption('Perfil', null, 'gerenciar/perfil', 'pi pi-user', false, [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN, Roles.CUSTOMER]),
-    new UserOption('Categorias', null, 'navegar/categorias', 'pi pi-clone', false, [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN, Roles.CUSTOMER, Roles.GUEST]),
-    new UserOption('Produtos', null, 'navegar/produtos', 'pi pi-list', false, [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN, Roles.CUSTOMER, Roles.GUEST]),
-    new UserOption('Carrinho', null, 'navegar/carrinho', 'pi pi-shopping-cart', false, [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN, Roles.CUSTOMER, Roles.GUEST])
+    new UserOption('Produtos', null, 'navegar/produtos', 'pi pi-list', false, [Roles.CUSTOMER, Roles.GUEST]),
+    new UserOption('Carrinho', null, 'navegar/carrinho', 'pi pi-shopping-cart', false, [Roles.CUSTOMER, Roles.GUEST])
   ]
 };

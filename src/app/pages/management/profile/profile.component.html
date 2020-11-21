@@ -6,7 +6,7 @@
           <div class="card-body">
             <div class="d-flex flex-column align-items-center text-center">
               <input id="profile-image-upload" class="d-none" type="file" (change)="uploadImage($event)">
-              <a (click)="changeProfileImage()" class="image-link">
+              <a (click)="changeProfileImage()" [ngClass]="{'image-link': isProfile}">
                 <img [src]="profileImageSrc" alt="profile-image" class="rounded-circle" width="150">
                 <div class="rounded-circle overlay">
                   <div class="image-text">{{ imageOverlayText }}</div>

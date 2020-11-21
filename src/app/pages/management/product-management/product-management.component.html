@@ -1,0 +1,35 @@
+<div class="container">
+  <p-toolbar>
+    <div class="p-toolbar-group-left">
+      <h3>Produtos</h3>
+    </div>
+    <div class="p-toolbar-group-right">
+      <button class="btn button-dark" (click)="navigateToPage('cadastro/produto')"><i class="pi pi-plus"></i>Cadastrar produto</button>
+    </div>
+  </p-toolbar>
+
+  <p-table [value]="products" [paginator]="true" [rows]="25" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Mostrando de {first} a {last} de {totalRecords} produtos" [rowsPerPageOptions]="[10,25,50]"
+    selectionMode="single" [(selection)]="selectedProduct" dataKey="productId">
+    <ng-template pTemplate="header">
+      <tr>
+        <th [pSortableColumn]="col.field" *ngFor="let col of cols">
+          {{ col.header }}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr [pSelectableRow]="product" (click)="selectProduct()">
+        <td *ngFor="let col of cols">
+          {{ product|tableField:col }}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">{{emptyMessage}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

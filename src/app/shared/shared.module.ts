@@ -5,12 +5,14 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SimpleModalComponent } from './simple-modal/simple-modal.component';
+import { TableFieldPipe } from './pipes/table-field.pipe';
 
 @NgModule({
   declarations: [
     FooterComponent,
     NavbarComponent,
-    SimpleModalComponent
+    SimpleModalComponent,
+    TableFieldPipe
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { SimpleModalComponent } from './simple-modal/simple-modal.component';
   exports: [
     FooterComponent,
     NavbarComponent,
-    SimpleModalComponent
+    SimpleModalComponent,
+    TableFieldPipe
   ],
   schemas:[
     CUSTOM_ELEMENTS_SCHEMA

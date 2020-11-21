@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { ModalService } from '../services/modal.service';
 import { StorageService } from '../services/storage.service';
 
 @Injectable({
@@ -10,6 +11,7 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private authenticationService: AuthenticationService,
+    private modalService: ModalService,
     private router: Router,
     private storageService: StorageService
   ) { }
@@ -20,7 +22,6 @@ export class AuthGuard implements CanActivate {
       const roleId = JSON.parse(this.storageService.getSessionItem('userProfile')).roleId;
 
       if (route.data.roles && !route.data.roles.includes(roleId)) {
-        this.router.navigateByUrl('navegar/home');
         console.log('ROUTE BLOCKED!');
         return false;
       }
@@ -28,6 +29,9 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
+    this.authenticationService.logout();
+
+    this.modalService.openSimpleModal('Erro', 'Sessão expirada, por favor, faça login novamente.', [{text: 'OK'}]);
     this.router.navigateByUrl('auth/login');
     return false;
   }

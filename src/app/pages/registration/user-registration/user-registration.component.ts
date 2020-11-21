@@ -136,7 +136,6 @@ export class UserRegistrationComponent implements OnInit {
             this.modalService.openSimpleModal('Sucesso', response.message, [{ text: 'OK' }]).subscribe(() => {
               this.navigateToPage('gerenciar/perfil');
             });
-
           });
         } else {
           this.loader.disable();

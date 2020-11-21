@@ -76,6 +76,10 @@ export class StoreProfileComponent implements OnInit {
     fileUpload.click();
   }
 
+  public navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
+  }
+
   public updateStore(): void {
     // TO DO
     console.log('UPDATE');

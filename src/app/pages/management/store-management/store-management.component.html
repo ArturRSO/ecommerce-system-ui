@@ -3,7 +3,7 @@
     <div class="p-toolbar-group-left">
       <h3>Lojas</h3>
     </div>
-    <div class="p-toolbar-group-right">
+    <div class="p-toolbar-group-right" *ngIf="isStoreAdmin">
       <button class="btn button-dark" (click)="registerStore()"><i class="pi pi-plus"></i>Cadastrar loja</button>
     </div>
   </p-toolbar>

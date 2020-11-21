@@ -15,8 +15,7 @@ const routes: Routes = [
     children: [
       {
         path: 'perfil',
-        component: UserRegistrationComponent,
-        canActivate: [AuthGuard]
+        component: UserRegistrationComponent
       },
       {
         path: 'endereco',
@@ -67,7 +66,8 @@ const routes: Routes = [
   {
     path: 'produto',
     component: ProductRegistrationComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { roles: [Roles.STORE_ADMIN] }
   }
 ];
 

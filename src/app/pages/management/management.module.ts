@@ -11,6 +11,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { StoreManagementComponent } from './store-management/store-management.component';
 import { StoreProfileComponent } from './store-profile/store-profile.component';
 import { ProductManagementComponent } from './product-management/product-management.component';
+import { ProductProfileComponent } from './product-profile/product-profile.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ProductManagementComponent } from './product-management/product-managem
     UserManagementComponent,
     StoreManagementComponent,
     StoreProfileComponent,
-    ProductManagementComponent
+    ProductManagementComponent,
+    ProductProfileComponent
   ],
   imports: [
     CommonModule,

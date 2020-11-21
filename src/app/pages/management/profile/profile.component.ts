@@ -101,8 +101,10 @@ export class ProfileComponent implements OnInit {
   }
 
   public changeProfileImage(): void {
-    const fileUpload = document.getElementById('profile-image-upload') as HTMLElement;
-    fileUpload.click();
+    if (this.isProfile) {
+      const fileUpload = document.getElementById('profile-image-upload') as HTMLElement;
+      fileUpload.click();
+    }
   }
 
   public getTelephoneType(telephoneTypeId: number): string {
