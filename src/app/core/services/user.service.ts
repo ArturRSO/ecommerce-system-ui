@@ -151,17 +151,7 @@ export class UserService {
 
   public deleteProfile(userId: number): any {
 
-    return this.http.delete<any>(`${this.baseApiUrl}/delete/profile/${userId}`).pipe(
-      map(response => {
-        return response;
-      }),
-      catchError((error: any) => throwError(error))
-    );
-  }
-
-  public deleteUsers(ids: any): any {
-
-    return this.http.delete<any>(`${this.baseApiUrl}/delete`, ids).pipe(
+    return this.http.delete<any>(`${this.baseApiUrl}/delete/${userId}`).pipe(
       map(response => {
         return response;
       }),

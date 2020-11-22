@@ -24,6 +24,11 @@ const routes: Routes = [
       {
         path: 'telefone',
         component: TelephoneRegistrationComponent
+      },
+      {
+        path: 'loja',
+        data: { roles: [Roles.STORE_ADMIN] },
+        component: StoreRegistrationComponent
       }
     ]
   },

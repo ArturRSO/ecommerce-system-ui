@@ -34,6 +34,17 @@
   background-color: $c-light;
 }
 
+.button-red {
+  color: red;
+  background-color: $c-white;
+  border: 1px solid red;
+}
+
+.button-red:hover {
+  color: $c-white;
+  background-color: red;
+}
+
 button i {
   margin-right: 5px;
 }

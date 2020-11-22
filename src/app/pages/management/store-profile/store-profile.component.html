@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-        <!-- Adresses -->
+        <!-- Address -->
         <div class="row gutters-sm">
           <div class="col-sm-12">
             <div class="card mb-3">
@@ -49,54 +49,101 @@
                   </div>
                 </div>
                 <hr>
-                  <div class="row gutters-sm">
-                    <div class="col-sm-12">
-                      <div class="card mb-3">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col-sm-3">
-                              <h6 class="mb-0">CEP</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                              {{ store.address.postalCode }}
-                            </div>
+                <div class="row gutters-sm">
+                  <div class="col-sm-12">
+                    <div class="card mb-3">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">CEP</h6>
                           </div>
-                          <div class="row">
-                            <div class="col-sm-3">
-                              <h6 class="mb-0">Rua</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                              {{ store.address.address }}
-                            </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ address?.postalCode }}
                           </div>
-                          <div class="row">
-                            <div class="col-sm-3">
-                              <h6 class="mb-0">Número</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                              {{ store.address.number }}
-                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Rua</h6>
                           </div>
-                          <div class="row">
-                            <div class="col-sm-3">
-                              <h6 class="mb-0">Bairro e cidade</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                              {{ store.address.district }} - {{ store.address.city }} - {{ store.address.stateCode }}
-                            </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ address?.address }}
                           </div>
-                          <div class="row">
-                            <div class="col-sm-3">
-                              <h6 class="mb-0">Complemento</h6>
-                            </div>
-                            <div class="col-sm-9 text-secondary">
-                              {{ store.address.complement }}
-                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Número</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ address?.number }}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Bairro e cidade</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ address?.district }} - {{ address?.city }} - {{ address?.stateCode }}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Complemento</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ address?.complement }}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Telephone -->
+        <div class="row gutters-sm">
+          <div class="col-sm-12">
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <h5 class="card-title mb-0">Telefone</h5>
+                  </div>
+                </div>
+                <hr>
+                <div class="row gutters-sm">
+                  <div class="col-sm-12">
+                    <div class="card mb-3">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">DDD</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ telephone?.localCode }}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Número</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ telephone?.number }}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Tipo</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ getTelephoneType(telephone?.telephoneTypeId) }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

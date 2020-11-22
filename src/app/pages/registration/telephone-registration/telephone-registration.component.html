@@ -5,10 +5,11 @@
       <div class="form-row">
         <div class="form-group col-5">
           <label>DDD</label>
-          <input type="number" formControlName="localCode" class="form-control"
-            [ngClass]="{ 'is-invalid': submitted && f.localCode.errors }" />
+          <input type="text" formControlName="localCode" class="form-control"
+            [ngClass]="{ 'is-invalid': submitted && f.localCode.errors }" maxlength="2" />
           <div *ngIf="submitted && f.localCode.errors" class="invalid-feedback">
             <div *ngIf="f.localCode.errors.required">Digite o DDD</div>
+            <div *ngIf="f.localCode.errors.maxlength">Digite um DDD válido</div>
           </div>
         </div>
         <div class="form-group col-5">

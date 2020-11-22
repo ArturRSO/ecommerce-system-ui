@@ -37,17 +37,7 @@ export class TelephoneService {
 
   public getTelephonesByUserId(userId: number): any {
 
-    return this.http.get(`${this.baseApiUrl}/all/user/${userId}`).pipe(
-      map(response => {
-        return response;
-      }),
-      catchError((error: any) => throwError(error))
-    );
-  }
-
-  public getProfileTelephones(userId: number): any {
-
-    return this.http.get(`${this.baseApiUrl}/all/profile/${userId}`).pipe(
+    return this.http.get(`${this.baseApiUrl}/user/${userId}`).pipe(
       map(response => {
         return response;
       }),
@@ -75,9 +65,9 @@ export class TelephoneService {
     );
   }
 
-  public deleteTelephones(ids: any) {
+  public deleteTelephone(telephoneId: number): any {
 
-    return this.http.delete(`${this.baseApiUrl}/update`, ids).pipe(
+    return this.http.delete(`${this.baseApiUrl}/delete/${telephoneId}`).pipe(
       map(response => {
         return response;
       }),

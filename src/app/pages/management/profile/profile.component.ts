@@ -82,20 +82,26 @@ export class ProfileComponent implements OnInit {
 
   private getProfileAdresses(): any {
     this.loader.enable();
-    this.addressService.getProfileAddresses(this.user.userId).subscribe(response => {
+    this.addressService.getAddressesByUserId(this.user.userId).subscribe(response => {
       this.loader.disable();
       if (response.success) {
         this.addresses = response.data;
+
+      } else {
+        this.addresses = [];
       }
     });
   }
 
   private getProfileTelephones(): any {
     this.loader.enable();
-    this.telephoneService.getProfileTelephones(this.user.userId).subscribe(response => {
+    this.telephoneService.getTelephonesByUserId(this.user.userId).subscribe(response => {
       this.loader.disable();
       if (response.success) {
         this.telephones = response.data;
+
+      } else {
+        this.telephones = [];
       }
     });
   }
@@ -170,6 +176,40 @@ export class ProfileComponent implements OnInit {
         this.modalService.openSimpleModal('Atenção', 'Envie um arquivo de imagem!', [{text: 'OK'}]);
       }
     }
+  }
+
+  public deleteAddress(addressId: number): void {
+    this.modalService.openSimpleModal('Atenção', 'Deseja mesmo deletar o endereço?', [{text: 'Não'}, {text: 'Sim'}]).subscribe(response => {
+      if (response === 'Sim') {
+        this.loader.enable();
+        this.addressService.deleteAddress(addressId).subscribe(result => {
+          this.loader.disable();
+          if (result.success) {
+            this.getProfileAdresses();
+
+          } else {
+            this.modalService.openSimpleModal('Atenção', result.message, [{text: 'OK'}]);
+          }
+        });
+      }
+    });
+  }
+
+  public deleteTelephone(telephoneId: number): void {
+    this.modalService.openSimpleModal('Atenção', 'Deseja mesmo deletar o telefone?', [{text: 'Não'}, {text: 'Sim'}]).subscribe(response => {
+      if (response === 'Sim') {
+        this.loader.enable();
+        this.telephoneService.deleteTelephone(telephoneId).subscribe(result => {
+          this.loader.disable();
+          if (result.success) {
+            this.getProfileTelephones();
+
+          } else {
+            this.modalService.openSimpleModal('Atenção', result.message, [{text: 'OK'}]);
+          }
+        });
+      }
+    });
   }
 
   public updateAddress(address: any) {

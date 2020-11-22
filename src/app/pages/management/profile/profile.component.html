@@ -96,8 +96,9 @@
                             <div class="col-sm-9">
                               <h5 class="mb-0">Endereço {{ i + 1 }}</h5>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3" *ngIf="isProfile">
                               <button class="btn button-light ml-auto mr-3" (click)="updateAddress(address)">Atualizar</button>
+                              <button class="btn button-red ml-auto mr-3" (click)="deleteAddress(address.addressId)">Deletar</button>
                             </div>
                           </div>
                           <div class="row">
@@ -180,8 +181,9 @@
                             <div class="col-sm-9">
                               <h5 class="mb-0">Telefone {{ i + 1 }}</h5>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3" *ngIf="isProfile">
                               <button class="btn button-light ml-auto mr-3" (click)="updateTelephone(telephone)">Atualizar</button>
+                              <button class="btn button-red ml-auto mr-3" (click)="deleteTelephone(telephone.telephoneId)">Deletar</button>
                             </div>
                           </div>
                           <div class="row">

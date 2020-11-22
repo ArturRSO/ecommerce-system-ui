@@ -36,19 +36,9 @@ export class AddressService {
     );
   }
 
-  public getAdressesByUserId(userId: number): any {
+  public getAddressesByUserId(userId: number): any {
 
-    return this.http.get(`${this.baseApiUrl}/all/user/${userId}`).pipe(
-      map(response => {
-        return response;
-      }),
-      catchError((error: any) => throwError(error))
-    );
-  }
-
-  public getProfileAddresses(userId: number): any {
-
-    return this.http.get(`${this.baseApiUrl}/all/profile/${userId}`).pipe(
+    return this.http.get(`${this.baseApiUrl}/user/${userId}`).pipe(
       map(response => {
         return response;
       }),
@@ -86,9 +76,9 @@ export class AddressService {
     );
   }
 
-  public deleteAddresses(ids: any) {
+  public deleteAddress(addressId: any): any {
 
-    return this.http.put(`${this.baseApiUrl}/update`, ids).pipe(
+    return this.http.delete(`${this.baseApiUrl}/delete/${addressId}`).pipe(
       map(response => {
         return response;
       }),

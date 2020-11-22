@@ -11,7 +11,7 @@
             <div *ngIf="f.name.errors.required">Digite o nome</div>
           </div>
         </div>
-        <ng-container *ngIf="storeType === 'juridica'">
+        <ng-container *ngIf="storeType === 'juridica' || updateJuridica">
           <div class="form-group col-5">
             <label>CNPJ</label>
             <input type="text" formControlName="documentNumber" class="form-control"
@@ -36,6 +36,23 @@
             </div>
             <div *ngIf="submitted && f.addressId.errors" class="invalid-feedback">
               <div *ngIf="f.addressId.errors.required">Selecione um endereço</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-5">
+          <label>Telefone</label>
+          <div class="input-group">
+            <select type="text" formControlName="telephoneId" class="form-control"
+              [ngClass]="{ 'is-invalid': submitted && f.telephoneId.errors }">
+              <option value="" disabled>{{ telephonePlaceholder }}</option>
+              <option *ngFor="let telephone of telephones" [value]="telephone.telephoneId">{{ telephone.number | mask:telephoneMask }}</option>
+            </select>
+            <div class="input-group-append">
+              <button class="button-dark" (click)="navigateToPage('cadastro/perfil/telefone')"><i
+                  class="pi pi-plus"></i></button>
+            </div>
+            <div *ngIf="submitted && f.telephoneId.errors" class="invalid-feedback">
+              <div *ngIf="f.telephoneId.errors.required">Selecione um telefone</div>
             </div>
           </div>
         </div>

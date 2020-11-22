@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
       const roleId = JSON.parse(this.storageService.getSessionItem('userProfile')).roleId;
 
       if (route.data.roles && !route.data.roles.includes(roleId)) {
-        console.log('ROUTE BLOCKED!');
+        this.modalService.openSimpleModal('Erro', 'Rota não permitida!', [{text: 'OK'}]);
         return false;
       }
 

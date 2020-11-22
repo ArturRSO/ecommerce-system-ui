@@ -34,12 +34,24 @@ export class ProductManagementComponent implements OnInit {
     this.getColumns();
 
     this.loader.enable();
-    this.productService.getProductsByStoreId(this.store.storeId).subscribe(response => {
-      this.loader.disable();
-      if (response.success) {
-        this.products = response.data;
-      }
-    });
+    switch (this.router.url.split('/')[3]) {
+      case 'loja':
+        this.productService.getProductsByStoreId(this.store.storeId).subscribe(response => {
+          this.loader.disable();
+          if (response.success) {
+            this.products = response.data;
+          }
+        });
+        break;
+      case 'todos':
+        this.productService.getAllProducts().subscribe(response => {
+          this.loader.disable();
+          if (response.success) {
+            this.products = response.data;
+          }
+        });
+        break;
+    }
   }
 
   private getColumns(): void {
@@ -58,7 +70,6 @@ export class ProductManagementComponent implements OnInit {
   }
 
   public selectProduct(): void {
-    console.log(this.selectedProduct);
     this.storageService.setSessionItem('selectedProduct', JSON.stringify(this.selectedProduct));
     this.navigateToPage('gerenciar/produto');
   }

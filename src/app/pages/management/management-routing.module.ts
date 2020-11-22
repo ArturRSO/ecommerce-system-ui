@@ -48,10 +48,15 @@ const routes: Routes = [
   {
     path: 'produtos',
     canActivate: [AuthGuard],
-    data: { roles: [Roles.STORE_ADMIN, Roles.SYSTEM_ADMIN] },
     children: [
       {
         path: 'loja',
+        data: { roles: [Roles.STORE_ADMIN, Roles.SYSTEM_ADMIN] },
+        component: ProductManagementComponent
+      },
+      {
+        path: 'todos',
+        data: { roles: [Roles.SYSTEM_ADMIN] },
         component: ProductManagementComponent
       }
     ]

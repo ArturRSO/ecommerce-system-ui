@@ -6,6 +6,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { StorageService } from 'src/app/core/services/storage.service';
 import { StoreService } from 'src/app/core/services/store.service';
+import { TelephoneService } from 'src/app/core/services/telephone.service';
 import { DocumentType } from 'src/app/shared/utils/document-type.enum';
 import { InputMasks } from 'src/app/shared/utils/input-masks.enum';
 import { RegexEnum } from 'src/app/shared/utils/regex.enum';
@@ -18,13 +19,18 @@ import { RegexEnum } from 'src/app/shared/utils/regex.enum';
 export class StoreRegistrationComponent implements OnInit {
 
   private user: any;
+  private storeToUpdate: any;
 
   public addresses = [];
-  public addressPlaceholder = 'Você ainda não cadastrou nenhum endereço.';
+  public addressPlaceholder = 'Você ainda não cadastrou nenhum endereço';
   public documentMask = InputMasks.CNPJ;
   public form: FormGroup;
   public storeType: string;
   public submitted = false;
+  public telephones = [];
+  public telephoneMask = InputMasks.TELEPHONE;
+  public telephonePlaceholder = 'Você ainda não cadastrou nenhum telefone';
+  public updateJuridica = false;
 
   constructor(
     private addressService: AddressService,
@@ -33,7 +39,8 @@ export class StoreRegistrationComponent implements OnInit {
     private modalService: ModalService,
     private router: Router,
     private storageService: StorageService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private telephoneService: TelephoneService
   ) { }
 
   ngOnInit(): void {
@@ -51,7 +58,8 @@ export class StoreRegistrationComponent implements OnInit {
       case 'fisica':
         this.form = this.formBuilder.group({
           name: ['', Validators.required],
-          addressId: ['', [Validators.required]],
+          addressId: ['', Validators.required],
+          telephoneId: ['', Validators.required]
         });
         break;
 
@@ -59,8 +67,29 @@ export class StoreRegistrationComponent implements OnInit {
         this.form = this.formBuilder.group({
           name: ['', Validators.required],
           documentNumber: ['', [Validators.required, Validators.pattern(new RegExp(RegexEnum.CNPJ))]],
-          addressId: ['', [Validators.required]],
+          addressId: ['', Validators.required],
+          telephoneId: ['', Validators.required]
         });
+        break;
+
+      case 'loja':
+        this.storeToUpdate = JSON.parse(this.storageService.getSessionItem('currentStore'));
+        if (this.storeToUpdate.documentTypeId === DocumentType.CPF) {
+          this.form = this.formBuilder.group({
+            name: [this.storeToUpdate.name, Validators.required],
+            addressId: [this.storeToUpdate.addressId, Validators.required],
+            telephoneId: [this.storeToUpdate.telephoneId, Validators.required]
+          });
+
+        } else {
+          this.updateJuridica = true;
+          this.form = this.formBuilder.group({
+            name: [this.storeToUpdate.name, Validators.required],
+            documentNumber: [this.storeToUpdate.documentNumber, [Validators.required, Validators.pattern(new RegExp(RegexEnum.CNPJ))]],
+            addressId: [this.storeToUpdate.addressId, Validators.required],
+            telephoneId: [this.storeToUpdate.telephoneId, Validators.required]
+          });
+        }
         break;
     }
   }
@@ -69,12 +98,28 @@ export class StoreRegistrationComponent implements OnInit {
     this.storeType = this.router.url.split('/')[3];
     this.user = JSON.parse(this.storageService.getSessionItem('userProfile'));
 
+    this.getAddresses();
+    this.getTelephones();
+  }
+
+  private getAddresses(): void {
     this.loader.enable();
-    this.addressService.getProfileAddresses(this.user.userId).subscribe(response => {
+    this.addressService.getAddressesByUserId(this.user.userId).subscribe(response => {
       this.loader.disable();
       if (response.success) {
-        this.addressPlaceholder = 'Escolha um endereço'
+        this.addressPlaceholder = 'Escolha um endereço';
         this.addresses = response.data;
+      }
+    });
+  }
+
+  private getTelephones(): void {
+    this.loader.enable();
+    this.telephoneService.getTelephonesByUserId(this.user.userId).subscribe(response => {
+      this.loader.disable();
+      if (response.success) {
+        this.telephones = response.data;
+        this.telephonePlaceholder = 'Escolha um telefone';
       }
     });
   }
@@ -93,27 +138,52 @@ export class StoreRegistrationComponent implements OnInit {
 
     const store = this.form.value;
 
-    switch (this.router.url.split('/')[3]) {
-      case 'fisica':
-        store.documentNumber = this.user.documentNumber;
-        store.documentTypeId = this.user.documentTypeId;
-        break;
+    if (this.storeType === 'loja') {
 
-      case 'juridica':
-        store.documentTypeId = DocumentType.CNPJ;
-    }
-
-    this.loader.enable();
-    this.storeService.createStore(store, this.user.userId).subscribe(response => {
-      this.loader.disable();
-      if (response.success) {
-        this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(() => {
-          this.navigateToPage('navegar/dashboard');
-        });
-
-      } else {
-        this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+      if (this.storeToUpdate.documentTypeId === DocumentType.CPF) {
+        store.documentNumber = this.storeToUpdate.documentNumber;
       }
-    });
+
+      store.storeId = this.storeToUpdate.storeId;
+      store.documentTypeId = this.storeToUpdate.documentTypeId;
+
+      this.loader.enable();
+      this.storeService.updateStore(store).subscribe(response => {
+        this.loader.disable();
+        if (response.success) {
+          this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(() => {
+            this.navigateToPage('gerenciar/lojas/minhas');
+          });
+
+        } else {
+          this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+        }
+      });
+
+    } else {
+      switch (this.storeType) {
+        case 'fisica':
+          store.documentNumber = this.user.documentNumber;
+          store.documentTypeId = this.user.documentTypeId;
+          break;
+
+        case 'juridica':
+          store.documentTypeId = DocumentType.CNPJ;
+          break;
+      }
+
+      this.loader.enable();
+      this.storeService.createStore(store, this.user.userId).subscribe(response => {
+        this.loader.disable();
+        if (response.success) {
+          this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(() => {
+            this.navigateToPage('gerenciar/lojas/minhas');
+          });
+
+        } else {
+          this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+        }
+      });
+    }
   }
 }

@@ -25,12 +25,12 @@ export class StoreService {
     );
   }
 
-  public createProfileImage(storeId: number, userId: number, image: any): any {
+  public createProfileImage(storeId: number, image: any): any {
 
     const formData = new FormData();
     formData.append('file', image);
 
-    return this.http.post<any>(`${this.baseApiUrl}/create/image/${storeId}/${userId}`, formData).pipe(
+    return this.http.post<any>(`${this.baseApiUrl}/create/image/${storeId}`, formData).pipe(
       map(response => {
         return response;
       }),
@@ -58,9 +58,39 @@ export class StoreService {
     );
   }
 
-  public getProfileImage(storeId: number, userId: number, path: string): any {
+  public getStoreById(storeId: number): any {
 
-    return this.http.get<any>(`${this.baseApiUrl}/image/${storeId}/${userId}?path=${encodeURIComponent(path)}`).pipe(
+    return this.http.get<any>(`${this.baseApiUrl}/${storeId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getProfileImage(path: string): any {
+
+    return this.http.get<any>(`${this.baseApiUrl}/image?path=${encodeURIComponent(path)}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public updateStore(store: any): any {
+
+    return this.http.put<any>(`${this.baseApiUrl}/update`, store).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public deleteStore(storeId: number): any {
+
+    return this.http.delete<any>(`${this.baseApiUrl}/delete/${storeId}`).pipe(
       map(response => {
         return response;
       }),

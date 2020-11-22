@@ -9,19 +9,41 @@
               Lojas
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link">
+          <li class="nav-item" *ngIf="isAdmin">
+            <a class="nav-link" (click)="navigateToPage('gerenciar/produtos/todos')">
               <i class="pi pi-tags"></i>
               Produtos
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link">
+          <li class="nav-item" *ngIf="!isAdmin">
+            <a class="nav-link dropdown-toggle" href="#productSubMenu" data-toggle="collapse" aria-expanded="false">
+              <i class="pi pi-tags"></i>
+              Produtos
+            </a>
+            <ul class="collapse list-unstyled" id="productSubMenu">
+              <li *ngFor="let store of stores">
+                <a (click)="manageProducts(store)">{{ store.name }}</a>
+              </li>
+              <li *ngIf="stores.length === 0">
+                <a>Nenhuma loja cadastrada</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item" *ngIf="!isAdmin">
+            <a class="nav-link dropdown-toggle" href="#orderSubMenu" data-toggle="collapse" aria-expanded="false">
               <i class="pi pi-dollar"></i>
               Pedidos
             </a>
+            <ul class="collapse list-unstyled" id="orderSubMenu">
+              <li *ngFor="let store of stores">
+                <a (click)="manageOrders(store)">{{ store.name }}</a>
+              </li>
+              <li *ngIf="stores.length === 0">
+                <a>Nenhuma loja cadastrada</a>
+              </li>
+            </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isAdmin">
             <a class="nav-link dropdown-toggle" href="#userSubMenu" data-toggle="collapse" aria-expanded="false">
               <i class="pi pi-users"></i>
               Usuarios

@@ -46,14 +46,14 @@ export class TelephoneRegistrationComponent implements OnInit {
   private buildForm(): void {
     if (this.update) {
       this.form = this.formBuilder.group({
-        localCode: [this.telephone.localCode, [Validators.required]],
+        localCode: [this.telephone.localCode, [Validators.required, Validators.maxLength(2)]],
         number: [this.telephone.number, [Validators.required]],
         telephoneTypeId: [this.telephone.telephoneTypeId, [Validators.required]]
       });
 
     } else {
       this.form = this.formBuilder.group({
-        localCode: ['', [Validators.required]],
+        localCode: ['', [Validators.required, Validators.maxLength(2)]],
         number: ['', [Validators.required]],
         telephoneTypeId: ['', [Validators.required]]
       });
