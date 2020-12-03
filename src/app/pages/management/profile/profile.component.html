@@ -15,7 +15,7 @@
               <div class="mt-3">
                 <h4>{{ user.firstName }}</h4>
                 <p class="text-secondary mb-1">Cadastrado desde {{user.creationDate | date: 'dd/MM/yyyy'}}</p>
-                <button class="btn button-dark" (click)="navigateToPage(orderRoute)">{{ orderText }}</button>
+                <button class="btn button-dark" (click)="navigateToPage(orderRoute)" *ngIf="!isStoreAdmin">{{ orderText }}</button>
                 <button class="btn button-light" (click)="updateProfile()"
                   *ngIf="isProfile">Atualizar perfil</button>
                 <button class="btn btn-danger" (click)="openDeletionModal()">Desativar perfil</button>

@@ -11,6 +11,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { UtilService } from 'src/app/core/services/util.service';
 import { InputMasks } from 'src/app/shared/utils/input-masks.enum';
 import { RegexEnum } from 'src/app/shared/utils/regex.enum';
+import { Roles } from 'src/app/shared/utils/roles.enum';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +25,7 @@ export class ProfileComponent implements OnInit {
   public addresses = [];
   public documentMask = InputMasks.CPF;
   public imageOverlayText = "Cadastrar imagem de perfil";
+  public isStoreAdmin = false;
   public isProfile = true;
   public orderText: string;
   public orderRoute: string;
@@ -64,6 +66,8 @@ export class ProfileComponent implements OnInit {
         this.isProfile = false;
         break;
     }
+
+    this.isStoreAdmin = this.user.roleId === Roles.STORE_ADMIN;
 
     if (this.user.profileImagePath) {
       this.loader.enable();

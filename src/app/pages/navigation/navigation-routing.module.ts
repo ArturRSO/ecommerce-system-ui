@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { Roles } from 'src/app/shared/utils/roles.enum';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
+import { ProductsComponent } from './products/products.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuard],
     data: { roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN] }
+  },
+  {
+    path: 'produtos',
+    component: ProductsComponent
   },
   {
     path: '**',

@@ -32,8 +32,8 @@ export class DashboardComponent implements OnInit {
     this.user = JSON.parse(this.storageService.getSessionItem('userProfile'));
     this.isAdmin = this.user.roleId === Roles.SYSTEM_ADMIN;
 
-    this.loader.enable();
     if (!this.isAdmin) {
+      this.loader.enable();
       this.storeService.getStoresByUserId(this.user.userId).subscribe(response => {
         this.loader.disable();
         if (response.success) {
