@@ -1,0 +1,23 @@
+@import "../../../assets/sass/config.scss";
+
+a {
+  cursor: pointer;
+}
+
+nav {
+  background-color: $c-primary;
+}
+
+.navbar-brand {
+  color: $c-black;
+}
+
+.nav-item {
+  a {
+    color: $c-dark;
+  }
+
+  a:hover {
+    color: $c-black;
+  }
+}
