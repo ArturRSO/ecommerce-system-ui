@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -8,36 +10,45 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class NavbarComponent implements OnInit {
 
+  public authentication;
   public navbarOpen = false;
-  public options: any;
+  public options = [];
   public searchForm: FormGroup;
+  public userName = 'Teste';
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
     this.buildForm();
-    this.options = [
-      {
-        name: 'aaaaa'
-      },
-      {
-        name: 'bbbbb'
-      },
-      {
-        name: 'ccccc'
-      }
-    ];
+    this.checkAuthentication();
+    this.setNavbarOptions();
   }
 
   get f() {
     return this.searchForm.controls;
   }
 
+  public logout(): void {
+    // TO DO
+    console.log('LOGOUT');
+  }
+
   public navbarClick(option: any): void {
     // TO DO
     console.log(option);
+  }
+
+  public navigateToPage(route: string): void {
+    // TO DO
+    console.log(route);
+  }
+
+  public openRegistrationModal(): void {
+    // TO DO
+    console.log('OPEN REGISTRATION MODAL');
   }
 
   public search(): void {
@@ -53,5 +64,13 @@ export class NavbarComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       searchField: ['']
     });
+  }
+
+  private checkAuthentication(): void {
+    this.authentication = this.localStorageService.getObject('authentication');
+  }
+
+  private setNavbarOptions(): void {
+    this.options = environment.NAVBAR_OPTIONS.filter(option => option.allowedRoles.includes(this.authentication.roleId));
   }
 }

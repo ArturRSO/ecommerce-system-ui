@@ -1,7 +1,7 @@
 @import "../../../assets/sass/config.scss";
 
-a {
-  cursor: pointer;
+.material-icons {
+  font-size: 20px;
 }
 
 nav {
@@ -10,6 +10,7 @@ nav {
 
 .navbar-brand {
   color: $c-black;
+  cursor: pointer;
 }
 
 .nav-item {
@@ -20,4 +21,8 @@ nav {
   a:hover {
     color: $c-black;
   }
+}
+
+.nav-link {
+  cursor: pointer;
 }

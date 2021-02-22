@@ -1,16 +1,42 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
+import { Roles } from "src/app/utils/enums/roles.enum";
 
 export const environment = {
-  production: false
-};
+  production: false,
+  API_URL: 'http://localhost:8080/api',
+  VIA_CEP_URL: 'https://viacep.com.br/ws',
 
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+  NAVBAR_OPTIONS: [
+    {
+      name: 'Dashboard',
+      elementId: null,
+      route: '',
+      icon: 'dashboard',
+      samePage: false,
+      allowedRoles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]
+    },
+    {
+      name: 'Perfil',
+      elementId: null,
+      route: '',
+      icon: 'account_box',
+      samePage: false,
+      allowedRoles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN, Roles.CUSTOMER]
+    },
+    {
+      name: 'Produtos',
+      elementId: null,
+      route: '',
+      icon: 'category',
+      samePage: false,
+      allowedRoles: [Roles.CUSTOMER, Roles.GUEST]
+    },
+    {
+      name: 'Carrinho',
+      elementId: null,
+      route: '',
+      icon: 'shopping_cart',
+      samePage: false,
+      allowedRoles: [Roles.CUSTOMER, Roles.GUEST]
+    }
+  ]
+};

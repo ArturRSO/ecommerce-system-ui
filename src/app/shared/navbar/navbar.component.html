@@ -8,8 +8,12 @@
       <ng-container *ngFor="let option of options">
         <li class="nav-item">
           <a class="nav-link" (click)="navbarClick(option)">
-            <i [class]="option?.icon"></i>
-            {{ option.name }}
+            <span class="material-icons">
+              {{ option.icon }}
+            </span>
+            <span>
+              {{ option.name }}
+            </span>
           </a>
         </li>
       </ng-container>
@@ -18,23 +22,25 @@
       <input class="form-control mr-sm-2" formControlName="searchField" type="search" placeholder="Pesquisar produto">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
     </form>
-    <!-- <ng-container *ngIf="!authenticated">
+    <ng-container *ngIf="!authentication.authenticated">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" (click)="navigateToPage('auth/login')">Entrar</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" (click)="register()">Cadastre-se</a>
+          <a class="nav-link" (click)="openRegistrationModal()">Cadastre-se</a>
         </li>
       </ul>
     </ng-container>
-    <ng-container *ngIf="authenticated">
+    <ng-container *ngIf="authentication.authenticated">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <span>Olá {{ userName }}</span>
+          <span class="nav-link">Olá {{ userName }}</span>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" (click)="logout()">Sair</a>
         </li>
       </ul>
-    </ng-container> -->
+    </ng-container>
   </div>
 </nav>
