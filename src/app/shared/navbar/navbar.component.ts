@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { LocalStorageService } from 'src/app/core/services/local-storage.service';
+import { Subscription } from 'rxjs';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -10,20 +11,22 @@ import { environment } from 'src/environments/environment';
 })
 export class NavbarComponent implements OnInit {
 
-  public authentication;
+  public authentication: any;
+  private authenticationState: Subscription;
   public navbarOpen = false;
   public options = [];
   public searchForm: FormGroup;
   public userName = 'Teste';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private localStorageService: LocalStorageService
+    private authService: AuthenticationService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.buildForm();
-    this.checkAuthentication();
+    this.getAuthentication();
+    this.checkAuthenticationChange();
     this.setNavbarOptions();
   }
 
@@ -66,8 +69,14 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  private checkAuthentication(): void {
-    this.authentication = this.localStorageService.getObject('authentication');
+  private checkAuthenticationChange(): void {
+    this.authenticationState = this.authService.getAuthenticationChange().subscribe(state => {
+      this.authentication = state;
+    })
+  }
+
+  private getAuthentication(): void {
+    this.authentication = this.authService.getAuthenticationState();
   }
 
   private setNavbarOptions(): void {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageService } from './core/services/local-storage.service';
-import { Roles } from './utils/enums/roles.enum';
+import { environment } from 'src/environments/environment';
+import { AuthenticationService } from './core/services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { Roles } from './utils/enums/roles.enum';
 export class AppComponent implements OnInit {
 
   constructor(
-    private localStorageService: LocalStorageService
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
@@ -18,13 +18,9 @@ export class AppComponent implements OnInit {
   }
 
   private checkAuthentication(): void {
-    if (!this.localStorageService.getObject('authentication')) {
-      const initialState = {
-        authenticated: false,
-        roleId: Roles.GUEST
-      }
+    if (!this.authService.getAuthenticationState()) {
 
-      this.localStorageService.setObject('authentication', initialState);
+      this.authService.setAuthenticationState(environment.INITIAL_AUTHENTICATION_STATE);
     }
   }
 }

@@ -5,6 +5,11 @@ export const environment = {
   API_URL: 'http://localhost:8080/api',
   VIA_CEP_URL: 'https://viacep.com.br/ws',
 
+  INITIAL_AUTHENTICATION_STATE: {
+    authenticated: false,
+    roleId: Roles.GUEST
+  },
+
   NAVBAR_OPTIONS: [
     {
       name: 'Dashboard',
