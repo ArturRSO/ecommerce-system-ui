@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 import { Regex } from 'src/app/utils/enums/regex.enum';
+import { Roles } from 'src/app/utils/enums/roles.enum';
 import { MustMatch } from 'src/app/utils/validators/must-match.validator';
 
 @Component({
@@ -13,23 +14,9 @@ export class UserRegistrationComponent implements OnInit {
 
   public documentMask = InputMasks.CPF;
   public form: FormGroup;
+  public roles = [];
   public submitted = false;
   public validationMessages: any;
-
-  public roles = [
-    {
-      id: 1,
-      name: 'Admin'
-    },
-    {
-      id: 2,
-      name: 'Lojista'
-    },
-    {
-      id: 3,
-      name: 'Comprador'
-    }
-  ]
 
   constructor(
     private formBuilder: FormBuilder
@@ -37,6 +24,7 @@ export class UserRegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
+    this.setRolesList();
     this.setValidationMessages();
   }
 
@@ -71,6 +59,23 @@ export class UserRegistrationComponent implements OnInit {
     {
       validator: MustMatch('password', 'confirmPassword')
     });
+  }
+
+  private setRolesList(): void {
+    this.roles = [
+      {
+        id: Roles.SYSTEM_ADMIN,
+        name: 'Admin'
+      },
+      {
+        id: Roles.STORE_ADMIN,
+        name: 'Lojista'
+      },
+      {
+        id: Roles.CUSTOMER,
+        name: 'Comprador'
+      }
+    ]
   }
 
   private setValidationMessages(): void {
