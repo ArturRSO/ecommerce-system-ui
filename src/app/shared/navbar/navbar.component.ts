@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { ModalService } from 'src/app/core/services/modal.service';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -16,11 +19,13 @@ export class NavbarComponent implements OnInit {
   public navbarOpen = false;
   public options = [];
   public searchForm: FormGroup;
-  public userName = 'Teste';
 
   constructor(
     private authService: AuthenticationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private modalService: ModalService,
+    private router: Router,
+    private sessionStorageService: SessionStorageService
   ) { }
 
   ngOnInit(): void {
@@ -35,23 +40,32 @@ export class NavbarComponent implements OnInit {
   }
 
   public logout(): void {
-    // TO DO
-    console.log('LOGOUT');
+    this.authService.logout();
+    this.navigateToPage('loja/produtos');
   }
 
   public navbarClick(option: any): void {
-    // TO DO
-    console.log(option);
+    if (option.samePage) {
+      this.scrollToElement(option.elementId);
+
+    } else {
+      this.navigateToPage(option.route);
+    }
   }
 
   public navigateToPage(route: string): void {
-    // TO DO
-    console.log(route);
+    this.router.navigateByUrl(route);
   }
 
   public openRegistrationModal(): void {
-    // TO DO
-    console.log('OPEN REGISTRATION MODAL');
+    const buttons = [{text: 'Comprar'}, {text: 'Vender'}];
+
+    this.modalService.openSimpleModal('Cadastro', 'O que deseja fazer?', buttons).subscribe(response => {
+      const registerType = response === 'Comprar' ? 'customer' : 'storeAdmin';
+
+      this.sessionStorageService.setObject('userRegistration', {type: registerType, update: false});
+      this.navigateToPage('cadastro/usuario');
+    });
   }
 
   public search(): void {
@@ -77,6 +91,16 @@ export class NavbarComponent implements OnInit {
 
   private getAuthentication(): void {
     this.authentication = this.authService.getAuthenticationState();
+  }
+
+  private scrollToElement(id: string) {
+    const element = document.querySelector(`#${id}`);
+
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'nearest'
+    });
   }
 
   private setNavbarOptions(): void {

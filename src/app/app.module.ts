@@ -7,6 +7,9 @@ import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { HeaderInterceptor } from './core/interceptors/header.interceptor';
 
 registerLocaleData(localePt);
 
@@ -25,6 +28,16 @@ registerLocaleData(localePt);
     {
       provide: LOCALE_ID,
       useValue: 'pt-BR'
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeaderInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

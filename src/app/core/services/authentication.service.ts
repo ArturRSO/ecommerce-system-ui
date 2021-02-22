@@ -18,10 +18,10 @@ export class AuthenticationService {
     private localStorageService: LocalStorageService
   ) { }
 
-  public login(email: string, password: string): any {
+  public login(credentials: any): any {
     const body = {
-      email: email,
-      password: password
+      email: credentials.email,
+      password: credentials.password
     }
 
     return this.http.post<any>(`${this.baseApiUrl}/login`, body).pipe(

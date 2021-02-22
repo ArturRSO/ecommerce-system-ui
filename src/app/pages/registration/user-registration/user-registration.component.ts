@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 import { Regex } from 'src/app/utils/enums/regex.enum';
 import { Roles } from 'src/app/utils/enums/roles.enum';
@@ -14,18 +15,19 @@ export class UserRegistrationComponent implements OnInit {
 
   public documentMask = InputMasks.CPF;
   public form: FormGroup;
+  public registration: any;
   public roles = [];
   public submitted = false;
   public validationMessages: any;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private sessionStorageService: SessionStorageService
   ) { }
 
   ngOnInit(): void {
     this.buildForm();
-    this.setRolesList();
-    this.setValidationMessages();
+    this.setInitialData();
   }
 
   get f() {
@@ -59,6 +61,25 @@ export class UserRegistrationComponent implements OnInit {
     {
       validator: MustMatch('password', 'confirmPassword')
     });
+  }
+
+  private setInitialData(): void {
+     this.registration = this.sessionStorageService.getObject('userRegistration');
+
+    switch (this.registration?.type) {
+      case 'customer':
+        this.f.roleId.setValue(Roles.CUSTOMER);
+        break;
+      case 'store_admin':
+        this.f.roleId.setValue(Roles.STORE_ADMIN);
+        break;
+      default:
+        this.f.roleId.setValue(Roles.CUSTOMER);
+        break;
+    }
+
+    this.setRolesList();
+    this.setValidationMessages();
   }
 
   private setRolesList(): void {
