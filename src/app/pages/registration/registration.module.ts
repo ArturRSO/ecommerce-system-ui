@@ -11,6 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMaskModule } from 'ngx-mask';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [UserRegistrationComponent],
@@ -18,6 +19,7 @@ import { NgxMaskModule } from 'ngx-mask';
     CommonModule,
     RegistrationRoutingModule,
     ReactiveFormsModule,
+    SharedModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
