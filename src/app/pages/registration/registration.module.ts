@@ -12,9 +12,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
-  declarations: [UserRegistrationComponent],
+  declarations: [
+    UserRegistrationComponent,
+    UserProfileComponent
+  ],
   imports: [
     CommonModule,
     RegistrationRoutingModule,

@@ -22,7 +22,7 @@ export const environment = {
     {
       name: 'Perfil',
       elementId: null,
-      route: '',
+      route: 'cadastro/perfil',
       icon: 'account_box',
       samePage: false,
       allowedRoles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN, Roles.CUSTOMER]

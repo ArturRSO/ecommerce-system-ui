@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="main-body">
+    <div class="row gutters-sm">
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
+                width="150">
+              <div class="mt-3">
+                <h4>{{ user?.firstName }}</h4>
+                <p class="text-secondary mb-3">Cadastrado em {{ user?.creationDate | date: 'dd/MM/yyyy' }}</p>
+                <button class="btn btn-primary">Atualizar</button>
+                <button class="btn btn-outline-primary">Meus pedidos</button>
+                <button class="btn btn-danger">Desativar perfil</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <span class="mb-0">Nome completo</span>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{ user?.firstName }} {{ user?.lastName }}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <span class="mb-0">E-mail</span>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{ user?.email }}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <span class="mb-0">CPF</span>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{ user?.documentNumber | mask: documentMask }}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <span class="mb-0">Data de nascimento</span>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{ user?.birthday | date:'dd/MM/yyyy' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
