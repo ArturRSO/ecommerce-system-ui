@@ -86,6 +86,7 @@ export class NavbarComponent implements OnInit {
   private checkAuthenticationChange(): void {
     this.authenticationState = this.authService.getAuthenticationChange().subscribe(state => {
       this.authentication = state;
+      this.setNavbarOptions();
     })
   }
 
