@@ -55,7 +55,8 @@ export class LoginComponent implements OnInit {
         authenticated: true,
         token: response.data.token,
         tokenExpiration: response.data.expiration,
-        roleId: response.data.roleId
+        roleId: response.data.roleId,
+        userId: response.data.userId
       }
 
       this.authService.setAuthenticationState(authState);
