@@ -58,6 +58,101 @@
             </div>
           </div>
         </div>
+
+        <!-- Adressess -->
+        <div class="row gutters-sm">
+          <div class="col-sm-12">
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <h2 class="card-title mb-0">Endereços</h2>
+                  </div>
+                  <div class="col-sm-4">
+                    <button class="btn btn-primary ml-auto mr-3" (click)="navigateToPage('cadastro/endereco')">
+                      Cadastrar endereço
+                    </button>
+                  </div>
+                </div>
+                <hr>
+                <ng-container *ngIf="addresses.length === 0">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <span class="mb-0">Nenhum endereço cadastrado.</span>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="addresses.length > 0">
+                  <div class="col-sm-12">
+                    <div class="card mb-3" *ngFor="let address of addresses; let i=index">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-7">
+                            <h2 class="mb-0">Endereço {{ i + 1 }}</h2>
+                          </div>
+                          <div class="col-sm-5">
+                            <button class="btn btn-primary ml-auto mr-3" (click)="updateAddress(address)">
+                              Atualizar
+                            </button>
+                            <button class="btn btn-outline-primary ml-auto mr-3"
+                              (click)="deleteAddress(address.addressId)">
+                              Deletar
+                            </button>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <span class="mb-0">CEP</span>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ address?.postalCode | mask: postalCodeMask }}
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <span class="mb-0">Rua</span>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ address?.address }}
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <span class="mb-0">Número</span>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ address?.number }}
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <span class="mb-0">Bairro e cidade</span>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ address?.district }} - {{ address?.city }} - {{ address?.stateCode }}
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <span class="mb-0">Complemento</span>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                            {{ address?.complement }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
