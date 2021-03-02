@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UtilsModule } from 'src/app/utils/utils.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     RegistrationRoutingModule,
     ReactiveFormsModule,
     SharedModule,
+    UtilsModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,

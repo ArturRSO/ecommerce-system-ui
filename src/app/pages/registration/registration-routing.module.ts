@@ -11,11 +11,6 @@ const routes: Routes = [
   {
     path: 'usuario',
     component: UserRegistrationComponent
-  },
-  {
-    path: '',
-    redirectTo: 'usuario',
-    pathMatch: 'full'
   }
 ];
 

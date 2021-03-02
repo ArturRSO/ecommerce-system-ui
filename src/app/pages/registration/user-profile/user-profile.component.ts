@@ -15,6 +15,7 @@ export class UserProfileComponent implements OnInit {
   public addresses = [];
   public documentMask = InputMasks.CPF;
   public postalCodeMask = InputMasks.CEP;
+  public profileImageSrc: string;
   public telephones = [];
   public user: any;
 
@@ -51,6 +52,8 @@ export class UserProfileComponent implements OnInit {
 
     this.userService.getProfile().subscribe(response => {
       this.user = response.data;
+
+      this.profileImageSrc = `data:image;base64, ${response.data.profileImage}`
 
       this.addressService.getAddressesByUserId(userId).subscribe(response => {
         this.addresses = response.data;
