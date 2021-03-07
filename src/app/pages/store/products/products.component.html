@@ -1,80 +1,57 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <!-- <mat-toolbar>Categorias</mat-toolbar> -->
+    <mat-nav-list>
+      <ng-container *ngFor="let type of types">
+        <mat-list-item (click)="typeMenuClick(type.productTypeId)">
+          <span class="full-width">{{ type.name }}</span>
+          <mat-icon class="menu-button" [ngClass]="{'rotated' : typeSubmenuId === type.productTypeId}">
+            expand_more
+          </mat-icon>
+        </mat-list-item>
+        <div class="submenu" [ngClass]="{'expanded' : typeSubmenuId === type.productTypeId}">
+          <ng-container *ngIf="typeSubmenuId === type.productTypeId">
+            <a mat-list-item *ngFor="let subtype of subtypes" (click)="getProductsBySubtypeId(subtype.productSubtypeId)">{{ subtype.name }}</a>
+          </ng-container>
+        </div>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Produtos</span>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
 <div class="container">
   <div class="row">
-    <div class="col-md-3">
-      <div class="ibox">
-        <div class="ibox-content product-box">
-          <div class="product-imitation">
-            [ INFO ]
-          </div>
-          <div class="product-desc">
-            <span class="product-price">
-              $10
-            </span>
-            <small class="text-muted">Category</small>
-            <a href="#" class="product-name">Product</a>
-            <div>
-              <a href="#" class="btn btn-outline btn-primary">Adicionar ao carinho</a>
+    <ng-container *ngFor="let product of products">
+      <div class="col-md-3">
+        <div class="product-box">
+          <div class="product-box__content">
+            <div class="product-box__image">
+              <img [src]="product.imageList[0] | bypassSanitizer: 'url'" alt="product-image">
+            </div>
+            <div class="product-box__description">
+              <span class="product-box__price">
+                {{ product.price | currency}}
+              </span>
+              <small class="text-muted">{{ product.productSubtype.name }}</small>
+              <a class="product-box__name" (click)="showProductDetails(product)">{{ product.name }}</a>
+              <div>
+                <a class="btn btn-outline btn-primary" (click)="addProductToCart(product)">Adicionar ao carinho</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-3">
-      <div class="ibox">
-        <div class="ibox-content product-box">
-          <div class="product-imitation">
-            [ INFO ]
-          </div>
-          <div class="product-desc">
-            <span class="product-price">
-              $10
-            </span>
-            <small class="text-muted">Category</small>
-            <a href="#" class="product-name">Product</a>
-            <div>
-              <a href="#" class="btn btn-outline btn-primary">Adicionar ao carinho</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="ibox">
-        <div class="ibox-content product-box">
-          <div class="product-imitation">
-            [ INFO ]
-          </div>
-          <div class="product-desc">
-            <span class="product-price">
-              $10
-            </span>
-            <small class="text-muted">Category</small>
-            <a href="#" class="product-name">Product</a>
-            <div>
-              <a href="#" class="btn btn-outline btn-primary">Adicionar ao carinho</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="ibox">
-        <div class="ibox-content product-box">
-          <div class="product-imitation">
-            [ INFO ]
-          </div>
-          <div class="product-desc">
-            <span class="product-price">
-              $10
-            </span>
-            <small class="text-muted">Category</small>
-            <a href="#" class="product-name">Product</a>
-            <div>
-              <a href="#" class="btn btn-outline btn-primary">Adicionar ao carinho</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </ng-container>
   </div>
 </div>

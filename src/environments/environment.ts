@@ -10,11 +10,28 @@ export const environment = {
     roleId: Roles.GUEST
   },
 
+  DASHBOARD_OPTIONS: [
+    {
+      role: Roles.STORE_ADMIN,
+      cards: [
+        { title: 'Gerenciar', cols: 1, rows: 1, options: [{name: 'Lojas', route: ''}, {name: 'Produtos', route: ''}] },
+        { title: 'Relatórios', cols: 1, rows: 1, options: [{name: 'Faturamento por loja', route: ''}] }
+      ]
+    },
+    {
+      role: Roles.SYSTEM_ADMIN,
+      cards: [
+        { title: 'Gerenciar', cols: 1, rows: 1, options: [{name: 'Usuários', route: ''}, {name: 'Lojas', route: ''}, {name: 'Produtos', route: ''}] },
+        { title: 'Relatórios', cols: 1, rows: 1, options: [{name: 'Faturamento mensal', route: ''}] }
+      ]
+    }
+  ],
+
   NAVBAR_OPTIONS: [
     {
       name: 'Dashboard',
       elementId: null,
-      route: '',
+      route: 'gerenciamento/dashboard',
       icon: 'dashboard',
       samePage: false,
       allowedRoles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]

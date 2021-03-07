@@ -1,1 +1,19 @@
-<p>dashboard works!</p>
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <mat-grid-list [cols]="gridCols | async" rowHeight="350px">
+    <mat-grid-tile *ngFor="let card of option.cards" [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{card.title}}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <mat-action-list>
+            <button mat-list-item *ngFor="let option of card.options" (click)="navigateToPage(option.route)">{{ option.name }}</button>
+          </mat-action-list>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
