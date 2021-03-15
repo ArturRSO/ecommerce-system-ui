@@ -1,8 +1,11 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset | async) ? 'over' : 'side'" [opened]="(isHandset | async) === false">
     <!-- <mat-toolbar>Categorias</mat-toolbar> -->
     <mat-nav-list>
+      <mat-list-item (click)="getAllProducts()">
+        <span class="full-width">Todos</span>
+      </mat-list-item>
       <ng-container *ngFor="let type of types">
         <mat-list-item (click)="typeMenuClick(type.productTypeId)">
           <span class="full-width">{{ type.name }}</span>
@@ -21,12 +24,11 @@
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        *ngIf="isHandset | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>Produtos</span>
     </mat-toolbar>
-    <!-- Add Content Here -->
   </mat-sidenav-content>
 </mat-sidenav-container>
 

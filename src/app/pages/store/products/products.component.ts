@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { ProductService } from 'src/app/core/services/product.service';
 })
 export class ProductsComponent implements OnInit {
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  public isHandset: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
       shareReplay()
@@ -26,6 +27,7 @@ export class ProductsComponent implements OnInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private loader: LoaderService,
+    private modalService: ModalService,
     private productService: ProductService
   ) { }
 
@@ -38,9 +40,29 @@ export class ProductsComponent implements OnInit {
     console.log(product);
   }
 
+  public getAllProducts(): void {
+    this.productService.getProductsToSell().subscribe(response => {
+      if (response.success) {
+        this.products = response.data;
+
+      } else {
+        this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+      }
+    });
+  }
+
   public getProductsBySubtypeId(subtypeId: number): void {
-    // TO DO
-    console.log(subtypeId);
+    this.loader.enable();
+
+    this.productService.getProductsToSellBySubtypeId(subtypeId).subscribe(response => {
+      this.loader.disable();
+      if (response.success) {
+        this.products = response.data;
+
+      } else {
+        this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+      }
+    });
   }
 
   public showProductDetails(product: any) {
@@ -62,7 +84,12 @@ export class ProductsComponent implements OnInit {
     this.loader.enable();
 
     this.productService.getProductsToSell().subscribe(response => {
-      this.products = response.data;
+      if (response.success) {
+        this.products = response.data;
+
+      } else {
+        this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+      }
 
       this.productService.getProductTypes().subscribe(response => {
         this.loader.disable();

@@ -15,6 +15,16 @@ export class ProductService {
     private http: HttpClient
   ) { }
 
+  public getProductsToSellBySubtypeId(subtypeId: number): any {
+
+    return this.http.get(`${this.baseApiUrl}/subtype/${subtypeId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public getProductsToSell(): any {
 
     return this.http.get(`${this.baseApiUrl}/sell`).pipe(
