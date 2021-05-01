@@ -1,10 +1,12 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { ProductService } from 'src/app/core/services/product.service';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import { ProductSearchType } from 'src/app/utils/enums/product-search-type.enum';
 
 @Component({
   selector: 'app-products',
@@ -20,19 +22,20 @@ export class ProductsComponent implements OnInit {
     );
 
   public products = [];
-  public types = [];
-  public subtypes = [];
-  public typeSubmenuId = 0;
+
+  private productSearch: Subscription;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private loader: LoaderService,
     private modalService: ModalService,
-    private productService: ProductService
+    private productService: ProductService,
+    private sessionStorageService: SessionStorageService
   ) { }
 
   ngOnInit(): void {
-    this.getData();
+    this.checkSearchRequest();
+    this.getProducts();
   }
 
   public addProductToCart(product: any) {
@@ -40,61 +43,68 @@ export class ProductsComponent implements OnInit {
     console.log(product);
   }
 
-  public getAllProducts(): void {
-    this.productService.getProductsToSell().subscribe(response => {
-      if (response.success) {
-        this.products = response.data;
-
-      } else {
-        this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
-      }
-    });
-  }
-
-  public getProductsBySubtypeId(subtypeId: number): void {
-    this.loader.enable();
-
-    this.productService.getProductsToSellBySubtypeId(subtypeId).subscribe(response => {
-      this.loader.disable();
-      if (response.success) {
-        this.products = response.data;
-
-      } else {
-        this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
-      }
-    });
-  }
-
   public showProductDetails(product: any) {
     // TO DO
     console.log(product);
   }
 
-  public typeMenuClick(typeId: number): void {
-    this.loader.enable();
-
-    this.productService.getProductSubtypesByTypeId(typeId).subscribe(response => {
-      this.loader.disable();
-      this.subtypes = response.data;
-      this.typeSubmenuId = this.typeSubmenuId === 0 ? typeId : 0;
-    })
+  private checkSearchRequest(): void {
+    if (!sessionStorage.getItem('searchRequest')) {
+      this.getProductsByQuantity(1);
+    }
   }
 
-  private getData(): void {
+  private getProductsByQuantity(quantity: number): void {
     this.loader.enable();
-
-    this.productService.getProductsToSell().subscribe(response => {
+    this.productService.getProductsByQuantity(quantity).subscribe(response => {
+      this.loader.disable();
       if (response.success) {
         this.products = response.data;
 
       } else {
-        this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+        this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
       }
+    });
+  }
 
-      this.productService.getProductTypes().subscribe(response => {
-        this.loader.disable();
-        this.types = response.data;
-      });
+  private getProducts(): void {
+    this.productService.getSearchRequest().subscribe(response => {
+
+      switch (response.searchType) {
+        case ProductSearchType.NAME:
+          this.loader.enable();
+          this.productService.getProductsByNameAndQuantity(response.data, 1).subscribe(response => {
+            this.loader.disable();
+            if (response.success) {
+              this.products = response.data;
+
+            } else {
+              this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
+            }
+          });
+          break;
+
+        case ProductSearchType.QUANTITY:
+          this.getProductsByQuantity(1);
+          break;
+
+        case ProductSearchType.SUBTYPE_ID:
+          this.loader.enable();
+          this.productService.getProductsBySubtypeIdAndQuantity(response.data.productSubtypeId, 1).subscribe(response => {
+            this.loader.disable();
+            if (response.success) {
+              this.products = response.data;
+
+            } else {
+              this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
+            }
+          });
+          break;
+
+        default:
+          this.getProductsByQuantity(1);
+          break;
+      }
     });
   }
 

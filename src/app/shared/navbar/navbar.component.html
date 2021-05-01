@@ -17,8 +17,32 @@
           </a>
         </li>
       </ng-container>
+      <li class="nav-item dropdown">
+        <a class="nav-link" (click)="toggleProductsDropdown()">
+          <span class="material-icons">
+            category
+          </span>
+          <span>
+            Produtos
+          </span>
+        </a>
+        <ul class="dropdown-menu multi-level" role="menu" [ngClass]="{ 'show': productsDropdownOpen }">
+          <li class="dropdown-item"><a (click)="searchByQuantity()">Todos</a></li>
+          <li class="dropdown-divider"></li>
+          <li class="dropdown-submenu">
+            <ng-container *ngFor="let type of productTypes">
+              <a class="dropdown-item" tabindex="-1" (mouseenter)="showProductTypeSubmenu(type.productTypeId)">{{ type.name }}</a>
+              <ul class="dropdown-menu">
+                <li class="dropdown-item" *ngFor="let subtype of productSubtypes">
+                  <a tabindex="-1" (click)="getProductsBySubtype(subtype)">{{ subtype.name }}</a>
+                </li>
+              </ul>
+            </ng-container>
+          </li>
+        </ul>
+      </li>
     </ul>
-    <form [formGroup]="searchForm" (ngSubmit)="search()" class="form-inline ml-auto">
+    <form [formGroup]="searchForm" (ngSubmit)="searchByName()" class="form-inline ml-auto">
       <input class="form-control mr-sm-2" formControlName="searchField" type="search" placeholder="Pesquisar produto">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
     </form>

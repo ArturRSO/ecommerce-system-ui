@@ -45,14 +45,6 @@ export const environment = {
       allowedRoles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN, Roles.CUSTOMER]
     },
     {
-      name: 'Produtos',
-      elementId: null,
-      route: '',
-      icon: 'category',
-      samePage: false,
-      allowedRoles: [Roles.CUSTOMER, Roles.GUEST]
-    },
-    {
       name: 'Carrinho',
       elementId: null,
       route: '',
