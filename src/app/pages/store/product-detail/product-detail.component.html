@@ -1,0 +1,58 @@
+<div class="col-sm-12 col-md-12 col-lg-12">
+  <div class="product-content product-wrap clearfix product-detail">
+    <div class="row">
+      <div class="col-md-5 col-sm-12 col-xs-12">
+        <div class="product-image">
+          <carousel>
+            <slide>
+              <img src="https://via.placeholder.com/700x400/FFB6C1/000000" alt="first slide"
+                style="display: block; width: 100%;">
+            </slide>
+            <slide>
+              <img src="https://via.placeholder.com/700x400/87CEFA/000000" alt="second slide"
+                style="display: block; width: 100%;">
+            </slide>
+            <slide>
+              <img src="https://via.placeholder.com/700x400/B0C4DE/000000" alt="third slide"
+                style="display: block; width: 100%;">
+            </slide>
+          </carousel>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
+        <h2 class="name">
+          {{ product?.name }}
+          <small>Enviado e vendido por <a>Nome da loja</a></small>
+        </h2>
+        <hr />
+        <h3 class="price-container">
+          {{ product?.price | currency }}
+        </h3>
+        <hr />
+        <div class="description description-tabs">
+          <h3>
+            Especificações
+          </h3>
+          <ul>
+            <li *ngFor="let detail of product?.details">
+              <b>{{ detail.label }}: </b>{{ detail.value }}
+            </li>
+          </ul>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-sm-12 col-md-6 col-lg-6">
+            <a class="btn btn-success btn-lg">Adicionar ao carrinho</a>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="btn-group pull-right">
+              <button class="btn btn-white btn-default"><i class="fa fa-star"></i> Add to wishlist</button>
+              <button class="btn btn-white btn-default"><i class="fa fa-envelope"></i> Contact Seller</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

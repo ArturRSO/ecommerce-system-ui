@@ -47,7 +47,7 @@ export const environment = {
     {
       name: 'Carrinho',
       elementId: null,
-      route: '',
+      route: 'loja/carrinho',
       icon: 'shopping_cart',
       samePage: false,
       allowedRoles: [Roles.CUSTOMER, Roles.GUEST]

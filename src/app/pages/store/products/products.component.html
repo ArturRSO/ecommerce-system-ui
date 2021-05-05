@@ -9,12 +9,12 @@
             </div>
             <div class="product-box__description">
               <span class="product-box__price">
-                {{ product.price | currency}}
+                {{ product.price | currency }}
               </span>
               <small class="text-muted">{{ product.productSubtype.name }}</small>
               <a class="product-box__name" (click)="showProductDetails(product)">{{ product.name }}</a>
               <div>
-                <a class="btn btn-outline btn-primary" (click)="addProductToCart(product)">Adicionar ao carinho</a>
+                <a class="btn btn-outline btn-primary" (click)="openCartModal(product)">Adicionar ao carinho</a>
               </div>
             </div>
           </div>

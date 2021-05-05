@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 import { Regex } from 'src/app/utils/enums/regex.enum';
 import { Roles } from 'src/app/utils/enums/roles.enum';
@@ -22,7 +25,10 @@ export class UserRegistrationComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private sessionStorageService: SessionStorageService
+    private modalService: ModalService,
+    private router: Router,
+    private sessionStorageService: SessionStorageService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -41,10 +47,22 @@ export class UserRegistrationComponent implements OnInit {
       return;
     }
 
-    // TO DO
     const user = this.form.value;
     user.birthday = user.birthday.toISOString().substring(0, 10);
-    console.log(user);
+
+    // TO DO
+    // DEFAULT ROLE
+    user.roleId = 3;
+
+    this.userService.createUser(user).subscribe(response => {
+      if (response.success) {
+        this.modalService.openSimpleModal('Sucesso', 'Cadastro realizado com sucesso, faça login para continuar', [{ text: 'OK' }]).subscribe(response => {
+          this.navigateToPage('auth/login');
+        });
+      } else {
+        this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
+      }
+    })
   }
 
   private buildForm(): void {
@@ -61,6 +79,10 @@ export class UserRegistrationComponent implements OnInit {
     {
       validator: MustMatch('password', 'confirmPassword')
     });
+  }
+
+  private navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
   }
 
   private setInitialData(): void {

@@ -9,9 +9,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { ProductCartComponent } from './product-cart/product-cart.component';
 
 @NgModule({
-  declarations: [ProductsComponent],
+  declarations: [
+    ProductsComponent,
+    ProductDetailComponent,
+    ProductCartComponent
+  ],
   imports: [
     CommonModule,
     LayoutModule,
@@ -21,7 +28,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatIconModule,
     MatListModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    CarouselModule.forRoot()
   ]
 })
 export class StoreModule { }

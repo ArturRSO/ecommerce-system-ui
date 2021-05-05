@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
+import { AddToCartModalComponent } from 'src/app/shared/add-to-cart-modal/add-to-cart-modal.component';
 import { SimpleModalComponent } from 'src/app/shared/simple-modal/simple-modal.component';
 
 @Injectable({
@@ -17,6 +18,23 @@ export class ModalService {
     const dialogRef = this.dialog.open(SimpleModalComponent, {
       width: '250px',
       data: {title: title, message: message, buttons: buttons}
+    });
+
+    const subject = new Subject<string>();
+
+    dialogRef.afterClosed().subscribe(response => {
+      subject.next(response);
+      subject.complete();
+    });
+
+    return subject;
+  }
+
+  public openAddToCartModal(title: string, product: any): Observable<any> {
+
+    const dialogRef = this.dialog.open(AddToCartModalComponent, {
+      width: '250px',
+      data: {title: title, product: product, buttons: [{ text: 'Confirmar' }, { text: 'Cancelar' }]}
     });
 
     const subject = new Subject<string>();

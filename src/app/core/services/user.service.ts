@@ -15,6 +15,16 @@ export class UserService {
     private http: HttpClient
   ) { }
 
+  public createUser(user: any): any {
+
+    return this.http.post<any>(`${this.baseApiUrl}/create`, user).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public getProfile(): any {
 
     return this.http.get<any>(`${this.baseApiUrl}/profile`).pipe(

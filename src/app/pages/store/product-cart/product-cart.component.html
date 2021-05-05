@@ -1,0 +1,99 @@
+<div class="container">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="ibox">
+          <div class="ibox-title">
+            <span class="pull-right">(<strong>{{ products.length }}</strong>) items</span>
+            <h3>Seu carrinho</h3>
+          </div>
+          <ng-container *ngFor="let product of products">
+            <div class="ibox-content">
+              <div class="table-responsive">
+                <table class="table shoping-cart-table">
+                  <tbody>
+                    <tr>
+                      <td width="90">
+                        <div class="product-image">
+                          <img [src]="product.imageList[0] | bypassSanitizer: 'url'" alt="product-image">
+                        </div>
+                      </td>
+                      <td class="desc">
+                        <h3>
+                          <a class="text-navy">
+                            {{ product.name }}
+                          </a>
+                        </h3>
+                        <div class="m-t-sm">
+                          <a class="text-muted" (click)="removeItemFromCart(product)">
+                            <span class="material-icons">
+                              delete
+                            </span>
+                            <span>
+                              Remover do carrinho
+                            </span>
+                          </a>
+                        </div>
+                      </td>
+                      <td width="65">
+                        <input type="text" class="form-control" placeholder="1">
+                      </td>
+                      <td>
+                        <h4>
+                          {{ product?.price | currency }}
+                        </h4>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </ng-container>
+          <div class="ibox-content">
+            <button class="btn btn-primary" (click)="placeOrder()" [disabled]="!authentication.authenticated">Fechar pedido</button>
+            <button class="btn btn-white" (click)="navigateToPage('loja/produtos')">Continuar comprando</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="ibox">
+          <div class="ibox-title">
+            <h5>Resumo</h5>
+          </div>
+          <div class="ibox-content">
+            <span>
+              Total
+            </span>
+            <h2 class="font-bold">
+              {{ total | currency }}
+            </h2>
+            <hr>
+            <div class="m-t-sm">
+              <div class="btn-group">
+                <a class="btn btn-white btn-sm" (click)="clearCart()">
+                  <span class="material-icons">
+                    delete
+                  </span>
+                  <span>
+                    Esvaziar carrinho
+                  </span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ibox">
+          <div class="ibox-title">
+            <h5>Status</h5>
+          </div>
+          <div class="ibox-content text-center">
+            <h3>{{ statusText }}</h3>
+            <span class="small">
+              {{ instructionText }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

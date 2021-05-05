@@ -56,6 +56,16 @@ export class ProductService {
     );
   }
 
+  public getProductById(productId: number): any {
+
+    return this.http.get(`${this.baseApiUrl}/${productId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public getProductTypes(): any {
 
     return this.http.get(`${this.baseApiUrl}/type/all`).pipe(
@@ -81,7 +91,7 @@ export class ProductService {
   }
 
   public setSearchRequest(requestData: any): void {
-    sessionStorage.setItem('searchRequest', 'true');
+    sessionStorage.setItem('searchRequest', requestData);
     this.searchRequest.next(requestData);
   }
 }
