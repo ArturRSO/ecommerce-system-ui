@@ -3,10 +3,14 @@ import { CommonModule } from '@angular/common';
 import { BypassSanitizerPipe } from './pipes/bypass-sanitizer.pipe';
 
 @NgModule({
-  declarations: [BypassSanitizerPipe],
+  declarations: [
+    BypassSanitizerPipe
+  ],
   imports: [
     CommonModule
   ],
-  exports: [BypassSanitizerPipe]
+  exports: [
+    BypassSanitizerPipe
+  ]
 })
 export class UtilsModule { }

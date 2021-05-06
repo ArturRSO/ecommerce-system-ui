@@ -7,6 +7,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 import { Regex } from 'src/app/utils/enums/regex.enum';
 import { Roles } from 'src/app/utils/enums/roles.enum';
+import { UserDocumentTypes } from 'src/app/utils/enums/user-document-types.enum';
 import { MustMatch } from 'src/app/utils/validators/must-match.validator';
 
 @Component({
@@ -49,10 +50,7 @@ export class UserRegistrationComponent implements OnInit {
 
     const user = this.form.value;
     user.birthday = user.birthday.toISOString().substring(0, 10);
-
-    // TO DO
-    // DEFAULT ROLE
-    user.roleId = 3;
+    user.documentTypeId = UserDocumentTypes.CPF;
 
     this.userService.createUser(user).subscribe(response => {
       if (response.success) {

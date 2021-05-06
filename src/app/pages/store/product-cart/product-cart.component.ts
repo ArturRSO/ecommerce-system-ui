@@ -48,8 +48,19 @@ export class ProductCartComponent implements OnInit {
   }
 
   public placeOrder(): void {
-    // TO DO
-    console.log('PLACE ORDER!');
+    if (this.authentication.authenticated) {
+      const cart = this.cartService.getCart();
+
+      if (!cart || cart.length < 1) {
+        this.modalService.openSimpleModal('Atenção', 'Você não possui itens no carrinho!', [{ text:'OK' }]);
+      }
+
+      // TO DO
+      console.log('PLACE ORDER!');
+
+    } else {
+      this.navigateToPage('auth/login');
+    }
   }
 
   public removeItemFromCart(product: any) {
@@ -92,7 +103,7 @@ export class ProductCartComponent implements OnInit {
 
   private setTexts(): void {
     if (this.authentication.authenticated) {
-      this.instructionText = 'Clique nos botões abaixo para fechar o pedido ou continuar comprando.';
+      this.instructionText = 'Clique nos botões para fechar o pedido ou continuar comprando.';
       this.statusText = 'Autenticado';
 
     } else {
