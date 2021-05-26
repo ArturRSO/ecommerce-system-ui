@@ -8,9 +8,9 @@
       <ng-container *ngFor="let option of options">
         <li class="nav-item">
           <a class="nav-link" (click)="navbarClick(option)">
-            <span class="material-icons">
+            <i class="material-icons">
               {{ option.icon }}
-            </span>
+            </i>
             <span>
               {{ option.name }}
             </span>
@@ -19,9 +19,9 @@
       </ng-container>
       <li class="nav-item dropdown">
         <a class="nav-link" (click)="toggleProductsDropdown()">
-          <span class="material-icons">
+          <i class="material-icons">
             category
-          </span>
+          </i>
           <span>
             Produtos
           </span>

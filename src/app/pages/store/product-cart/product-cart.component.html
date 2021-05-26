@@ -24,19 +24,19 @@
                             {{ product.name }}
                           </a>
                         </h3>
-                        <div class="m-t-sm">
+                        <div>
                           <a class="text-muted" (click)="removeItemFromCart(product)">
-                            <span class="material-icons">
+                            <i class="material-icons">
                               delete
-                            </span>
-                            <span>
+                            </i>
+                            <span style="font-size: 15px; line-height: 24px;">
                               Remover do carrinho
                             </span>
                           </a>
                         </div>
                       </td>
-                      <td width="65">
-                        <input type="text" class="form-control" placeholder="1">
+                      <td width="85">
+                        <input type="number" class="form-control" [value]="getCartQuantityByProductId(product.productId)" min="1">
                       </td>
                       <td>
                         <h4>
@@ -71,9 +71,9 @@
             <div class="m-t-sm">
               <div class="btn-group">
                 <a class="btn btn-white btn-sm" (click)="clearCart()">
-                  <span class="material-icons">
+                  <i class="material-icons">
                     delete
-                  </span>
+                  </i>
                   <span>
                     Esvaziar carrinho
                   </span>

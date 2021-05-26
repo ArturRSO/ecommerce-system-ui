@@ -16,10 +16,17 @@ export class ProductCartService {
     let cart = this.localStorageService.getObject('cart');
 
     if (cart) {
-      cart.push(item);
+      const existingItem = cart.find(x => x.id = item.id);
+
+       if (existingItem) {
+         item.quantity += existingItem.quantity;
+       }
+
+       cart = cart.filter(x => x.id !== item.id);
+       cart.push(item);
 
     } else {
-      cart = [item]
+      cart = [item];
     }
 
     this.localStorageService.setObject('cart', cart);

@@ -1,10 +1,23 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~bootstrap/dist/css/bootstrap.min.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 // Material dialog
 .mat-dialog-container {
   padding: 0 !important;
   border-radius: 10px !important;
+}
+
+// Normalize material icons
+.material-icons {
+  display: inline-flex;
+  vertical-align: top;
 }

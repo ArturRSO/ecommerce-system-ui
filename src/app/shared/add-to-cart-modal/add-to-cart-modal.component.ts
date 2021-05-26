@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Regex } from 'src/app/utils/enums/regex.enum';
 import { CartItem } from 'src/app/utils/models/cart-item.model';
 
 @Component({
@@ -40,7 +41,7 @@ export class AddToCartModalComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      quantity: [1, [Validators.required]]
+      quantity: [1, [Validators.required, Validators.min(1), Validators.pattern(Regex.ONLY_NUMBERS)]]
     });
   }
 
@@ -58,7 +59,11 @@ export class AddToCartModalComponent implements OnInit {
 
   private setValidationMessages(): void {
     this.validationMessages = {
-      quantity: [{type: 'required', message: 'Digite a quantidade'}]
+      quantity: [
+        { type: 'required', message: 'Digite a quantidade' } ,
+        { type: 'min', message: 'Digite um valor maior que zero.' },
+        { type: 'pattern', message: 'Digite um valor válido.' }
+      ]
     }
   }
 }

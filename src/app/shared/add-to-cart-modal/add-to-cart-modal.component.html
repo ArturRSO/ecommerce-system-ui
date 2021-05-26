@@ -7,7 +7,7 @@
       <div class="form-row">
         <div class="form-group col-12 col-md-6">
           <mat-form-field class="full-width">
-            <input matInput placeholder="Quantidade" formControlName="quantity">
+            <input matInput placeholder="Quantidade" formControlName="quantity" type="number" min="1">
             <mat-error *ngFor="let validation of validationMessages.quantity">
               <mat-error *ngIf="f.quantity.hasError(validation.type) && submitted">
                 {{ validation.message }}

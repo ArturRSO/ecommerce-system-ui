@@ -15,6 +15,7 @@ import { ProductService } from 'src/app/core/services/product.service';
 export class ProductCartComponent implements OnInit {
 
   public authentication: any;
+  public productCart: any;
   public products = [];
   public instructionText: string;
   public statusText: string;
@@ -41,6 +42,11 @@ export class ProductCartComponent implements OnInit {
   public clearCart(): void {
     this.cartService.clearCart();
     this.getProducts();
+  }
+
+  public getCartQuantityByProductId(productId: number): number {
+
+    return this.productCart.find(item => item.id === productId).quantity;
   }
 
   public navigateToPage(route: string) {
@@ -85,6 +91,7 @@ export class ProductCartComponent implements OnInit {
     this.total = 0;
 
     if (cart) {
+      this.productCart = cart;
       for (let item of cart) {
         this.loader.enable();
         this.productService.getProductById(item.id).subscribe(response => {
