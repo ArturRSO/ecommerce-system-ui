@@ -7,7 +7,7 @@
             <span class="pull-right">(<strong>{{ products.length }}</strong>) items</span>
             <h3>Seu carrinho</h3>
           </div>
-          <ng-container *ngFor="let product of products">
+          <ng-container *ngFor="let product of products; let i = index;">
             <div class="ibox-content">
               <div class="table-responsive">
                 <table class="table shoping-cart-table">
@@ -34,9 +34,19 @@
                             </span>
                           </a>
                         </div>
+                        <div>
+                          <a class="text-primary" (click)="submmitCartItemForm(i)">
+                            <i class="material-icons">
+                              done
+                            </i>
+                            <span style="font-size: 15px; line-height: 24px;">
+                              Salvar alterações
+                            </span>
+                          </a>
+                        </div>
                       </td>
-                      <td width="85">
-                        <input type="number" class="form-control" [value]="getCartQuantityByProductId(product.productId)" min="1">
+                      <td width="110">
+                        <app-cart-item-quantity-form [productId]="product.productId" [quantity]="getCartQuantityByProductId(product.productId)" #cartItemForm (itemSent)="updateCartItem($event)"></app-cart-item-quantity-form>
                       </td>
                       <td>
                         <h4>

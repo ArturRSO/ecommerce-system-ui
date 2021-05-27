@@ -12,6 +12,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ProductCartComponent } from './product-cart/product-cart.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ProductCartComponent } from './product-cart/product-cart.component';
     MatListModule,
     MatSidenavModule,
     MatToolbarModule,
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+    SharedModule
   ]
 })
 export class StoreModule { }

@@ -16,13 +16,13 @@ export class ProductCartService {
     let cart = this.localStorageService.getObject('cart');
 
     if (cart) {
-      const existingItem = cart.find(x => x.id = item.id);
+      const existingItem = cart.find(x => x.id === item.id);
 
        if (existingItem) {
          item.quantity += existingItem.quantity;
+         cart = cart.filter(x => x.id !== item.id);
        }
 
-       cart = cart.filter(x => x.id !== item.id);
        cart.push(item);
 
     } else {

@@ -8,13 +8,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AddToCartModalComponent } from './add-to-cart-modal/add-to-cart-modal.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CartItemQuantityFormComponent } from './cart-item-quantity-form/cart-item-quantity-form.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     FooterComponent,
     SimpleModalComponent,
-    AddToCartModalComponent
+    AddToCartModalComponent,
+    CartItemQuantityFormComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   exports: [
     NavbarComponent,
     FooterComponent,
-    SimpleModalComponent
+    SimpleModalComponent,
+    CartItemQuantityFormComponent
   ],
   entryComponents: [
     SimpleModalComponent

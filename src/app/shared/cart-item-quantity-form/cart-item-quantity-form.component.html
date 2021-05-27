@@ -1,0 +1,10 @@
+<form [formGroup]="form">
+<div class="form-group">
+  <input type="number" class="form-control" min="1" formControlName="quantity" [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }">
+  <div *ngFor="let validation of validationMessages.quantity" class="invalid-feedback">
+    <div *ngIf="f.quantity.hasError(validation.type) && submitted">
+      {{ validation.message }}
+    </div>
+  </div>
+</div>
+</form>

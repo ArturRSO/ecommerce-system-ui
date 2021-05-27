@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
@@ -6,6 +6,8 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { ProductCartService } from 'src/app/core/services/product-cart.service';
 import { ProductService } from 'src/app/core/services/product.service';
+import { CartItemQuantityFormComponent } from 'src/app/shared/cart-item-quantity-form/cart-item-quantity-form.component';
+import { CartItem } from 'src/app/utils/models/cart-item.model';
 
 @Component({
   selector: 'app-product-cart',
@@ -13,6 +15,8 @@ import { ProductService } from 'src/app/core/services/product.service';
   styleUrls: ['./product-cart.component.scss']
 })
 export class ProductCartComponent implements OnInit {
+
+  @ViewChildren('cartItemForm') cartItemForms: QueryList<CartItemQuantityFormComponent>;
 
   public authentication: any;
   public productCart: any;
@@ -58,7 +62,7 @@ export class ProductCartComponent implements OnInit {
       const cart = this.cartService.getCart();
 
       if (!cart || cart.length < 1) {
-        this.modalService.openSimpleModal('Atenção', 'Você não possui itens no carrinho!', [{ text:'OK' }]);
+        this.modalService.openSimpleModal('Atenção', 'Você não possui itens no carrinho!', [{ text: 'OK' }]);
       }
 
       // TO DO
@@ -72,6 +76,15 @@ export class ProductCartComponent implements OnInit {
   public removeItemFromCart(product: any) {
     this.cartService.removeFromCart(product.productId);
     this.getProducts();
+  }
+
+  public submmitCartItemForm(elementIndex: number) {
+    this.cartItemForms.get(elementIndex).submmitForm();
+  }
+
+  public updateCartItem(item: CartItem) {
+    // TO DO
+    console.log(item);
   }
 
   private checkAuthenticationChange(): void {
