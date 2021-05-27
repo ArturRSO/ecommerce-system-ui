@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AddressService } from 'src/app/core/services/address.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { TelephoneService } from 'src/app/core/services/telephone.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 
@@ -15,6 +16,7 @@ export class UserProfileComponent implements OnInit {
   public addresses = [];
   public documentMask = InputMasks.CPF;
   public postalCodeMask = InputMasks.CEP;
+  public telephoneMask = InputMasks.TELEPHONE;
   public profileImageSrc: string;
   public telephones = [];
   public user: any;
@@ -23,6 +25,7 @@ export class UserProfileComponent implements OnInit {
     private addressService: AddressService,
     private authService: AuthenticationService,
     private loader: LoaderService,
+    private telephoneService: TelephoneService,
     private userService: UserService
   ) { }
 
@@ -45,6 +48,16 @@ export class UserProfileComponent implements OnInit {
     console.log(address);
   }
 
+  public deleteTelephone(telephoneId: number): void {
+    // TO DO
+    console.log(telephoneId);
+  }
+
+  public updateTelephone(telephone: any): void {
+    // TO DO
+    console.log(telephone);
+  }
+
   private getProfile(): void {
     this.loader.enable();
 
@@ -56,9 +69,17 @@ export class UserProfileComponent implements OnInit {
       this.profileImageSrc = `data:image;base64, ${response.data.profileImage}`
 
       this.addressService.getAddressesByUserId(userId).subscribe(response => {
-        this.addresses = response.data;
+        if (response.success) {
+          this.addresses = response.data;
+        }
 
-        this.loader.disable();
+        this.telephoneService.getTelephonesByUserId(userId).subscribe(response => {
+          if (response.success) {
+            this.telephones = response.data;
+          }
+
+          this.loader.disable();
+        });
       });
     });
   }

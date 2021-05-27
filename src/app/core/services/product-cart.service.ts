@@ -18,12 +18,12 @@ export class ProductCartService {
     if (cart) {
       const existingItem = cart.find(x => x.id === item.id);
 
-       if (existingItem) {
-         item.quantity += existingItem.quantity;
-         cart = cart.filter(x => x.id !== item.id);
-       }
+      if (existingItem) {
+        item.quantity += existingItem.quantity;
+        cart = cart.filter(x => x.id !== item.id);
+      }
 
-       cart.push(item);
+      cart.push(item);
 
     } else {
       cart = [item];
@@ -59,6 +59,30 @@ export class ProductCartService {
       }
 
       this.localStorageService.setObject('cart', cart);
+    }
+  }
+
+  public updateItemFromCart(item: CartItem): boolean {
+
+    let cart = this.localStorageService.getObject('cart');
+
+    if (cart) {
+      const existingItem = cart.find(x => x.id === item.id);
+
+      if (existingItem) {
+        cart = cart.filter(x => x.id !== item.id);
+        cart.push(item);
+
+        this.localStorageService.setObject('cart', cart);
+
+        return true;
+
+      } else {
+        return false;
+      }
+
+    } else {
+      return false;
     }
   }
 }

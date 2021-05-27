@@ -83,8 +83,12 @@ export class ProductCartComponent implements OnInit {
   }
 
   public updateCartItem(item: CartItem) {
-    // TO DO
-    console.log(item);
+    if (this.cartService.updateItemFromCart(item)) {
+      this.modalService.openSimpleModal('Sucesso', 'Carrinho atualizado!', [{text: 'OK'}]);
+
+    } else {
+      this.modalService.openSimpleModal('Atenção', 'Não foi possível atualizar o carrinho!', [{text: 'OK'}]);
+    }
   }
 
   private checkAuthenticationChange(): void {
