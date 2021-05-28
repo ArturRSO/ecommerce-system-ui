@@ -73,7 +73,9 @@ export class ProductCartComponent implements OnInit {
 
           if (response.success) {
             this.modalService.openPaymentMethodPickModal('Método de pagamento', 'Como você vai pagar?', response.data).subscribe(response => {
-              console.log(response);
+              if (response) {
+                this.navigateToPage('loja/pagamento');
+              }
             });
 
           } else {
@@ -83,6 +85,7 @@ export class ProductCartComponent implements OnInit {
       }
 
     } else {
+      sessionStorage.setItem('nextRoute', 'loja/carrinho');
       this.navigateToPage('auth/login');
     }
   }
@@ -92,8 +95,8 @@ export class ProductCartComponent implements OnInit {
     this.getProducts();
   }
 
-  public submmitCartItemForm(elementIndex: number) {
-    this.cartItemForms.get(elementIndex).submmitForm();
+  public submitCartItemForm(elementIndex: number) {
+    this.cartItemForms.get(elementIndex).submitForm();
   }
 
   public updateCartItem(item: CartItem) {

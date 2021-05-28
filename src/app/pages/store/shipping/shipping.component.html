@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="shadow-sm bg-white p-4 h-100">
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade  active show" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
+            <h2 class="font-weight-bold mt-0 mb-4">Entrega</h2>
+            <div class="row">
+              <ng-container *ngFor="let address of addresses; let i=index">
+                <div class="col-md-6">
+                  <div class="bg-white card addresses-item mb-4 shadow-sm">
+                    <div class="p-4">
+                      <div class="media">
+                        <div class="mr-3"><i class="icofont-briefcase icofont-3x"></i></div>
+                        <div class="media-body">
+                          <h4 class="mb-1">Endereço {{ i + 1 }}</h4>
+                          <p>
+                            {{ address.address }}, {{ address.number }} - {{ address.district }} {{ address.city }} - {{
+                            address.stateCode }}
+                          </p>
+                          <p>
+                            CEP: {{ address.postalCode | mask: postalCodeMask }}
+                          </p>
+                          <p class="mb-0 text-black font-weight-bold">
+                            <a class="text-primary mr-3" (click)="confirmAddress(address)">
+                              <i class="material-icons">done</i>
+                              Usar este endereço
+                            </a>
+                              <a class="text-danger" (click)="registerAddress()">
+                                <i class="material-icons">edit_location</i>
+                                Cadastrar novo endereço
+                              </a>
+                            </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

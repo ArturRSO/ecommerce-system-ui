@@ -1,1 +1,89 @@
-<p>payment-method works!</p>
+<div class="container py-5">
+
+  <!-- Title -->
+  <div class="row mb-4">
+    <div class="col-lg-8 mx-auto text-center">
+      <h1 class="display-4">Cartão de crédito</h1>
+      <p class="lead mb-0">Insira abaixo as informações do seu cartão</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-7 mx-auto">
+      <div class="bg-white rounded-lg shadow-sm p-5">
+
+        <!-- Credit card form content -->
+        <div class="tab-content">
+          <div id="nav-tab-card" class="tab-pane fade show active">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="name">Nome no cartão</label>
+                <input type="text" name="name" formControlName="ownerName" placeholder="Nome" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ownerName.errors }">
+                <div *ngFor="let validation of validationMessages.ownerName" class="invalid-feedback">
+                  <div *ngIf="f.ownerName.hasError(validation.type) && submitted">
+                    {{ validation.message }}
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cardNumber">Número do cartão</label>
+                <div class="input-group">
+                  <input type="text" name="cardNumber" formControlName="cardNumber" placeholder="**** **** ****"
+                    class="form-control" [mask]="creditCardMask" [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors }">
+                  <div class="input-group-append">
+                    <span class="input-group-text text-muted">
+                      <i class="material-icons">credit_card</i>
+                    </span>
+                  </div>
+                  <div *ngFor="let validation of validationMessages.cardNumber" class="invalid-feedback">
+                    <div *ngIf="f.cardNumber.hasError(validation.type) && submitted">
+                      {{ validation.message }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="form-group">
+                    <label><span class="hidden-xs">Expiração (mês e ano)</span></label>
+                    <div class="input-group">
+                      <input type="text" placeholder="MM" formControlName="expirationMonth" class="form-control" [mask]="expirationDateMask" [ngClass]="{ 'is-invalid': submitted && f.expirationMonth.errors }">
+                      <div *ngFor="let validation of validationMessages.expirationMonth" class="invalid-feedback">
+                        <div *ngIf="f.expirationMonth.hasError(validation.type) && submitted">
+                          {{ validation.message }}
+                        </div>
+                      </div>
+                      <input type="text" placeholder="YY" formControlName="expirationYear" class="form-control" [mask]="expirationDateMask" [ngClass]="{ 'is-invalid': submitted && f.expirationYear.errors }">
+                      <div *ngFor="let validation of validationMessages.expirationYear" class="invalid-feedback">
+                        <div *ngIf="f.expirationYear.hasError(validation.type) && submitted">
+                          {{ validation.message }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group mb-4">
+                    <label data-toggle="tooltip" title="Código de três digitos no verso do cartão">
+                      CVV
+                      <i class="material-icons" style="font-size: 18px;">help</i>
+                    </label>
+                    <input type="text" formControlName="securityCode" class="form-control" placeholder="***" [mask]="cvvMask" [ngClass]="{ 'is-invalid': submitted && f.securityCode.errors }">
+                    <div *ngFor="let validation of validationMessages.securityCode" class="invalid-feedback">
+                      <div *ngIf="f.securityCode.hasError(validation.type) && submitted">
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm" type="submit">
+                Confirmar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

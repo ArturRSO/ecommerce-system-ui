@@ -18,7 +18,7 @@ export class AddToCartModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AddToCartModalComponent>,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class AddToCartModalComponent implements OnInit {
   private setValidationMessages(): void {
     this.validationMessages = {
       quantity: [
-        { type: 'required', message: 'Digite a quantidade' } ,
+        { type: 'required', message: 'Digite a quantidade' },
         { type: 'min', message: 'Digite um valor maior que zero.' },
         { type: 'pattern', message: 'Digite um valor válido.' }
       ]

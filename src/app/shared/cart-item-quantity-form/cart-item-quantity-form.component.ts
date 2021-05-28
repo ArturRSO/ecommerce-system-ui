@@ -32,7 +32,7 @@ export class CartItemQuantityFormComponent implements OnInit {
     return this.form.controls;
   }
 
-  public submmitForm(): void {
+  public submitForm(): void {
     this.submitted = true;
 
     if (!this.form.invalid) {

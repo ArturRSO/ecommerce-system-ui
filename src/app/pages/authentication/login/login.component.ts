@@ -61,22 +61,30 @@ export class LoginComponent implements OnInit {
 
       this.authService.setAuthenticationState(authState);
 
-      if (response.data.roleId === Roles.CUSTOMER) {
-        this.navigateToPage('loja/produtos');
+      const nextRoute = sessionStorage.getItem('nextRoute');
+
+      if (nextRoute) {
+        sessionStorage.removeItem('nextRoute');
+        this.navigateToPage(nextRoute);
 
       } else {
-        this.navigateToPage('gerenciamento/dashboard');
+        if (response.data.roleId === Roles.CUSTOMER) {
+          this.navigateToPage('loja/produtos');
+
+        } else {
+          this.navigateToPage('gerenciamento/dashboard');
+        }
       }
     });
   }
 
   public openRegistrationModal(): void {
-    const buttons = [{text: 'Comprar'}, {text: 'Vender'}];
+    const buttons = [{ text: 'Comprar' }, { text: 'Vender' }];
 
     this.modalService.openSimpleModal('Cadastro', 'O que deseja fazer?', buttons).subscribe(response => {
       const registerType = response === 'Comprar' ? 'customer' : 'storeAdmin';
 
-      this.sessionStorageService.setObject('userRegistration', {type: registerType, update: false});
+      this.sessionStorageService.setObject('userRegistration', { type: registerType, update: false });
       this.navigateToPage('cadastro/usuario');
     });
   }

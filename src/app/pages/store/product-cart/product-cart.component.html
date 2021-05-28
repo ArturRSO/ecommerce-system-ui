@@ -35,7 +35,7 @@
                           </a>
                         </div>
                         <div>
-                          <a class="text-primary" (click)="submmitCartItemForm(i)">
+                          <a class="text-primary" (click)="submitCartItemForm(i)">
                             <i class="material-icons">
                               done
                             </i>
@@ -60,7 +60,7 @@
             </div>
           </ng-container>
           <div class="ibox-content">
-            <button class="btn btn-primary" (click)="placeOrder()">Fechar pedido</button>
+            <button class="btn btn-primary" (click)="placeOrder()" [disabled]="products.length < 1">Fechar pedido</button>
             <button class="btn btn-white" (click)="navigateToPage('loja/produtos')">Continuar comprando</button>
           </div>
         </div>

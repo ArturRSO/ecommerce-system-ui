@@ -14,13 +14,17 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ProductCartComponent } from './product-cart/product-cart.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PaymentMethodComponent } from './payment-method/payment-method.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMaskModule } from 'ngx-mask';
+import { ShippingComponent } from './shipping/shipping.component';
 
 @NgModule({
   declarations: [
     ProductsComponent,
     ProductDetailComponent,
     ProductCartComponent,
-    PaymentMethodComponent
+    PaymentMethodComponent,
+    ShippingComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +37,9 @@ import { PaymentMethodComponent } from './payment-method/payment-method.componen
     MatSidenavModule,
     MatToolbarModule,
     CarouselModule.forRoot(),
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule,
+    NgxMaskModule.forRoot()
   ]
 })
 export class StoreModule { }
