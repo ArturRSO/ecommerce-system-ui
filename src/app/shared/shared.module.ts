@@ -9,6 +9,7 @@ import { AddToCartModalComponent } from './add-to-cart-modal/add-to-cart-modal.c
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CartItemQuantityFormComponent } from './cart-item-quantity-form/cart-item-quantity-form.component';
+import { PaymentMethodPickModalComponent } from './payment-method-pick-modal/payment-method-pick-modal.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CartItemQuantityFormComponent } from './cart-item-quantity-form/cart-it
     FooterComponent,
     SimpleModalComponent,
     AddToCartModalComponent,
-    CartItemQuantityFormComponent
+    CartItemQuantityFormComponent,
+    PaymentMethodPickModalComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,9 @@ import { CartItemQuantityFormComponent } from './cart-item-quantity-form/cart-it
     NavbarComponent,
     FooterComponent,
     SimpleModalComponent,
-    CartItemQuantityFormComponent
+    AddToCartModalComponent,
+    CartItemQuantityFormComponent,
+    PaymentMethodPickModalComponent
   ],
   entryComponents: [
     SimpleModalComponent

@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
+import { PaymentMethodService } from 'src/app/core/services/payment-method.service';
 import { ProductCartService } from 'src/app/core/services/product-cart.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { CartItemQuantityFormComponent } from 'src/app/shared/cart-item-quantity-form/cart-item-quantity-form.component';
@@ -32,6 +33,7 @@ export class ProductCartComponent implements OnInit {
     private cartService: ProductCartService,
     private loader: LoaderService,
     private modalService: ModalService,
+    private paymentMethodService: PaymentMethodService,
     private productService: ProductService,
     private router: Router
   ) { }
@@ -63,10 +65,22 @@ export class ProductCartComponent implements OnInit {
 
       if (!cart || cart.length < 1) {
         this.modalService.openSimpleModal('Atenção', 'Você não possui itens no carrinho!', [{ text: 'OK' }]);
-      }
 
-      // TO DO
-      console.log('PLACE ORDER!');
+      } else {
+        this.loader.enable();
+        this.paymentMethodService.getPaymentMethods().subscribe(response => {
+          this.loader.disable();
+
+          if (response.success) {
+            this.modalService.openPaymentMethodPickModal('Método de pagamento', 'Como você vai pagar?', response.data).subscribe(response => {
+              console.log(response);
+            });
+
+          } else {
+            this.modalService.openSimpleModal('Atenção', 'Serviço indisponível, tente novamente mais tarde.', [{ text: 'OK' }]);
+          }
+        });
+      }
 
     } else {
       this.navigateToPage('auth/login');

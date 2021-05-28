@@ -13,12 +13,14 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ProductCartComponent } from './product-cart/product-cart.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { PaymentMethodComponent } from './payment-method/payment-method.component';
 
 @NgModule({
   declarations: [
     ProductsComponent,
     ProductDetailComponent,
-    ProductCartComponent
+    ProductCartComponent,
+    PaymentMethodComponent
   ],
   imports: [
     CommonModule,

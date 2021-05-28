@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="title">
+    {{ data.title }}
+  </div>
+  <div class="content">
+    <p>
+      {{ data.message }}
+    </p>
+    <div>
+      <ng-container *ngFor="let paymentMethod of data.paymentMethods">
+        <div class="button">
+          <button class="btn button-dark" (click)="buttonClick(paymentMethod)">
+            {{ paymentMethod.name }}
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
