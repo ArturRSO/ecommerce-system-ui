@@ -58,7 +58,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="form-group col-12 col-md-6" *ngIf="registration?.type === 'user'">
+          <div class="form-group col-12 col-md-6" *ngIf="roles.length > 1">
             <mat-form-field class="full-width">
               <mat-select placeholder="Tipo de usuário" formControlName="roleId">
                 <mat-option *ngFor="let role of roles" [value]="role.id">
@@ -72,26 +72,28 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="form-group col-12 col-md-6">
-            <mat-form-field class="full-width">
-              <input matInput type="password" placeholder="Senha" formControlName="password">
-              <mat-error *ngFor="let validation of validationMessages.password">
-                <mat-error *ngIf="f.password.hasError(validation.type) && submitted">
-                  {{ validation.message }}
+          <ng-container *ngIf="!registration.update">
+            <div class="form-group col-12 col-md-6">
+              <mat-form-field class="full-width">
+                <input matInput type="password" placeholder="Senha" formControlName="password">
+                <mat-error *ngFor="let validation of validationMessages.password">
+                  <mat-error *ngIf="f.password.hasError(validation.type) && submitted">
+                    {{ validation.message }}
+                  </mat-error>
                 </mat-error>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="form-group col-12 col-md-6">
-            <mat-form-field class="full-width">
-              <input matInput type="password" placeholder="Confirmar senha" formControlName="confirmPassword">
-              <mat-error *ngFor="let validation of validationMessages.confirmPassword">
-                <mat-error *ngIf="f.confirmPassword.hasError(validation.type) && submitted">
-                  {{ validation.message }}
+              </mat-form-field>
+            </div>
+            <div class="form-group col-12 col-md-6">
+              <mat-form-field class="full-width">
+                <input matInput type="password" placeholder="Confirmar senha" formControlName="confirmPassword">
+                <mat-error *ngFor="let validation of validationMessages.confirmPassword">
+                  <mat-error *ngIf="f.confirmPassword.hasError(validation.type) && submitted">
+                    {{ validation.message }}
+                  </mat-error>
                 </mat-error>
-              </mat-error>
-            </mat-form-field>
-          </div>
+              </mat-form-field>
+            </div>
+          </ng-container>
         </div>
       </mat-card-content>
       <mat-card-actions>

@@ -9,6 +9,10 @@ const routes: Routes = [
     component: UserProfileComponent
   },
   {
+    path: 'perfil/atualizar',
+    component: UserRegistrationComponent
+  },
+  {
     path: 'usuario',
     component: UserRegistrationComponent
   }

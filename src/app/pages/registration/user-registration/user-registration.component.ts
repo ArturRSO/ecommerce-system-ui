@@ -52,15 +52,28 @@ export class UserRegistrationComponent implements OnInit {
     user.birthday = user.birthday.toISOString().substring(0, 10);
     user.documentTypeId = UserDocumentTypes.CPF;
 
-    this.userService.createUser(user).subscribe(response => {
-      if (response.success) {
-        this.modalService.openSimpleModal('Sucesso', 'Cadastro realizado com sucesso, faça login para continuar', [{ text: 'OK' }]).subscribe(response => {
-          this.navigateToPage('auth/login');
-        });
-      } else {
-        this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
-      }
-    })
+    if (this.registration.update) {
+      this.userService.upadateProfile(user).subscribe(response => {
+        if (response.success) {
+          this.modalService.openSimpleModal('Sucesso', 'Perfil atualizado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
+            this.navigateToPage('cadastro/perfil');
+          });
+        } else {
+          this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
+        }
+      });
+
+    } else {
+      this.userService.createUser(user).subscribe(response => {
+        if (response.success) {
+          this.modalService.openSimpleModal('Sucesso', 'Cadastro realizado com sucesso, faça login para continuar', [{ text: 'OK' }]).subscribe(() => {
+            this.navigateToPage('auth/login');
+          });
+        } else {
+          this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
+        }
+      });
+    }
   }
 
   private buildForm(): void {
@@ -74,9 +87,9 @@ export class UserRegistrationComponent implements OnInit {
       password: ['', [Validators.required, Validators.pattern(new RegExp(Regex.PASSWORD))]],
       confirmPassword: ['', [Validators.required]],
     },
-    {
-      validator: MustMatch('password', 'confirmPassword')
-    });
+      {
+        validator: MustMatch('password', 'confirmPassword')
+      });
   }
 
   private navigateToPage(route: string) {
@@ -84,39 +97,38 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   private setInitialData(): void {
-     this.registration = this.sessionStorageService.getObject('userRegistration');
+    this.registration = this.sessionStorageService.getObject('userRegistration');
 
-    switch (this.registration?.type) {
-      case 'customer':
-        this.f.roleId.setValue(Roles.CUSTOMER);
-        break;
-      case 'store_admin':
-        this.f.roleId.setValue(Roles.STORE_ADMIN);
-        break;
-      default:
-        this.f.roleId.setValue(Roles.CUSTOMER);
-        break;
+    if (this.registration.allowedRoles.length > 1) {
+      this.f.roleId.setValue(this.registration.allowedRoles[0].id);
+
+    } else {
+      this.roles = this.registration.allowedRoles;
     }
 
-    this.setRolesList();
+    if (this.registration?.update) {
+
+      if (this.registration.userId) {
+        this.userService.getUserById(this.registration.userId).subscribe(response => {
+          this.setUserDateOnForm(response.data);
+        });
+
+      } else {
+        this.userService.getProfile().subscribe(response => {
+          this.setUserDateOnForm(response.data);
+        });
+      }
+    }
+
     this.setValidationMessages();
   }
 
-  private setRolesList(): void {
-    this.roles = [
-      {
-        id: Roles.SYSTEM_ADMIN,
-        name: 'Admin'
-      },
-      {
-        id: Roles.STORE_ADMIN,
-        name: 'Lojista'
-      },
-      {
-        id: Roles.CUSTOMER,
-        name: 'Comprador'
-      }
-    ]
+  private setUserDateOnForm(data: any) {
+    this.f.firstName.setValue(data.firstName);
+    this.f.lastName.setValue(data.lastName);
+    this.f.documentNumber.setValue(data.documentNumber);
+    this.f.email.setValue(data.email);
+    this.f.birthday.setValue(data.birthday);
   }
 
   private setValidationMessages(): void {

@@ -5,6 +5,6 @@ export class CartItem {
     this.quantity = quantity;
   }
 
-  id: number;
-  quantity: number;
+  public id: number;
+  public quantity: number;
 }

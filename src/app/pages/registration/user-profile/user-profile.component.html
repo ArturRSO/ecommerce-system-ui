@@ -10,7 +10,7 @@
               <div class="mt-3">
                 <h4>{{ user?.firstName }}</h4>
                 <p class="text-secondary mb-3">Cadastrado em {{ user?.creationDate | date: 'dd/MM/yyyy' }}</p>
-                <button class="btn btn-primary">Atualizar</button>
+                <button class="btn btn-primary" (click)="updateProfile()">Atualizar</button>
                 <button class="btn btn-outline-primary">Meus pedidos</button>
                 <button class="btn btn-danger">Desativar perfil</button>
               </div>

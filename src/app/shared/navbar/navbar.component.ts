@@ -8,6 +8,8 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { ProductSearchType } from 'src/app/utils/enums/product-search-type.enum';
+import { RolesList } from 'src/app/utils/lists/roles.list';
+import { UserRegistration } from 'src/app/utils/models/user-registration.model';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -80,9 +82,10 @@ export class NavbarComponent implements OnInit {
     const buttons = [{text: 'Comprar'}, {text: 'Vender'}];
 
     this.modalService.openSimpleModal('Cadastro', 'O que deseja fazer?', buttons).subscribe(response => {
-      const registerType = response === 'Comprar' ? 'customer' : 'storeAdmin';
+      const roles = new RolesList();
+      const role = roles.getRoleByAction(response);
 
-      this.sessionStorageService.setObject('userRegistration', {type: registerType, update: false});
+      this.sessionStorageService.setObject('userRegistration', new UserRegistration([role], false, null));
       this.navigateToPage('cadastro/usuario');
     });
   }

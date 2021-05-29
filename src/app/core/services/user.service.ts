@@ -34,4 +34,24 @@ export class UserService {
       catchError((error: any) => throwError(error))
     );
   }
+
+  public getUserById(userId: number): any {
+
+    return this.http.get<any>(`${this.baseApiUrl}/${userId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public upadateProfile(user: any): any {
+
+    return this.http.put<any>(`${this.baseApiUrl}/update/profile`, user).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
 }
