@@ -14,11 +14,19 @@ import { NgxMaskModule } from 'ngx-mask';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UtilsModule } from 'src/app/utils/utils.module';
+import { AddressRegistrationComponent } from './address-registration/address-registration.component';
+import { TelephoneRegistrationComponent } from './telephone-registration/telephone-registration.component';
+import { ProductRegistrationComponent } from './product-registration/product-registration.component';
+import { StoreRegistrationComponent } from './store-registration/store-registration.component';
 
 @NgModule({
   declarations: [
     UserRegistrationComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    AddressRegistrationComponent,
+    TelephoneRegistrationComponent,
+    ProductRegistrationComponent,
+    StoreRegistrationComponent
   ],
   imports: [
     CommonModule,

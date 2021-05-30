@@ -8,6 +8,7 @@ import { TelephoneService } from 'src/app/core/services/telephone.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 import { RolesList } from 'src/app/utils/lists/roles.list';
+import { RegistrationRequest } from 'src/app/utils/models/registration-request.model';
 import { UserRegistration } from 'src/app/utils/models/user-registration.model';
 
 @Component({
@@ -48,9 +49,14 @@ export class UserProfileComponent implements OnInit {
     console.log(addressId);
   }
 
-  public updateAddress(address: any): void {
-    // TO DO
-    console.log(address);
+  public registerAddress(): void {
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false));
+    this.navigateToPage('cadastro/endereco');
+  }
+
+  public updateAddress(addressId: number): void {
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(addressId, true));
+    this.navigateToPage('cadastro/endereco');
   }
 
   public updateProfile(): void {
@@ -66,9 +72,14 @@ export class UserProfileComponent implements OnInit {
     console.log(telephoneId);
   }
 
-  public updateTelephone(telephone: any): void {
-    // TO DO
-    console.log(telephone);
+  public registerTelephone(): void {
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false));
+    this.navigateToPage('cadastro/telefone');
+  }
+
+  public updateTelephone(telephoneId: number): void {
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(telephoneId, true));
+    this.navigateToPage('cadastro/telefone');
   }
 
   private getProfile(): void {

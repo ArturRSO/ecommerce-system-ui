@@ -1,6 +1,4 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { environment } from 'src/environments/environment';
 
@@ -11,25 +9,19 @@ import { environment } from 'src/environments/environment';
 })
 export class DashboardComponent implements OnInit {
 
-  public gridCols = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return 1;
-      }
-
-      return 2;
-    })
-  );
-
-  public option: any;
+  public cards: any;
 
   constructor(
-    private authService: AuthenticationService,
-    private breakpointObserver: BreakpointObserver
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
     this.loadCards();
+  }
+
+  public dashboardClick(card: any) {
+    // TO DO
+    console.log(card);
   }
 
   public navigateToPage(route: string) {
@@ -40,6 +32,6 @@ export class DashboardComponent implements OnInit {
   private loadCards(): void {
     const authentication = this.authService.getAuthenticationState();
 
-    this.option = environment.DASHBOARD_OPTIONS.find(option => option.role === authentication.roleId);
+    this.cards = environment.DASHBOARD_CARDS.filter(option => option.roles.includes(authentication.roleId));
   }
 }

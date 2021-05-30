@@ -10,21 +10,35 @@ export const environment = {
     roleId: Roles.GUEST
   },
 
-  DASHBOARD_OPTIONS: [
+  DASHBOARD_CARDS: [
     {
-      role: Roles.STORE_ADMIN,
-      cards: [
-        { title: 'Gerenciar', cols: 1, rows: 1, options: [{name: 'Lojas', route: ''}, {name: 'Produtos', route: ''}] },
-        { title: 'Relatórios', cols: 1, rows: 1, options: [{name: 'Faturamento por loja', route: ''}] }
-      ]
+      title: 'Lojas',
+      metric: 'Lojas ativas',
+      class: 'card bg-c-blue order-card',
+      icon: 'store',
+      roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]
     },
     {
-      role: Roles.SYSTEM_ADMIN,
-      cards: [
-        { title: 'Gerenciar', cols: 1, rows: 1, options: [{name: 'Usuários', route: ''}, {name: 'Lojas', route: ''}, {name: 'Produtos', route: ''}] },
-        { title: 'Relatórios', cols: 1, rows: 1, options: [{name: 'Faturamento mensal', route: ''}] }
-      ]
-    }
+      title: 'Pedidos',
+      metric: 'Pedidos concluídos',
+      class: 'card bg-c-green order-card',
+      icon: 'shopping_cart',
+      roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]
+    },
+    {
+      title: 'Produtos',
+      metric: 'Produtos em estoque',
+      class: 'card bg-c-yellow order-card',
+      icon: 'category',
+      roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]
+    },
+    {
+      title: 'Usuários',
+      metric: 'Lojistas',
+      class: 'card bg-c-pink order-card',
+      icon: 'people',
+      roles: [Roles.SYSTEM_ADMIN]
+    },
   ],
 
   NAVBAR_OPTIONS: [

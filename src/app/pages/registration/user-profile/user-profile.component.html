@@ -69,7 +69,7 @@
                     <h2 class="card-title mb-0">Endereços</h2>
                   </div>
                   <div class="col-sm-4">
-                    <button class="btn btn-primary ml-auto mr-3" (click)="navigateToPage('cadastro/endereco')">
+                    <button class="btn btn-primary ml-auto mr-3" (click)="registerAddress()">
                       Cadastrar endereço
                     </button>
                   </div>
@@ -91,7 +91,7 @@
                             <h2 class="mb-0">Endereço {{ i + 1 }}</h2>
                           </div>
                           <div class="col-sm-5">
-                            <button class="btn btn-primary ml-auto mr-3" (click)="updateAddress(address)">
+                            <button class="btn btn-primary ml-auto mr-3" (click)="updateAddress(address.addressId)">
                               Atualizar
                             </button>
                             <button class="btn btn-outline-primary ml-auto mr-3"
@@ -163,7 +163,7 @@
                     <h2 class="card-title mb-0">Telefones</h2>
                   </div>
                   <div class="col-sm-4">
-                    <button class="btn btn-primary ml-auto mr-3" (click)="navigateToPage('cadastro/telefone')">
+                    <button class="btn btn-primary ml-auto mr-3" (click)="registerTelephone()">
                       Cadastrar telefone
                     </button>
                   </div>
@@ -185,7 +185,7 @@
                             <h2 class="mb-0">Telefone {{ i + 1 }}</h2>
                           </div>
                           <div class="col-sm-5">
-                            <button class="btn btn-primary ml-auto mr-3" (click)="updateTelephone(telephone)">
+                            <button class="btn btn-primary ml-auto mr-3" (click)="updateTelephone(telephone.telephoneId)">
                               Atualizar
                             </button>
                             <button class="btn btn-outline-primary ml-auto mr-3"
@@ -210,7 +210,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>

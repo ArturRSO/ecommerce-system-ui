@@ -1,0 +1,86 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Cadastro de endereço</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-row">
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="CEP" formControlName="postalCode" [mask]="postalCodeMask" (blur)="fillAddressByCep()">
+              <mat-error *ngFor="let validation of validationMessages.postalCode">
+                <mat-error *ngIf="f.postalCode.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Logradouro" formControlName="address">
+              <mat-error *ngFor="let validation of validationMessages.address">
+                <mat-error *ngIf="f.address.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Número" formControlName="number">
+              <mat-error *ngFor="let validation of validationMessages.number">
+                <mat-error *ngIf="f.number.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Bairro" formControlName="district">
+              <mat-error *ngFor="let validation of validationMessages.district">
+                <mat-error *ngIf="f.district.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Cidade" formControlName="city">
+              <mat-error *ngFor="let validation of validationMessages.city">
+                <mat-error *ngIf="f.city.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Estado" formControlName="stateCode">
+              <mat-error *ngFor="let validation of validationMessages.stateCode">
+                <mat-error *ngIf="f.stateCode.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Complemento (opcional)" formControlName="complement">
+              <mat-error *ngFor="let validation of validationMessages.complement">
+                <mat-error *ngIf="f.complement.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit">Cadastrar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

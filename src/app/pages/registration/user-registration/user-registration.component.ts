@@ -126,7 +126,7 @@ export class UserRegistrationComponent implements OnInit {
       this.f.roleId.setValue(this.registration.allowedRoles[0].id);
     }
 
-    if (this.registration?.update) {
+    if (this.registration.update) {
 
       if (this.registration.userId) {
         this.userService.getUserById(this.registration.userId).subscribe(response => {
