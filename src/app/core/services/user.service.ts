@@ -45,9 +45,9 @@ export class UserService {
     );
   }
 
-  public upadateProfile(user: any): any {
+  public updateUser(user: any): any {
 
-    return this.http.put<any>(`${this.baseApiUrl}/update/profile`, user).pipe(
+    return this.http.put<any>(`${this.baseApiUrl}/update`, user).pipe(
       map(response => {
         return response;
       }),

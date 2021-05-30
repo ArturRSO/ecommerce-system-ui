@@ -48,9 +48,9 @@
           </div>
           <div class="form-group col-12 col-md-6">
             <mat-form-field class="full-width">
-              <input matInput placeholder="Data de nascimento" formControlName="birthday" [matDatepicker]="picker">
+              <input matInput placeholder="Data de nascimento" formControlName="birthday" [matDatepicker]="picker" [min]="minDate" [max]="maxDate">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker disabled="false"></mat-datepicker>
+              <mat-datepicker #picker disabled="false" [startAt]="startDate"></mat-datepicker>
               <mat-error *ngFor="let validation of validationMessages.birthday">
                 <mat-error *ngIf="f.birthday.hasError(validation.type) && submitted">
                   {{ validation.message }}

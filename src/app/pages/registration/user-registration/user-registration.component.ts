@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { UserService } from 'src/app/core/services/user.service';
@@ -24,8 +26,16 @@ export class UserRegistrationComponent implements OnInit {
   public submitted = false;
   public validationMessages: any;
 
+  // Birthday datepicker
+  public minDate = new Date(new Date().getFullYear() - 100, new Date().getMonth(), new Date().getDay());
+  public maxDate = new Date(new Date().getFullYear() - 18, new Date().getMonth(), new Date().getDay());
+  public startDate = new Date(new Date().getFullYear() - 18, new Date().getMonth(), new Date().getDay());
+
+
   constructor(
+    private authService: AuthenticationService,
     private formBuilder: FormBuilder,
+    private loader: LoaderService,
     private modalService: ModalService,
     private router: Router,
     private sessionStorageService: SessionStorageService,
@@ -52,8 +62,17 @@ export class UserRegistrationComponent implements OnInit {
     user.birthday = user.birthday.toISOString().substring(0, 10);
     user.documentTypeId = UserDocumentTypes.CPF;
 
+    this.loader.enable();
+    sessionStorage.removeItem('userRegistration');
+
     if (this.registration.update) {
-      this.userService.upadateProfile(user).subscribe(response => {
+      user.userId = this.authService.getAuthenticationState().userId;
+
+      delete user.password;
+      delete user.confirmPassword;
+
+      this.userService.updateUser(user).subscribe(response => {
+        this.loader.disable();
         if (response.success) {
           this.modalService.openSimpleModal('Sucesso', 'Perfil atualizado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
             this.navigateToPage('cadastro/perfil');
@@ -65,6 +84,7 @@ export class UserRegistrationComponent implements OnInit {
 
     } else {
       this.userService.createUser(user).subscribe(response => {
+        this.loader.disable();
         if (response.success) {
           this.modalService.openSimpleModal('Sucesso', 'Cadastro realizado com sucesso, faça login para continuar', [{ text: 'OK' }]).subscribe(() => {
             this.navigateToPage('auth/login');
@@ -100,10 +120,10 @@ export class UserRegistrationComponent implements OnInit {
     this.registration = this.sessionStorageService.getObject('userRegistration');
 
     if (this.registration.allowedRoles.length > 1) {
-      this.f.roleId.setValue(this.registration.allowedRoles[0].id);
+      this.roles = this.registration.allowedRoles;
 
     } else {
-      this.roles = this.registration.allowedRoles;
+      this.f.roleId.setValue(this.registration.allowedRoles[0].id);
     }
 
     if (this.registration?.update) {
@@ -129,6 +149,11 @@ export class UserRegistrationComponent implements OnInit {
     this.f.documentNumber.setValue(data.documentNumber);
     this.f.email.setValue(data.email);
     this.f.birthday.setValue(data.birthday);
+
+    this.f.password.setValue('Password123');
+    this.f.confirmPassword.setValue('Password123');
+
+    this.startDate = new Date(data.birthday);
   }
 
   private setValidationMessages(): void {

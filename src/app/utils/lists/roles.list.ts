@@ -23,6 +23,6 @@ export class RolesList {
 
   public getRoleById(roleId: number): any {
 
-    return this.allRoles.filter(role => role.id === roleId);
+    return this.allRoles.find(role => role.id === roleId);
   }
 }

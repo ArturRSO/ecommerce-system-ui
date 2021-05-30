@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AddressService } from 'src/app/core/services/address.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -28,6 +29,7 @@ export class UserProfileComponent implements OnInit {
     private addressService: AddressService,
     private authService: AuthenticationService,
     private loader: LoaderService,
+    private router: Router,
     private sessionStorageService: SessionStorageService,
     private telephoneService: TelephoneService,
     private userService: UserService
@@ -38,8 +40,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   public navigateToPage(route: string): void {
-    // TO DO
-    console.log(route);
+    this.router.navigateByUrl(route);
   }
 
   public deleteAddress(addressId: number): void {
@@ -54,9 +55,9 @@ export class UserProfileComponent implements OnInit {
 
   public updateProfile(): void {
     const roles = new RolesList();
-    const role = roles.getRoleById(this.user.roleId);
+    const role = roles.getRoleById(this.authService.getAuthenticationState().roleId);
 
-    this.sessionStorageService.setObject('userRegistration', new UserRegistration([role], false, null));
+    this.sessionStorageService.setObject('userRegistration', new UserRegistration([role], true, null));
     this.navigateToPage('cadastro/perfil/atualizar');
   }
 
