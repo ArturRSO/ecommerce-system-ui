@@ -105,7 +105,7 @@ export class UserRegistrationComponent implements OnInit {
       birthday: ['', [Validators.required]],
       roleId: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern(new RegExp(Regex.PASSWORD))]],
-      confirmPassword: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]]
     },
       {
         validator: MustMatch('password', 'confirmPassword')

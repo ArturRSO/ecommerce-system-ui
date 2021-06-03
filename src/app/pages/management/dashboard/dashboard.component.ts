@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { environment } from 'src/environments/environment';
 
@@ -12,7 +13,8 @@ export class DashboardComponent implements OnInit {
   public cards: any;
 
   constructor(
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -25,8 +27,7 @@ export class DashboardComponent implements OnInit {
   }
 
   public navigateToPage(route: string) {
-    // TO DO
-    console.log(route);
+    this.router.navigateByUrl(route);
   }
 
   private loadCards(): void {

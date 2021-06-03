@@ -1,1 +1,50 @@
-<p>telephone-registration works!</p>
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Cadastro de telefone</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-row">
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Tipo de telefone" formControlName="telephoneTypeId">
+                <mat-option *ngFor="let type of telephoneTypes" [value]="type.id">
+                  {{ type.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngFor="let validation of validationMessages.telephoneTypeId">
+                <mat-error *ngIf="f.telephoneTypeId.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input type="text" matInput placeholder="DDD" formControlName="localCode" [mask]="localCodeMask">
+              <mat-error *ngFor="let validation of validationMessages.localCode">
+                <mat-error *ngIf="f.localCode.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input type="text" matInput placeholder="Número" formControlName="number" [mask]="telephoneMask">
+              <mat-error *ngFor="let validation of validationMessages.number">
+                <mat-error *ngIf="f.number.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit">Cadastrar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

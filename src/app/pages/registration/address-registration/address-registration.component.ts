@@ -73,6 +73,7 @@ export class AddressRegistrationComponent implements OnInit {
     address.userId = this.authService.getAuthenticationState().userId;
 
     this.loader.enable();
+    sessionStorage.removeItem('userRegistration');
 
     if (this.registration.update) {
       address.addressId = this.registration.id;
@@ -80,22 +81,22 @@ export class AddressRegistrationComponent implements OnInit {
       this.addressService.updateAddress(address).subscribe(response => {
         this.loader.disable();
         if (response.success) {
-          this.modalService.openSimpleModal('Sucesso', 'Endereço atualizado com sucesso!', [{text: 'OK'}]).subscribe(() => {
+          this.modalService.openSimpleModal('Sucesso', 'Endereço atualizado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
             this.navigateToPage('cadastro/perfil');
           });
         } else {
-          this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+          this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
         }
       });
     } else {
       this.addressService.createAddress(address).subscribe(response => {
         this.loader.disable();
         if (response.success) {
-          this.modalService.openSimpleModal('Sucesso', 'Endereço cadastrado com sucesso!', [{text: 'OK'}]).subscribe(() => {
+          this.modalService.openSimpleModal('Sucesso', 'Endereço cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
             this.navigateToPage('cadastro/perfil');
           });
         } else {
-          this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+          this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
         }
       });
     }
