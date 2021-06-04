@@ -48,6 +48,16 @@ export class UserService {
     );
   }
 
+  public getAllUsers(): any {
+
+    return this.http.get(`${this.baseApiUrl}/all`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public getPasswordResetTokenStatus(token: string): any {
 
     return this.http.get<any>(`${this.baseApiUrl}/recover/password/status?token=${encodeURIComponent(token)}`).pipe(

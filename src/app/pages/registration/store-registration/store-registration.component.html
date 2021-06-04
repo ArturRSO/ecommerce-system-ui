@@ -1,1 +1,50 @@
-<p>store-registration works!</p>
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Cadastro de loja</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-row">
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Nome" formControlName="name">
+              <mat-error *ngFor="let validation of validationMessages.name">
+                <mat-error *ngIf="f.name.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Tipo de documento" formControlName="documentTypeId" (valueChange)="onDocumentTypeSelection($event)">
+                <mat-option *ngFor="let documentType of documentTypes" [value]="documentType.id">
+                  {{ documentType.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngFor="let validation of validationMessages.documentTypeId">
+                <mat-error *ngIf="f.documentTypeId.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Documento" formControlName="documentNumber" [mask]="documentMask">
+              <mat-error *ngFor="let validation of validationMessages.documentNumber">
+                <mat-error *ngIf="f.documentNumber.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit">Cadastrar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

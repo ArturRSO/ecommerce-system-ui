@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
+import { ProductCartService } from 'src/app/core/services/product-cart.service';
 import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
@@ -14,14 +15,24 @@ export class ProductDetailComponent implements OnInit {
   public product: any;
 
   constructor(
+    private cartService: ProductCartService,
     private loader: LoaderService,
     private modalService: ModalService,
     private productService: ProductService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.getProduct();
+  }
+
+  public openCartModal(product: any): void {
+    this.modalService.openAddToCartModal('Adicionar ao carrinho?', product).subscribe(response => {
+      if (response) {
+        this.cartService.addToCart(response);
+      }
+    });
   }
 
   private getProduct(): void {
@@ -39,7 +50,13 @@ export class ProductDetailComponent implements OnInit {
         }
       });
     } else {
-      this.modalService.openSimpleModal('Atenção', 'Forneça um id de produto válido!', [{ text: 'OK' }]);
+      this.modalService.openSimpleModal('Atenção', 'Forneça um id de produto válido!', [{ text: 'OK' }]).subscribe(() => {
+        this.navigateToPage('loja/produtos');
+      });
     }
+  }
+
+  private navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
   }
 }

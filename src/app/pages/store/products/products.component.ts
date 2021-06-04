@@ -48,7 +48,7 @@ export class ProductsComponent implements OnInit {
   }
 
   public showProductDetails(product: any) {
-    this.navigateToPage(`loja/detalhe?product=${product.id}`)
+    this.navigateToPage(`loja/detalhe?product=${product.productId}`)
   }
 
   private checkSearchRequest(): void {

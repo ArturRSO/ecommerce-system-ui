@@ -55,6 +55,10 @@ export class ProductCartComponent implements OnInit {
     return this.productCart.find(item => item.id === productId).quantity;
   }
 
+  public goToProductDetails(productId: number) {
+    this.navigateToPage(`loja/detalhe?product=${productId}`);
+  }
+
   public navigateToPage(route: string) {
     this.router.navigateByUrl(route);
   }
@@ -101,10 +105,12 @@ export class ProductCartComponent implements OnInit {
 
   public updateCartItem(item: CartItem) {
     if (this.cartService.updateItemFromCart(item)) {
-      this.modalService.openSimpleModal('Sucesso', 'Carrinho atualizado!', [{text: 'OK'}]);
+      this.modalService.openSimpleModal('Sucesso', 'Carrinho atualizado!', [{ text: 'OK' }]).subscribe(() => {
+        this.getProducts();
+      });
 
     } else {
-      this.modalService.openSimpleModal('Atenção', 'Não foi possível atualizar o carrinho!', [{text: 'OK'}]);
+      this.modalService.openSimpleModal('Atenção', 'Não foi possível atualizar o carrinho!', [{ text: 'OK' }]);
     }
   }
 
@@ -132,7 +138,7 @@ export class ProductCartComponent implements OnInit {
           this.loader.disable();
           if (response.success) {
             this.products.push(response.data);
-            this.total += response.data.price;
+            this.total += response.data.price * item.quantity;
 
           } else {
             this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
