@@ -44,7 +44,7 @@ export class StoreRegistrationComponent implements OnInit {
     return this.form.controls;
   }
 
-  public onDocumentTypeSelection(value: any) {
+  public onDocumentTypeSelection(value: any): void {
     this.documentMask = value === DocumentType.CPF ? InputMasks.CPF : InputMasks.CNPJ;
   }
 
@@ -58,7 +58,7 @@ export class StoreRegistrationComponent implements OnInit {
     const store = this.form.value;
 
     this.loader.enable();
-    sessionStorage.removeItem('userRegistration');
+    sessionStorage.removeItem('registerRequest');
 
     if (this.registration.update) {
       store.storeId = this.registration.id;

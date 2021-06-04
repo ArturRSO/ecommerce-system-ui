@@ -1,1 +1,134 @@
-<p>product-registration works!</p>
+<div class="container">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Cadastro de produto</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-row">
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Tipo de produto" formControlName="productTypeId"
+                (valueChange)="onProductTypeSelection($event)">
+                <mat-option *ngFor="let productType of productTypes" [value]="productType.productTypeId">
+                  {{ productType.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngFor="let validation of validationMessages.productTypeId">
+                <mat-error *ngIf="pf.productTypeId.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Subtipo de produto" formControlName="productSubtypeId"
+                (valueChange)="onProductSubtypeSelection($event)">
+                <mat-option *ngFor="let productSubtype of productSubtypes" [value]="productSubtype.productSubtypeId">
+                  {{ productSubtype.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngFor="let validation of validationMessages.productSubtypeId">
+                <mat-error *ngIf="pf.productSubtypeId.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Nome" formControlName="name">
+              <mat-error *ngFor="let validation of validationMessages.name">
+                <mat-error *ngIf="pf.name.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Preço" formControlName="price" mask="separator.2" prefix="R$ "
+                thousandSeparator="." [specialCharacters]="[ ',' ]">
+              <mat-error *ngFor="let validation of validationMessages.price">
+                <mat-error *ngIf="pf.price.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Quantidade em estoque" formControlName="quantity">
+              <mat-error *ngFor="let validation of validationMessages.quantity">
+                <mat-error *ngIf="pf.quantity.hasError(validation.type) && submitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit">Cadastrar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+  <form [formGroup]="detailForm" (ngSubmit)="submitDetail()">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Detalhes do produto</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-row">
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Rótulo do detalhe" formControlName="labelId"
+                (valueChange)="onProductTypeSelection($event)">
+                <mat-option *ngFor="let detailLabel of detailLabels" [value]="detailLabel.labelId">
+                  {{ detailLabel.label }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngFor="let validation of validationMessages.labelId">
+                <mat-error *ngIf="df.labelId.hasError(validation.type) && detailSubmitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Conteúdo" formControlName="value">
+              <mat-error *ngFor="let validation of validationMessages.value">
+                <mat-error *ngIf="df.value.hasError(validation.type) && detailSubmitted">
+                  {{ validation.message }}
+                </mat-error>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit">Adicionar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+  <form>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Imagens do produto</mat-card-title>
+      </mat-card-header>
+      <h3>Você pode cadastrar até 4 imagens para um produto</h3>
+      <mat-card-content>
+        <div class="form-row">
+          <div class="form-group col-12 col-md-6">
+
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit">Cadastrar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
