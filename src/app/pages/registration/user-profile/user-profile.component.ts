@@ -54,17 +54,17 @@ export class UserProfileComponent implements OnInit {
   }
 
   public deleteAddress(addressId: number): void {
-    this.modalService.openSimpleModal('Confirmação', 'Tem certeza que deseja deleter este endereço?', [{text: 'Não'}, {text:'Sim'}]).subscribe(response => {
+    this.modalService.openSimpleModal('Confirmação', 'Tem certeza que deseja deleter este endereço?', [{ text: 'Não' }, { text: 'Sim' }]).subscribe(response => {
       if (response === 'Sim') {
         this.loader.enable();
 
         this.addressService.deleteAddress(addressId).subscribe(response => {
           if (response.success) {
-            this.modalService.openSimpleModal('Sucesso', 'Endereço deletado', [{text: 'OK'}]).subscribe(() => {
+            this.modalService.openSimpleModal('Sucesso', 'Endereço deletado', [{ text: 'OK' }]).subscribe(() => {
               this.getAddressesAndTelephones();
             });
           } else {
-            this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+            this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
           }
         });
       }
@@ -72,18 +72,18 @@ export class UserProfileComponent implements OnInit {
   }
 
   public deleteProfile() {
-    this.modalService.openSimpleModal('Confirmação', 'Tem certeza que deseja desativar seu perfil?', [{text: 'Não'}, {text:'Sim'}]).subscribe(response => {
+    this.modalService.openSimpleModal('Confirmação', 'Tem certeza que deseja desativar seu perfil?', [{ text: 'Não' }, { text: 'Sim' }]).subscribe(response => {
       if (response === 'Sim') {
         this.loader.enable();
 
         this.userService.deleteUser(this.userId).subscribe(response => {
           this.loader.disable();
           if (response.success) {
-            this.modalService.openSimpleModal('Sucesso', 'Perfil desativado.', [{text: 'OK'}]).subscribe(() => {
+            this.modalService.openSimpleModal('Sucesso', 'Perfil desativado.', [{ text: 'OK' }]).subscribe(() => {
               this.navigateToPage('loja/produtos');
             });
           } else {
-            this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+            this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
           }
         });
       }
@@ -91,17 +91,17 @@ export class UserProfileComponent implements OnInit {
   }
 
   public deleteTelephone(telephoneId: number): void {
-    this.modalService.openSimpleModal('Confirmação', 'Tem certeza que deseja deleter este telefone?', [{text: 'Não'}, {text:'Sim'}]).subscribe(response => {
+    this.modalService.openSimpleModal('Confirmação', 'Tem certeza que deseja deleter este telefone?', [{ text: 'Não' }, { text: 'Sim' }]).subscribe(response => {
       if (response === 'Sim') {
         this.loader.enable();
 
         this.telephoneService.deleteTelephone(telephoneId).subscribe(response => {
           if (response.success) {
-            this.modalService.openSimpleModal('Sucesso', 'Telefone deletado', [{text: 'OK'}]).subscribe(() => {
+            this.modalService.openSimpleModal('Sucesso', 'Telefone deletado', [{ text: 'OK' }]).subscribe(() => {
               this.getAddressesAndTelephones();
             });
           } else {
-            this.modalService.openSimpleModal('Atenção', response.message, [{text: 'OK'}]);
+            this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
           }
         });
       }
@@ -163,16 +163,16 @@ export class UserProfileComponent implements OnInit {
         this.userService.changeProfileImage(this.userId, file).subscribe(response => {
           this.loader.disable();
           if (response.success) {
-            this.modalService.openSimpleModal('Sucesso', response.message, [{text: 'OK'}]).subscribe(() => {
+            this.modalService.openSimpleModal('Sucesso', response.message, [{ text: 'OK' }]).subscribe(() => {
               this.getProfile();
             });
           } else {
-            this.modalService.openSimpleModal('Erro', response.message, [{text: 'OK'}]);
+            this.modalService.openSimpleModal('Erro', response.message, [{ text: 'OK' }]);
           }
         });
 
       } else {
-        this.modalService.openSimpleModal('Atenção', 'Envie um arquivo de imagem válido!', [{text: 'OK'}]);
+        this.modalService.openSimpleModal('Atenção', 'Envie um arquivo de imagem válido!', [{ text: 'OK' }]);
       }
     }
   }
