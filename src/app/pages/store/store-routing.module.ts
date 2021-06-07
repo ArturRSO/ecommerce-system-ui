@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { OrderConclusionComponent } from './order-conclusion/order-conclusion.component';
 import { PaymentMethodComponent } from './payment-method/payment-method.component';
 import { ProductCartComponent } from './product-cart/product-cart.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
@@ -10,6 +11,10 @@ const routes: Routes = [
   {
     path: 'carrinho',
     component: ProductCartComponent
+  },
+  {
+    path: 'conclusao',
+    component: OrderConclusionComponent
   },
   {
     path: 'detalhe',

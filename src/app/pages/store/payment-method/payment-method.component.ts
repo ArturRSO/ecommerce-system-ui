@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 import { Regex } from 'src/app/utils/enums/regex.enum';
 
@@ -18,7 +20,9 @@ export class PaymentMethodComponent implements OnInit {
   public validationMessages: any;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private sessionStorageService: SessionStorageService
   ) { }
 
   ngOnInit(): void {
@@ -34,8 +38,19 @@ export class PaymentMethodComponent implements OnInit {
     this.submitted = true;
 
     if (!this.form.invalid) {
-      // TO DO
-      console.log(this.form.value);
+
+      const paymentInfo = {
+        data: {
+          cardNumber: this.f.cardNumber.value,
+          ownerName: this.f.ownerName.value,
+          expirationDate: `${this.f.expirationMonth.value}/${this.f.expirationYear.value}`,
+          securityCode: this.f.securityCode.value,
+        }
+      }
+
+      this.sessionStorageService.setObject('paymentInfo', paymentInfo)
+
+      this.navigateToPage('loja/transporte');
     }
   }
 
@@ -48,6 +63,11 @@ export class PaymentMethodComponent implements OnInit {
       securityCode: ['', [Validators.required, Validators.pattern(Regex.ONLY_NUMBERS)]]
     });
   }
+
+  private navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
+  }
+
 
   private setValidationMessages(): void {
     this.validationMessages = {

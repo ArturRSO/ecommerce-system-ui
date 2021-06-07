@@ -93,7 +93,15 @@ export class AddressRegistrationComponent implements OnInit {
         this.loader.disable();
         if (response.success) {
           this.modalService.openSimpleModal('Sucesso', 'Endereço cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-            this.navigateToPage('cadastro/perfil');
+            const nextRoute = sessionStorage.getItem('nextRoute');
+
+            if (nextRoute) {
+              sessionStorage.removeItem('nextRoute');
+              this.navigateToPage(nextRoute);
+
+            } else {
+              this.navigateToPage('cadastro/perfil');
+            }
           });
         } else {
           this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);

@@ -17,6 +17,7 @@ import { PaymentMethodComponent } from './payment-method/payment-method.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { ShippingComponent } from './shipping/shipping.component';
+import { OrderConclusionComponent } from './order-conclusion/order-conclusion.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ShippingComponent } from './shipping/shipping.component';
     ProductDetailComponent,
     ProductCartComponent,
     PaymentMethodComponent,
-    ShippingComponent
+    ShippingComponent,
+    OrderConclusionComponent
   ],
   imports: [
     CommonModule,
