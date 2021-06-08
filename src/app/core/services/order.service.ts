@@ -34,4 +34,15 @@ export class OrderService {
       catchError((error: any) => throwError(error))
     );
   }
+
+
+  public getOrderSummaryById(orderId: number) {
+
+    return this.http.get<any>(`${this.baseApiUrl}/summary/${orderId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
 }

@@ -58,11 +58,12 @@ export class ShippingComponent implements OnInit {
     this.loader.enable();
 
     this.orderService.createOrder(order).subscribe(response => {
+      this.loader.disable();
       if (response.success) {
         this.cartService.clearCart();
         sessionStorage.removeItem('paymentInfo');
 
-        this.navigateToPage('loja/conclusao');
+        this.navigateToPage(`loja/conclusao?order=${response.data}`);
 
       } else {
         this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);

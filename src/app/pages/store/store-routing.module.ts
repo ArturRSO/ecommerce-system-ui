@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 import { OrderConclusionComponent } from './order-conclusion/order-conclusion.component';
 import { PaymentMethodComponent } from './payment-method/payment-method.component';
 import { ProductCartComponent } from './product-cart/product-cart.component';
@@ -14,7 +15,8 @@ const routes: Routes = [
   },
   {
     path: 'conclusao',
-    component: OrderConclusionComponent
+    component: OrderConclusionComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'detalhe',
@@ -22,7 +24,8 @@ const routes: Routes = [
   },
   {
     path: 'pagamento',
-    component: PaymentMethodComponent
+    component: PaymentMethodComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'produtos',
@@ -30,7 +33,8 @@ const routes: Routes = [
   },
   {
     path: 'transporte',
-    component: ShippingComponent
+    component: ShippingComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '**',

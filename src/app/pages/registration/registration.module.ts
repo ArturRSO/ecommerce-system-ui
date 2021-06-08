@@ -19,6 +19,7 @@ import { TelephoneRegistrationComponent } from './telephone-registration/telepho
 import { ProductRegistrationComponent } from './product-registration/product-registration.component';
 import { StoreRegistrationComponent } from './store-registration/store-registration.component';
 import { PasswordRegistrationComponent } from './password-registration/password-registration.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PasswordRegistrationComponent } from './password-registration/password-
     TelephoneRegistrationComponent,
     ProductRegistrationComponent,
     StoreRegistrationComponent,
-    PasswordRegistrationComponent
+    PasswordRegistrationComponent,
+    OrderHistoryComponent
   ],
   imports: [
     CommonModule,

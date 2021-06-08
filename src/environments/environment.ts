@@ -10,37 +10,6 @@ export const environment = {
     roleId: Roles.GUEST
   },
 
-  DASHBOARD_CARDS: [
-    {
-      title: 'Lojas',
-      metric: 'Lojas ativas',
-      class: 'card bg-c-blue order-card',
-      icon: 'store',
-      roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]
-    },
-    {
-      title: 'Pedidos',
-      metric: 'Pedidos concluídos',
-      class: 'card bg-c-green order-card',
-      icon: 'shopping_cart',
-      roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]
-    },
-    {
-      title: 'Produtos',
-      metric: 'Produtos em estoque',
-      class: 'card bg-c-yellow order-card',
-      icon: 'category',
-      roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]
-    },
-    {
-      title: 'Usuários',
-      metric: 'Lojistas',
-      class: 'card bg-c-pink order-card',
-      icon: 'people',
-      roles: [Roles.SYSTEM_ADMIN]
-    },
-  ],
-
   NAVBAR_OPTIONS: [
     {
       name: 'Dashboard',

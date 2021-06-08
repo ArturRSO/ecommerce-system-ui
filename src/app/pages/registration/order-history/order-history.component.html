@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="panel panel-default panel-order">
+    <div class="panel-heading">
+      <h2>Histórico de pedidos</h2>
+    </div>
+    <div class="panel-body" *ngFor="let order of orders">
+      <div class="row">
+        <div class="col-md-1">
+          <i class="material-icons">description</i>
+        </div>
+        <div class="col-md-11">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="pull-right">
+                <label class="badge" [ngClass]="getStatusById(order?.orderStatusId).badge">
+                  {{ getStatusById(order?.orderStatusId).name }}
+                </label>
+              </div>
+              <span>
+                <strong>Pedido #{{ order?.orderId }}</strong>
+              </span>
+              <br>
+              Valor: {{ order?.finalPrice | currency}}
+            </div>
+            <div class="col-md-12">
+              Pedido feito em: {{ order?.creationDate | date }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>

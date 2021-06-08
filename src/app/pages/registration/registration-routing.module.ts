@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddressRegistrationComponent } from './address-registration/address-registration.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 import { PasswordRegistrationComponent } from './password-registration/password-registration.component';
 import { ProductRegistrationComponent } from './product-registration/product-registration.component';
 import { StoreRegistrationComponent } from './store-registration/store-registration.component';
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'endereco',
     component: AddressRegistrationComponent
+  },
+  {
+    path: 'historico',
+    component: OrderHistoryComponent
   },
   {
     path: 'loja',

@@ -14,7 +14,7 @@
                 <h4>{{ user?.firstName }}</h4>
                 <p class="text-secondary mb-3">Cadastrado em {{ user?.creationDate | date: 'dd/MM/yyyy' }}</p>
                 <button class="btn btn-primary" (click)="updateProfile()">Atualizar perfil</button>
-                <button class="btn btn-outline-primary">Meus pedidos</button>
+                <button class="btn btn-outline-primary" (click)="navigateToPage('cadastro/historico')">Meus pedidos</button>
                 <button class="btn btn-danger" (click)="updatePassword()">Atualizar senha</button>
                 <button class="btn btn-danger" (click)="deleteProfile()">Desativar perfil</button>
               </div>

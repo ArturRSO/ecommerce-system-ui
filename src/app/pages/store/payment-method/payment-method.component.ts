@@ -40,6 +40,7 @@ export class PaymentMethodComponent implements OnInit {
     if (!this.form.invalid) {
 
       const paymentInfo = {
+        paymentMethodId: 1, // HARDCODED
         data: {
           cardNumber: this.f.cardNumber.value,
           ownerName: this.f.ownerName.value,
@@ -56,7 +57,7 @@ export class PaymentMethodComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      ownerName: ['', [Validators.required, Validators.pattern(Regex.NAME)]],
+      ownerName: ['', Validators.required],
       cardNumber: ['', [Validators.required, Validators.pattern(Regex.ONLY_NUMBERS)]],
       expirationMonth: ['', [Validators.required, Validators.pattern(Regex.ONLY_NUMBERS)]],
       expirationYear: ['', [Validators.required, Validators.pattern(Regex.ONLY_NUMBERS)]],

@@ -52,7 +52,7 @@ export class ProductCartComponent implements OnInit {
 
   public getCartQuantityByProductId(productId: number): number {
 
-    return this.productCart.find(item => item.id === productId).quantity;
+    return this.productCart.find(item => item.productId === productId).quantity;
   }
 
   public goToProductDetails(productId: number) {
@@ -134,7 +134,7 @@ export class ProductCartComponent implements OnInit {
       this.productCart = cart;
       for (let item of cart) {
         this.loader.enable();
-        this.productService.getProductById(item.id).subscribe(response => {
+        this.productService.getProductById(item.productId).subscribe(response => {
           this.loader.disable();
           if (response.success) {
             this.products.push(response.data);
