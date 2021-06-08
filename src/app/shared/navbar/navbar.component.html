@@ -41,6 +41,26 @@
           </li>
         </ul>
       </li>
+
+      <li class="nav-item dropdown" *ngIf="authentication.roleId === 2">
+        <a class="nav-link" (click)="toggleStoresDropdown()">
+          <i class="material-icons">
+            store
+          </i>
+          <span>
+            Lojas
+          </span>
+        </a>
+        <ul class="dropdown-menu multi-level" role="menu" [ngClass]="{ 'show': storesDropdownOpen }">
+          <li class="dropdown-item"><a (click)="storeClick()">Todas</a></li>
+          <li class="dropdown-divider"></li>
+          <li class="dropdown-item">
+            <ng-container *ngFor="let store of stores">
+              <a tabindex="-1" (click)="storeClick()">{{ store.name }}</a>
+            </ng-container>
+          </li>
+        </ul>
+      </li>
     </ul>
     <form [formGroup]="searchForm" (ngSubmit)="searchByName()" class="form-inline ml-auto">
       <input class="form-control mr-sm-2" formControlName="searchField" type="search" placeholder="Pesquisar produto">

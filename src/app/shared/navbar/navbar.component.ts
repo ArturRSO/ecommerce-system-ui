@@ -7,10 +7,11 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import { StoreService } from 'src/app/core/services/store.service';
 import { ProductSearchType } from 'src/app/utils/enums/product-search-type.enum';
+import { Roles } from 'src/app/utils/enums/roles.enum';
 import { RolesList } from 'src/app/utils/lists/roles.list';
 import { UserRegistration } from 'src/app/utils/models/user-registration.model';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -26,8 +27,36 @@ export class NavbarComponent implements OnInit {
   public productSubtypes = [];
   public productTypes = [];
   public searchForm: FormGroup;
+  public storesDropdownOpen = false;
+  public stores = [];
 
   private authenticationState: Subscription;
+  private navbarOptions = [
+    {
+      name: 'Dashboard',
+      elementId: null,
+      route: 'gerenciamento/dashboard',
+      icon: 'dashboard',
+      samePage: false,
+      allowedRoles: [Roles.SYSTEM_ADMIN]
+    },
+    {
+      name: 'Perfil',
+      elementId: null,
+      route: 'cadastro/perfil',
+      icon: 'account_box',
+      samePage: false,
+      allowedRoles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN, Roles.CUSTOMER]
+    },
+    {
+      name: 'Carrinho',
+      elementId: null,
+      route: 'loja/carrinho',
+      icon: 'shopping_cart',
+      samePage: false,
+      allowedRoles: [Roles.CUSTOMER, Roles.GUEST]
+    }
+  ];
 
   constructor(
     private authService: AuthenticationService,
@@ -36,7 +65,8 @@ export class NavbarComponent implements OnInit {
     private modalService: ModalService,
     private productService: ProductService,
     private router: Router,
-    private sessionStorageService: SessionStorageService
+    private sessionStorageService: SessionStorageService,
+    private storeService: StoreService
   ) { }
 
   ngOnInit(): void {
@@ -48,6 +78,11 @@ export class NavbarComponent implements OnInit {
 
   get f() {
     return this.searchForm.controls;
+  }
+
+  public storeClick(): void {
+    // TO DO
+    console.log('STORE CLICK');
   }
 
   public getProductsBySubtype(subtype: any): void {
@@ -79,7 +114,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public openRegistrationModal(): void {
-    const buttons = [{text: 'Comprar'}, {text: 'Vender'}];
+    const buttons = [{ text: 'Comprar' }, { text: 'Vender' }];
 
     this.modalService.openSimpleModal('Cadastro', 'O que deseja fazer?', buttons).subscribe(response => {
       const roles = new RolesList();
@@ -120,6 +155,12 @@ export class NavbarComponent implements OnInit {
     this.getProductTypes();
   }
 
+  public toggleStoresDropdown(): void {
+    this.storesDropdownOpen = !this.storesDropdownOpen;
+
+    this.getStores();
+  }
+
   public showProductTypeSubmenu(productTypeId: number): void {
     this.getSubtypesByProductTypeId(productTypeId);
   }
@@ -149,6 +190,14 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  private getStores(): void {
+    this.loader.enable();
+    this.storeService.getStoresByUserId(this.authentication.roleId).subscribe(response => {
+      this.loader.disable();
+      this.stores = response.data;
+    });
+  }
+
   private getSubtypesByProductTypeId(productId: number): void {
     this.loader.enable();
     this.productService.getProductSubtypesByTypeId(productId).subscribe(response => {
@@ -168,6 +217,6 @@ export class NavbarComponent implements OnInit {
   }
 
   private setNavbarOptions(): void {
-    this.options = environment.NAVBAR_OPTIONS.filter(option => option.allowedRoles.includes(this.authentication.roleId));
+    this.options = this.navbarOptions.filter(option => option.allowedRoles.includes(this.authentication.roleId));
   }
 }

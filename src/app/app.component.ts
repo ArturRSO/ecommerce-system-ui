@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { AuthenticationService } from './core/services/authentication.service';
 
 @Component({
@@ -19,8 +18,7 @@ export class AppComponent implements OnInit {
 
   private checkAuthentication(): void {
     if (!this.authService.getAuthenticationState()) {
-
-      this.authService.setAuthenticationState(environment.INITIAL_AUTHENTICATION_STATE);
+      this.authService.setInitialAuthenticationState();
     }
   }
 }
