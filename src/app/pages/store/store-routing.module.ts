@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'src/app/guards/auth.guard';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { OrderConclusionComponent } from './order-conclusion/order-conclusion.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { PaymentMethodComponent } from './payment-method/payment-method.component';
 import { ProductCartComponent } from './product-cart/product-cart.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
@@ -26,6 +27,10 @@ const routes: Routes = [
     path: 'pagamento',
     component: PaymentMethodComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'pedido',
+    component: OrderDetailComponent
   },
   {
     path: 'produtos',

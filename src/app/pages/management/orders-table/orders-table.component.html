@@ -1,0 +1,8 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h2>Lojas</h2>
+      <app-table [addButton]="false" [columns]="columns" [headers]="headers" [data]="orders" (objectSent)="getOrderClick($event)"></app-table>
+    </div>
+  </div>
+</div>

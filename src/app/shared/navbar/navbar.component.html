@@ -52,7 +52,7 @@
           </span>
         </a>
         <ul class="dropdown-menu multi-level" role="menu" [ngClass]="{ 'show': storesDropdownOpen }">
-          <li class="dropdown-item"><a>Todas</a></li>
+          <li class="dropdown-item"><a (click)="navigateToPage('gerenciamento/lojas')">Todas</a></li>
           <li class="dropdown-divider"></li>
           <li class="dropdown-item" *ngFor="let store of stores">
             <a (click)="goToStoreDashboard(store.storeId)">{{ store.name }}</a>

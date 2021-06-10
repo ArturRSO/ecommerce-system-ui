@@ -4,5 +4,6 @@ export enum Regex {
   NAME = '[A-zÀ-ú]',
   ONLY_NUMBERS = '^[0-9]*$',
   PASSWORD = '^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,16}$',
-  IMAGE_FILE = 'image-*'
+  IMAGE_FILE = 'image-*',
+  ROUTE_PARAMETER = ':(.*?):'
 }

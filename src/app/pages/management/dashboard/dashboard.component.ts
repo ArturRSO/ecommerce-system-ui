@@ -5,6 +5,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { ReportService } from 'src/app/core/services/report.service';
 import { StoreService } from 'src/app/core/services/store.service';
+import { Regex } from 'src/app/utils/enums/regex.enum';
 import { Roles } from 'src/app/utils/enums/roles.enum';
 import { DashboardCard } from 'src/app/utils/models/dashboard-card.model';
 
@@ -40,8 +41,19 @@ export class DashboardComponent implements OnInit {
   }
 
   public dashboardClick(card: any) {
-    // TO DO
-    console.log(card);
+    const parameter = card.route.match(Regex.ROUTE_PARAMETER);
+    let route = card.route;
+
+    if (parameter) {
+      const value = this.getValueFromParameterName(parameter[1]);
+      route = route.replace(new RegExp(Regex.ROUTE_PARAMETER), value.toString());
+    }
+
+    this.navigateToPage(route);
+  }
+
+  public navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
   }
 
   private getData(): void {
@@ -53,6 +65,7 @@ export class DashboardComponent implements OnInit {
 
       if (storeId && storeId !== NaN) {
         this.storeService.getStoreById(storeId).subscribe(response => {
+          this.loader.disable();
           if (response.success) {
             this.store = response.data;
             this.getStoreAdminMetrics(storeId);
@@ -81,6 +94,15 @@ export class DashboardComponent implements OnInit {
       }
     } else {
       this.getSystemAdminReports();
+    }
+  }
+
+  private getValueFromParameterName(parameter: string): number {
+    switch (parameter) {
+      case 'storeId':
+        return this.store.storeId;
+      default:
+        return 0;
     }
   }
 
@@ -121,6 +143,7 @@ export class DashboardComponent implements OnInit {
         'Receita do dia',
         'card bg-c-green order-card',
         'monetization_on',
+        '',
         {
           label: 'Receita do dia',
           value: this.revenueMetrics ? this.revenueMetrics.revenue : 0
@@ -134,6 +157,7 @@ export class DashboardComponent implements OnInit {
         'Lojas',
         'card bg-c-blue order-card',
         'store',
+        '',
         {
           label: 'Total de lojas',
           value: this.storeMetrics ? this.storeMetrics.stores : 0
@@ -147,6 +171,7 @@ export class DashboardComponent implements OnInit {
         'Usuários',
         'card bg-c-pink order-card',
         'people',
+        '',
         {
           label: 'Usuários',
           value: this.userMetrics ? this.userMetrics.users : 0
@@ -165,6 +190,7 @@ export class DashboardComponent implements OnInit {
         'Pedidos',
         'card bg-c-green order-card',
         'shopping_cart',
+        'gerenciamento/pedidos?store=:storeId:',
         {
           label: 'Total de pedidos',
           value: this.orderMetrics ? this.orderMetrics.orders : 0
@@ -178,6 +204,7 @@ export class DashboardComponent implements OnInit {
         'Produtos',
         'card bg-c-yellow order-card',
         'category',
+        '',
         {
           label: 'Total de produtos',
           value: this.productMetrics ? this.productMetrics.products : 0
@@ -188,9 +215,5 @@ export class DashboardComponent implements OnInit {
         }
       )
     ];
-  }
-
-  public navigateToPage(route: string) {
-    this.router.navigateByUrl(route);
   }
 }

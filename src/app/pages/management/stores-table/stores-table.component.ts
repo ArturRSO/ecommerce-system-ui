@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { StoreService } from 'src/app/core/services/store.service';
 
 @Component({
   selector: 'app-stores-table',
@@ -7,49 +11,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StoresTableComponent implements OnInit {
 
-  // TEST
-  public columns = ['id', 'name', 'progress', 'fruit'];
-  public headers = ['ID', 'Name', 'Progress', 'Fruit'];
-  public users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));;
+  public columns = ['storeId', 'name', 'documentNumber', 'creationDate'];
+  public headers = ['ID', 'Nome', 'Documento', 'Data de cadastro'];
+  public stores = [];
 
-  constructor() { }
+  constructor(
+    private authService: AuthenticationService,
+    private loader: LoaderService,
+    private router: Router,
+    private storeService: StoreService
+  ) { }
 
   ngOnInit(): void {
+    this.getData();
   }
 
-  public getObject(object: any) {
+  public createStore(): void {
     // TO DO
-    console.log(object);
+    console.log('CREATE STORE');
   }
-}
 
-// TEST
+  public getStoreClick(store: any): void {
+    this.navigateToPage(`gerenciamento/loja?store=${store.storeId}`);
+  }
 
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  fruit: string;
-}
+  private getData(): void {
+    this.loader.enable();
+    this.storeService.getStoresByUserId(this.authService.getAuthenticationState().userId).subscribe(response => {
+      this.loader.disable();
+      this.stores = response.data;
+    });
+  }
 
-/** Constants used to fill up our data base. */
-const FRUITS: string[] = [
-  'blueberry', 'lychee', 'kiwi', 'mango', 'peach', 'lime', 'pomegranate', 'pineapple'
-];
-const NAMES: string[] = [
-  'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
-  'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];
-
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-  const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))]
-  };
+  private navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
+  }
 }

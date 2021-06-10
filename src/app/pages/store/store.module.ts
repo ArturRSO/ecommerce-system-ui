@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { ShippingComponent } from './shipping/shipping.component';
 import { OrderConclusionComponent } from './order-conclusion/order-conclusion.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { OrderConclusionComponent } from './order-conclusion/order-conclusion.co
     ProductCartComponent,
     PaymentMethodComponent,
     ShippingComponent,
-    OrderConclusionComponent
+    OrderConclusionComponent,
+    OrderDetailComponent
   ],
   imports: [
     CommonModule,

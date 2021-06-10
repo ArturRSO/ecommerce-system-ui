@@ -25,6 +25,16 @@ export class OrderService {
     );
   }
 
+  public getOrdersByStoreId(storeId: number) {
+
+    return this.http.get<any>(`${this.baseApiUrl}/store/${storeId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public getOrdersByUserId(userId: number) {
 
     return this.http.get<any>(`${this.baseApiUrl}/user/${userId}`).pipe(
@@ -34,7 +44,6 @@ export class OrderService {
       catchError((error: any) => throwError(error))
     );
   }
-
 
   public getOrderSummaryById(orderId: number) {
 

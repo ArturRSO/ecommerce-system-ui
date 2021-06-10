@@ -17,7 +17,9 @@
                 </label>
               </div>
               <span>
-                <strong>Pedido #{{ order?.orderId }}</strong>
+                <a (click)="goToOrderDetail(order.orderId)">
+                  <strong>Pedido #{{ order?.orderId }}</strong>
+                </a>
               </span>
               <br>
               Valor: {{ order?.finalPrice | currency}}
