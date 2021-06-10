@@ -17,7 +17,57 @@ export class ReportService {
 
   public getOrdersReportByStoreId(storeId: number): any {
 
-    return this.http.get(`${this.baseApiUrl}/orders/${storeId}`).pipe(
+    return this.http.get(`${this.baseApiUrl}/orders?storeId=${storeId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getProductsReportByStoreId(storeId: number): any {
+
+    return this.http.get(`${this.baseApiUrl}/products?storeId=${storeId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getStoresCountReport(): any {
+
+    return this.http.get(`${this.baseApiUrl}/stores/count`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getSystemCashFlowReportsByDateRange(startDate: string, endDate: string): any {
+
+    return this.http.get(`${this.baseApiUrl}/system/cashflow?startDate=${startDate}&endDate=${endDate}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getSystemCashFlowRevenueReportsByDateRange(startDate: string, endDate: string): any {
+
+    return this.http.get(`${this.baseApiUrl}/system/cashflow/revenue?startDate=${startDate}&endDate=${endDate}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getUsersCountReport(): any {
+
+    return this.http.get(`${this.baseApiUrl}/users/count`).pipe(
       map(response => {
         return response;
       }),

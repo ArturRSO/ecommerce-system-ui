@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { ReportService } from 'src/app/core/services/report.service';
+import { StoreService } from 'src/app/core/services/store.service';
 import { Roles } from 'src/app/utils/enums/roles.enum';
-import { environment } from 'src/environments/environment';
+import { DashboardCard } from 'src/app/utils/models/dashboard-card.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,48 +15,28 @@ import { environment } from 'src/environments/environment';
 })
 export class DashboardComponent implements OnInit {
 
+  public authentication: any;
   public cards: any;
-  public metric: any;
-
-  private DASHBOARD_CARDS = [
-    {
-      title: 'Lojas',
-      metric: 'Lojas ativas',
-      class: 'card bg-c-blue order-card',
-      icon: 'store',
-      roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]
-    },
-    {
-      title: 'Pedidos',
-      metric: 'Pedidos concluídos',
-      class: 'card bg-c-green order-card',
-      icon: 'shopping_cart',
-      roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]
-    },
-    {
-      title: 'Produtos',
-      metric: 'Produtos em estoque',
-      class: 'card bg-c-yellow order-card',
-      icon: 'category',
-      roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN]
-    },
-    {
-      title: 'Usuários',
-      metric: 'Lojistas',
-      class: 'card bg-c-pink order-card',
-      icon: 'people',
-      roles: [Roles.SYSTEM_ADMIN]
-    }
-  ];
+  public orderMetrics: any;
+  public productMetrics: any;
+  public revenueMetrics: any;
+  public revenueByStoreMetrics: any;
+  public store: any;
+  public storeMetrics: any;
+  public userMetrics: any;
 
   constructor(
     private authService: AuthenticationService,
+    private loader: LoaderService,
+    private modalService: ModalService,
     private reportService: ReportService,
-    private router: Router
+    private route: ActivatedRoute,
+    private router: Router,
+    private storeService: StoreService
   ) { }
 
   ngOnInit(): void {
-    this.loadCards();
+    this.getData();
   }
 
   public dashboardClick(card: any) {
@@ -61,17 +44,153 @@ export class DashboardComponent implements OnInit {
     console.log(card);
   }
 
+  private getData(): void {
+    this.authentication = this.authService.getAuthenticationState();
+
+    if (this.authentication.roleId === Roles.STORE_ADMIN) {
+      this.loader.enable();
+      const storeId = parseInt(this.route.snapshot.queryParamMap.get('store'));
+
+      if (storeId && storeId !== NaN) {
+        this.storeService.getStoreById(storeId).subscribe(response => {
+          if (response.success) {
+            this.store = response.data;
+            this.getStoreAdminMetrics(storeId);
+
+          } else {
+            this.modalService.openSimpleModal('Atenção', 'Loja não encontrada!', [{ text: 'OK' }]).subscribe(() => {
+              // TO DO
+              this.navigateToPage('cadastro/perfil');
+            });
+          }
+        });
+      } else {
+        this.storeService.getStoresByUserId(this.authentication.userId).subscribe(response => {
+          this.loader.disable();
+          if (response.success) {
+            this.store = response.data[0];
+            this.getStoreAdminMetrics(this.store.storeId);
+
+          } else {
+            this.modalService.openSimpleModal('Atenção', 'Você não possui lojas cadastradas.', [{ text: 'OK' }]).subscribe(() => {
+              // TO DO
+              this.navigateToPage('cadastro/perfil');
+            });
+          }
+        });
+      }
+    } else {
+      this.getSystemAdminReports();
+    }
+  }
+
+  private getStoreAdminMetrics(storeId: number): void {
+    this.loader.enable();
+    this.reportService.getOrdersReportByStoreId(storeId).subscribe(response => {
+      this.orderMetrics = response.data;
+      this.reportService.getProductsReportByStoreId(storeId).subscribe(response => {
+        this.loader.disable();
+        this.productMetrics = response.data;
+        this.loadStoreCards();
+      });
+    });
+  }
+
+  private getSystemAdminReports(): void {
+    this.loader.enable();
+    const date = new Date().toISOString().split("T")[0];
+    this.reportService.getSystemCashFlowRevenueReportsByDateRange(date, date).subscribe(response => {
+      this.revenueMetrics = response.data ? response.data[0] : null;
+      this.reportService.getSystemCashFlowReportsByDateRange(date, date).subscribe(response => {
+        this.revenueByStoreMetrics = response.data ? response.data.slice(-1).pop() : null;
+        this.reportService.getStoresCountReport().subscribe(response => {
+          this.storeMetrics = response.data ? response.data[0] : null;
+          this.reportService.getUsersCountReport().subscribe(response => {
+            this.userMetrics = response.data ? response.data[0] : null;
+            this.loadAdminCards();
+            this.loader.disable();
+          });
+        });
+      });
+    })
+  }
+
+  private loadAdminCards(): void {
+    this.cards = [
+      new DashboardCard(
+        'Receita do dia',
+        'card bg-c-green order-card',
+        'monetization_on',
+        {
+          label: 'Receita do dia',
+          value: this.revenueMetrics ? this.revenueMetrics.revenue : 0
+        },
+        {
+          label: 'Última receita',
+          value: this.revenueMetrics ? this.revenueByStoreMetrics.revenue : 0
+        }
+      ),
+      new DashboardCard(
+        'Lojas',
+        'card bg-c-blue order-card',
+        'store',
+        {
+          label: 'Total de lojas',
+          value: this.storeMetrics ? this.storeMetrics.stores : 0
+        },
+        {
+          label: 'Lojas ativas',
+          value: this.storeMetrics ? this.storeMetrics.activeStores : 0
+        }
+      ),
+      new DashboardCard(
+        'Usuários',
+        'card bg-c-pink order-card',
+        'people',
+        {
+          label: 'Usuários',
+          value: this.userMetrics ? this.userMetrics.users : 0
+        },
+        {
+          label: 'Lojistas',
+          value: this.userMetrics ? this.userMetrics.storeAdmins : 0
+        }
+      )
+    ]
+  }
+
+  private loadStoreCards(): void {
+    this.cards = [
+      new DashboardCard(
+        'Pedidos',
+        'card bg-c-green order-card',
+        'shopping_cart',
+        {
+          label: 'Total de pedidos',
+          value: this.orderMetrics ? this.orderMetrics.orders : 0
+        },
+        {
+          label: 'Pedidos concluídos',
+          value: this.orderMetrics ? this.orderMetrics.finishedOrders : 0
+        }
+      ),
+      new DashboardCard(
+        'Produtos',
+        'card bg-c-yellow order-card',
+        'category',
+        {
+          label: 'Total de produtos',
+          value: this.productMetrics ? this.productMetrics.products : 0
+        },
+        {
+          label: 'Produtos em estoque',
+          value: this.productMetrics ? this.productMetrics.activeProducts : 0
+        }
+      )
+    ];
+  }
+
   public navigateToPage(route: string) {
     this.router.navigateByUrl(route);
-  }
-
-  private getMetrics(): void {
-    this.reportService.getOrdersReportByStoreId(1)
-  }
-
-  private loadCards(): void {
-    const authentication = this.authService.getAuthenticationState();
-
-    this.cards = this.DASHBOARD_CARDS.filter(option => option.roles.includes(authentication.roleId));
   }
 }

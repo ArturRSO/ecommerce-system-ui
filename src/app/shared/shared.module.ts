@@ -10,6 +10,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CartItemQuantityFormComponent } from './cart-item-quantity-form/cart-item-quantity-form.component';
 import { PaymentMethodPickModalComponent } from './payment-method-pick-modal/payment-method-pick-modal.component';
+import { TableComponent } from './table/table.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -18,14 +24,20 @@ import { PaymentMethodPickModalComponent } from './payment-method-pick-modal/pay
     SimpleModalComponent,
     AddToCartModalComponent,
     CartItemQuantityFormComponent,
-    PaymentMethodPickModalComponent
+    PaymentMethodPickModalComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatTabsModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    DragDropModule
   ],
   exports: [
     NavbarComponent,
@@ -33,7 +45,8 @@ import { PaymentMethodPickModalComponent } from './payment-method-pick-modal/pay
     SimpleModalComponent,
     AddToCartModalComponent,
     CartItemQuantityFormComponent,
-    PaymentMethodPickModalComponent
+    PaymentMethodPickModalComponent,
+    TableComponent
   ],
   entryComponents: [
     SimpleModalComponent

@@ -7,6 +7,7 @@ import { ModalService } from 'src/app/core/services/modal.service';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { Roles } from 'src/app/utils/enums/roles.enum';
 import { RolesList } from 'src/app/utils/lists/roles.list';
+import { AuthenticationState } from 'src/app/utils/models/authentication-state.model';
 import { UserRegistration } from 'src/app/utils/models/user-registration.model';
 
 @Component({
@@ -53,15 +54,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.form.value).subscribe(response => {
       this.loader.disable();
 
-      const authState = {
-        authenticated: true,
-        token: response.data.token,
-        tokenExpiration: response.data.expiration,
-        roleId: response.data.roleId,
-        userId: response.data.userId
-      }
-
-      this.authService.setAuthenticationState(authState);
+      this.authService.setAuthenticationState(new AuthenticationState(true, response.data.token, response.data.expiration, response.data.roleId, response.data.userId));
 
       const nextRoute = sessionStorage.getItem('nextRoute');
 

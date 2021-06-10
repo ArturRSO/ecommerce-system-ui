@@ -80,11 +80,6 @@ export class NavbarComponent implements OnInit {
     return this.searchForm.controls;
   }
 
-  public storeClick(): void {
-    // TO DO
-    console.log('STORE CLICK');
-  }
-
   public getProductsBySubtype(subtype: any): void {
     const searchRequest = {
       searchType: ProductSearchType.SUBTYPE_ID,
@@ -93,6 +88,10 @@ export class NavbarComponent implements OnInit {
 
     this.productService.setSearchRequest(searchRequest);
     this.navigateToPage('/loja/produtos');
+  }
+
+  public goToStoreDashboard(storeId: number): void {
+    this.navigateToPage(`gerenciamento/dashboard?store=${storeId}`);
   }
 
   public logout(): void {

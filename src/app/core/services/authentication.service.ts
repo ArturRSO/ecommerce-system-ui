@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Roles } from 'src/app/utils/enums/roles.enum';
+import { AuthenticationState } from 'src/app/utils/models/authentication-state.model';
 import { environment } from 'src/environments/environment';
 import { LocalStorageService } from './local-storage.service';
 
@@ -13,7 +14,7 @@ export class AuthenticationService {
 
   private authState = new Subject<any>();
   private baseApiUrl = `${environment.API_URL}/auth`;
-  private initialAuthenticationState = { authenticated: false, roleId: Roles.GUEST };
+  private initialAuthenticationState =  new AuthenticationState(false, null, null, Roles.GUEST, null);
 
   constructor(
     private http: HttpClient,
@@ -51,7 +52,7 @@ export class AuthenticationService {
     this.setInitialAuthenticationState();
   }
 
-  public setAuthenticationState(state: any): void {
+  public setAuthenticationState(state: AuthenticationState): void {
     this.localStorageService.setObject('authentication', state);
     this.authState.next(state);
   }

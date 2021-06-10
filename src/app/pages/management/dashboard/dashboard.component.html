@@ -1,11 +1,19 @@
 <div class="container">
   <div class="row">
+    <div class="col-12">
+      <h2 *ngIf="authentication.roleId === 2">{{ store?.name }}</h2>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-md-4 col-xl-3" *ngFor="let card of cards; let i=index;" (click)="dashboardClick(card)">
-      <div class="card" [ngClass]="card.class">
+      <div class="card" [ngClass]="card.styleClass">
         <div class="card-block">
           <h3 class="m-b-20">{{ card.title }}</h3>
-          <h2 class="text-right"><i class="material-icons f-left">{{ card.icon }}</i><span>666</span></h2>
-          <p class="m-b-0">{{ card.metric }}<span class="f-right">666</span></p>
+          <h2 class="text-right">
+            <i class="material-icons f-left">{{ card.icon }}</i>
+            <span>{{ card.mainMetric.value }}</span>
+          </h2>
+          <p class="m-b-0">{{ card.secondaryMetric.label }}<span class="f-right">{{ card.secondaryMetric.value }}</span></p>
         </div>
       </div>
     </div>

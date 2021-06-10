@@ -1,0 +1,7 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <app-table [columns]="columns" [headers]="headers" [data]="users" (objectSent)="getObject($event)"></app-table>
+    </div>
+  </div>
+</div>
