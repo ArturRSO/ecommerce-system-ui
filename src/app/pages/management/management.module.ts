@@ -9,6 +9,13 @@ import { UtilsModule } from 'src/app/utils/utils.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { OrdersTableComponent } from './orders-table/orders-table.component';
 import { UsersTableComponent } from './users-table/users-table.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { RevenueTableComponent } from './revenue-table/revenue-table.component';
+import { ProductsTableComponent } from './products-table/products-table.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +23,20 @@ import { UsersTableComponent } from './users-table/users-table.component';
     StoresTableComponent,
     StoreProfileComponent,
     OrdersTableComponent,
-    UsersTableComponent
+    UsersTableComponent,
+    RevenueTableComponent,
+    ProductsTableComponent
   ],
   imports: [
     CommonModule,
     ManagementRoutingModule,
     SharedModule,
     UtilsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
     NgxMaskModule.forRoot()
   ]
 })

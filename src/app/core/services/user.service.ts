@@ -88,6 +88,16 @@ export class UserService {
     );
   }
 
+  public getUsersByRoleId(roleId: number): any {
+
+    return this.http.get<any>(`${this.baseApiUrl}/role/${roleId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public resetPassword(token: string, password: string): any {
 
     return this.http.post<any>(`${this.baseApiUrl}/recover/password?token=${encodeURIComponent(token)}`, password).pipe(

@@ -4,17 +4,8 @@
       <div class="col-md-5 col-sm-12 col-xs-12">
         <div class="product-image">
           <carousel>
-            <slide>
-              <img src="https://via.placeholder.com/700x400/FFB6C1/000000" alt="first slide"
-                style="display: block; width: 100%;">
-            </slide>
-            <slide>
-              <img src="https://via.placeholder.com/700x400/87CEFA/000000" alt="second slide"
-                style="display: block; width: 100%;">
-            </slide>
-            <slide>
-              <img src="https://via.placeholder.com/700x400/B0C4DE/000000" alt="third slide"
-                style="display: block; width: 100%;">
+            <slide *ngFor="let image of product.imageList">
+              <img [src]="image | bypassSanitizer: 'url'" alt="first slide" style="display: block; width: 100%;">
             </slide>
           </carousel>
         </div>

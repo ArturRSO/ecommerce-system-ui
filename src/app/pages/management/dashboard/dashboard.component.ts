@@ -72,8 +72,7 @@ export class DashboardComponent implements OnInit {
 
           } else {
             this.modalService.openSimpleModal('Atenção', 'Loja não encontrada!', [{ text: 'OK' }]).subscribe(() => {
-              // TO DO
-              this.navigateToPage('cadastro/perfil');
+              this.navigateToPage('gerenciamento/lojas');
             });
           }
         });
@@ -86,8 +85,7 @@ export class DashboardComponent implements OnInit {
 
           } else {
             this.modalService.openSimpleModal('Atenção', 'Você não possui lojas cadastradas.', [{ text: 'OK' }]).subscribe(() => {
-              // TO DO
-              this.navigateToPage('cadastro/perfil');
+              this.navigateToPage('gerenciamento/lojas');
             });
           }
         });
@@ -108,12 +106,15 @@ export class DashboardComponent implements OnInit {
 
   private getStoreAdminMetrics(storeId: number): void {
     this.loader.enable();
-    this.reportService.getOrdersReportByStoreId(storeId).subscribe(response => {
-      this.orderMetrics = response.data;
-      this.reportService.getProductsReportByStoreId(storeId).subscribe(response => {
-        this.loader.disable();
-        this.productMetrics = response.data;
-        this.loadStoreCards();
+    this.reportService.getStoreCashFlowRevenueReportsByStoreId(storeId).subscribe(response => {
+      this.revenueByStoreMetrics = response.data ? response.data.slice(-1).pop() : null;
+      this.reportService.getOrdersReportByStoreId(storeId).subscribe(response => {
+        this.orderMetrics = response.data;
+        this.reportService.getProductsReportByStoreId(storeId).subscribe(response => {
+          this.loader.disable();
+          this.productMetrics = response.data;
+          this.loadStoreCards();
+        });
       });
     });
   }
@@ -143,7 +144,7 @@ export class DashboardComponent implements OnInit {
         'Receita do dia',
         'card bg-c-green order-card',
         'monetization_on',
-        '',
+        'gerenciamento/receitas',
         {
           label: 'Receita do dia',
           value: this.revenueMetrics ? this.revenueMetrics.revenue : 0
@@ -157,7 +158,7 @@ export class DashboardComponent implements OnInit {
         'Lojas',
         'card bg-c-blue order-card',
         'store',
-        '',
+        'gerenciamento/lojas',
         {
           label: 'Total de lojas',
           value: this.storeMetrics ? this.storeMetrics.stores : 0
@@ -171,7 +172,7 @@ export class DashboardComponent implements OnInit {
         'Usuários',
         'card bg-c-pink order-card',
         'people',
-        '',
+        'gerenciamento/usuarios',
         {
           label: 'Usuários',
           value: this.userMetrics ? this.userMetrics.users : 0
@@ -187,8 +188,22 @@ export class DashboardComponent implements OnInit {
   private loadStoreCards(): void {
     this.cards = [
       new DashboardCard(
-        'Pedidos',
+        'Receita do dia',
         'card bg-c-green order-card',
+        'monetization_on',
+        'gerenciamento/receitas',
+        {
+          label: 'Receita do dia',
+          value: this.revenueMetrics ? this.revenueMetrics.revenue : 0
+        },
+        {
+          label: 'Última receita',
+          value: this.revenueMetrics ? this.revenueByStoreMetrics.revenue : 0
+        }
+      ),
+      new DashboardCard(
+        'Pedidos',
+        'card bg-c-blue order-card',
         'shopping_cart',
         'gerenciamento/pedidos?store=:storeId:',
         {

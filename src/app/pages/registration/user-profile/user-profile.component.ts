@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AddressService } from 'src/app/core/services/address.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -9,6 +9,7 @@ import { TelephoneService } from 'src/app/core/services/telephone.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 import { Regex } from 'src/app/utils/enums/regex.enum';
+import { Roles } from 'src/app/utils/enums/roles.enum';
 import { RolesList } from 'src/app/utils/lists/roles.list';
 import { PasswordUpdate } from 'src/app/utils/models/password-update.model';
 import { RegistrationRequest } from 'src/app/utils/models/registration-request.model';
@@ -25,19 +26,20 @@ export class UserProfileComponent implements OnInit {
   public documentMask = InputMasks.CPF;
   public imageSrc: string;
   public postalCodeMask = InputMasks.CEP;
+  public profile = true;
   public telephoneMask = InputMasks.TELEPHONE;
   public telephones = [];
   public user: any;
 
   private imagePattern = new RegExp(Regex.IMAGE_FILE);
   private profileImageSrc: string;
-  private userId: number;
 
   constructor(
     private addressService: AddressService,
     private authService: AuthenticationService,
     private loader: LoaderService,
     private modalService: ModalService,
+    private route: ActivatedRoute,
     private router: Router,
     private sessionStorageService: SessionStorageService,
     private telephoneService: TelephoneService,
@@ -49,8 +51,10 @@ export class UserProfileComponent implements OnInit {
   }
 
   public changeProfileImage(): void {
-    const fileUpload = document.getElementById('profile-image-upload') as HTMLElement;
-    fileUpload.click();
+    if (this.profile) {
+      const fileUpload = document.getElementById('profile-image-upload') as HTMLElement;
+      fileUpload.click();
+    }
   }
 
   public deleteAddress(addressId: number): void {
@@ -76,7 +80,7 @@ export class UserProfileComponent implements OnInit {
       if (response === 'Sim') {
         this.loader.enable();
 
-        this.userService.deleteUser(this.userId).subscribe(response => {
+        this.userService.deleteUser(this.user.userId).subscribe(response => {
           this.loader.disable();
           if (response.success) {
             this.modalService.openSimpleModal('Sucesso', 'Perfil desativado.', [{ text: 'OK' }]).subscribe(() => {
@@ -123,11 +127,15 @@ export class UserProfileComponent implements OnInit {
   }
 
   public setProfileImageHover(): void {
-    this.imageSrc = '../../../../assets/images/profile-image-hover.png';
+    if (this.profile) {
+      this.imageSrc = '../../../../assets/images/profile-image-hover.png';
+    }
   }
 
   public setProfileImage(): void {
-    this.imageSrc = this.profileImageSrc;
+    if (this.profile) {
+      this.imageSrc = this.profileImageSrc;
+    }
   }
 
   public updateAddress(addressId: number): void {
@@ -160,7 +168,7 @@ export class UserProfileComponent implements OnInit {
       if (file.type.match(this.imagePattern)) {
         this.loader.enable();
 
-        this.userService.changeProfileImage(this.userId, file).subscribe(response => {
+        this.userService.changeProfileImage(this.user.userId, file).subscribe(response => {
           this.loader.disable();
           if (response.success) {
             this.modalService.openSimpleModal('Sucesso', response.message, [{ text: 'OK' }]).subscribe(() => {
@@ -178,12 +186,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   private getAddressesAndTelephones(): any {
-    this.addressService.getAddressesByUserId(this.userId).subscribe(response => {
+    this.addressService.getAddressesByUserId(this.user.userId).subscribe(response => {
       if (response.success) {
         this.addresses = response.data;
       }
 
-      this.telephoneService.getTelephonesByUserId(this.userId).subscribe(response => {
+      this.telephoneService.getTelephonesByUserId(this.user.userId).subscribe(response => {
         this.loader.disable();
         if (response.success) {
           this.telephones = response.data;
@@ -195,15 +203,33 @@ export class UserProfileComponent implements OnInit {
   private getProfile(): void {
     this.loader.enable();
 
-    this.userId = this.authService.getAuthenticationState().userId;
+    const authentication = this.authService.getAuthenticationState();
+    const userId = parseInt(this.route.snapshot.queryParamMap.get('user'));
 
-    this.userService.getProfile().subscribe(response => {
-      this.user = response.data;
+    if (userId && userId !== NaN) {
+      if (authentication.roleId === Roles.SYSTEM_ADMIN) {
+        this.userService.getUserById(userId).subscribe(response => {
+          this.loader.disable();
+          if (response.success) {
+            this.profile = false;
+            this.user = response.data;
+            this.profileImageSrc = `data:image;base64, ${response.data.profileImage}`;
+            this.imageSrc = this.profileImageSrc;
 
-      this.profileImageSrc = `data:image;base64, ${response.data.profileImage}`;
-      this.imageSrc = this.profileImageSrc;
+            this.getAddressesAndTelephones();
+          }
+        });
+      } else {
+        this.modalService.openSimpleModal('Atenção', 'Você não possui acesso a esse recurso.', [{ text: 'OK' }]);
+      }
+    } else {
+      this.userService.getProfile().subscribe(response => {
+        this.user = response.data;
+        this.profileImageSrc = `data:image;base64, ${response.data.profileImage}`;
+        this.imageSrc = this.profileImageSrc;
 
-      this.getAddressesAndTelephones();
-    });
+        this.getAddressesAndTelephones();
+      });
+    }
   }
 }

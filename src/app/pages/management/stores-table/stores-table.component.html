@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12">
       <h2>Lojas</h2>
-      <app-table [addButton]="true" [columns]="columns" [headers]="headers" [data]="stores" (addRequest)="createStore()" (objectSent)="getStoreClick($event)"></app-table>
+      <app-table [addButton]="true" [dateFilter]="false" [columns]="columns" [headers]="headers" [data]="stores" (addRequest)="createStore()" (objectSent)="getStoreClick($event)"></app-table>
     </div>
   </div>
 </div>

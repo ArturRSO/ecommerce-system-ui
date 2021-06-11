@@ -35,6 +35,46 @@ export class ReportService {
     );
   }
 
+  public getStoreCashFlowReportsByStoreId(storeId: number): any {
+
+    return this.http.get(`${this.baseApiUrl}/stores/cashflow?storeId=${storeId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getStoreCashFlowReportsByDateRangeAndStoreId(startDate: string, endDate: string, storeId: number): any {
+
+    return this.http.get(`${this.baseApiUrl}/stores/cashflow?startDate=${startDate}&endDate=${endDate}&storeId=${storeId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getStoreCashFlowRevenueReportsByStoreId(storeId: number): any {
+
+    return this.http.get(`${this.baseApiUrl}/stores/cashflow/revenue?storeId=${storeId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getStoreCashFlowRevenueReportsByDateRangeAndStoreId(startDate: string, endDate: string, storeId: number): any {
+
+    return this.http.get(`${this.baseApiUrl}/stores/cashflow/revenue?startDate=${startDate}&endDate=${endDate}&storeId=${storeId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public getStoresCountReport(): any {
 
     return this.http.get(`${this.baseApiUrl}/stores/count`).pipe(
@@ -45,9 +85,27 @@ export class ReportService {
     );
   }
 
+  public getSystemCashFlowReports(): any {
+    return this.http.get(`${this.baseApiUrl}/system/cashflow`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public getSystemCashFlowReportsByDateRange(startDate: string, endDate: string): any {
 
     return this.http.get(`${this.baseApiUrl}/system/cashflow?startDate=${startDate}&endDate=${endDate}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
+  public getSystemCashFlowRevenueReports(): any {
+    return this.http.get(`${this.baseApiUrl}/system/cashflow/revenue`).pipe(
       map(response => {
         return response;
       }),

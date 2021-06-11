@@ -5,7 +5,7 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex flex-column align-items-center text-center">
-              <input id="profile-image-upload" class="d-none" type="file" (change)="uploadImage($event)">
+              <input id="profile-image-upload" class="d-none" type="file" (change)="uploadImage($event)" [disabled]="!profile">
               <a (click)="changeProfileImage()" (mouseover)="setProfileImageHover()" (mouseout)="setProfileImage()">
                 <img [src]="imageSrc | bypassSanitizer: 'url'" alt="profile-image" class="rounded-circle"
                 width="150" *ngIf="imageSrc">
@@ -13,10 +13,12 @@
               <div class="mt-3">
                 <h4>{{ user?.firstName }}</h4>
                 <p class="text-secondary mb-3">Cadastrado em {{ user?.creationDate | date: 'dd/MM/yyyy' }}</p>
-                <button class="btn btn-primary" (click)="updateProfile()">Atualizar perfil</button>
-                <button class="btn btn-outline-primary" (click)="navigateToPage('cadastro/historico')">Meus pedidos</button>
-                <button class="btn btn-danger" (click)="updatePassword()">Atualizar senha</button>
-                <button class="btn btn-danger" (click)="deleteProfile()">Desativar perfil</button>
+                <ng-container *ngIf="profile">
+                  <button class="btn btn-primary" (click)="updateProfile()">Atualizar perfil</button>
+                  <button class="btn btn-outline-primary" (click)="navigateToPage('cadastro/historico')">Meus pedidos</button>
+                  <button class="btn btn-danger" (click)="updatePassword()">Atualizar senha</button>
+                  <button class="btn btn-danger" (click)="deleteProfile()">Desativar perfil</button>
+                </ng-container>
               </div>
             </div>
           </div>
@@ -72,7 +74,7 @@
                   <div class="col-sm-8">
                     <h2 class="card-title mb-0">Endereços</h2>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-4" *ngIf="profile">
                     <button class="btn btn-primary ml-auto mr-3" (click)="registerAddress()">
                       Cadastrar endereço
                     </button>
@@ -94,7 +96,7 @@
                           <div class="col-sm-7">
                             <h2 class="mb-0">Endereço {{ i + 1 }}</h2>
                           </div>
-                          <div class="col-sm-5">
+                          <div class="col-sm-5" *ngIf="profile">
                             <button class="btn btn-primary ml-auto mr-3" (click)="updateAddress(address.addressId)">
                               Atualizar
                             </button>
@@ -167,7 +169,7 @@
                     <h2 class="card-title mb-0">Telefones</h2>
                   </div>
                   <div class="col-sm-4">
-                    <button class="btn btn-primary ml-auto mr-3" (click)="registerTelephone()">
+                    <button class="btn btn-primary ml-auto mr-3" (click)="registerTelephone()" *ngIf="profile">
                       Cadastrar telefone
                     </button>
                   </div>
@@ -188,7 +190,7 @@
                           <div class="col-sm-7">
                             <h2 class="mb-0">Telefone {{ i + 1 }}</h2>
                           </div>
-                          <div class="col-sm-5">
+                          <div class="col-sm-5" *ngIf="profile">
                             <button class="btn btn-primary ml-auto mr-3" (click)="updateTelephone(telephone.telephoneId)">
                               Atualizar
                             </button>

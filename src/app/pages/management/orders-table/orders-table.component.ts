@@ -53,6 +53,10 @@ export class OrdersTableComponent implements OnInit {
         }
         this.loader.disable();
       });
+    } else {
+      this.modalService.openSimpleModal('Atenção', 'Forneça um ID válido!', [{ text: 'OK' }]).subscribe(() => {
+        this.navigateToPage('gerenciamento/dashboard');
+      });
     }
   }
 

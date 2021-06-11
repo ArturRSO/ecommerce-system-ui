@@ -1,5 +1,5 @@
 <div class="button-container" *ngIf="addButton">
-  <button mat-raised-button (click)="addData()">
+  <button mat-raised-button color="primary" (click)="addData()">
     Adicionar
   </button>
 </div>
@@ -7,6 +7,39 @@
   <mat-label>Filtrar</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Pesquise aqui" #input>
 </mat-form-field>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="dateFilter">
+  <div class="form-row">
+    <div class="form-group col-12 col-md-4">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Data início" formControlName="startDate" [matDatepicker]="startPicker" [max]="defaultDate">
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker disabled="false" [startAt]="defaultDate"></mat-datepicker>
+        <mat-error *ngFor="let validation of validationMessages.startDate">
+          <mat-error *ngIf="f.startDate.hasError(validation.type) && submitted">
+            {{ validation.message }}
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="form-group col-12 col-md-4">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Data fim" formControlName="endDate" [matDatepicker]="endPicker" [max]="defaultDate">
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker disabled="false" [startAt]="defaultDate"></mat-datepicker>
+        <mat-error *ngFor="let validation of validationMessages.endDate">
+          <mat-error *ngIf="f.endDate.hasError(validation.type) && submitted">
+            {{ validation.message }}
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="form-group col-12 col-md-4">
+      <button mat-raised-button color="primary" type="submit">Filtrar</button>
+      <button mat-raised-button color="primary" type="reset" (click)="clearDateFilter()">Limpar</button>
+    </div>
+  </div>
+</form>
 
 <div class="mat-elevation-z8" style="overflow: auto; height: 400px;">
   <table mat-table [dataSource]="dataSource" matSort cdkDropList cdkDropListOrientation="horizontal"

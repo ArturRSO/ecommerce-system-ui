@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { StoreService } from 'src/app/core/services/store.service';
+import { Roles } from 'src/app/utils/enums/roles.enum';
 
 @Component({
   selector: 'app-stores-table',
@@ -37,10 +38,17 @@ export class StoresTableComponent implements OnInit {
 
   private getData(): void {
     this.loader.enable();
-    this.storeService.getStoresByUserId(this.authService.getAuthenticationState().userId).subscribe(response => {
-      this.loader.disable();
-      this.stores = response.data;
-    });
+    if (this.authService.getAuthenticationState().roleId === Roles.SYSTEM_ADMIN) {
+      this.storeService.getAllStores().subscribe(response => {
+        this.loader.disable();
+        this.stores = response.data;
+      });
+    } else {
+      this.storeService.getStoresByUserId(this.authService.getAuthenticationState().userId).subscribe(response => {
+        this.loader.disable();
+        this.stores = response.data;
+      });
+    }
   }
 
   private navigateToPage(route: string) {

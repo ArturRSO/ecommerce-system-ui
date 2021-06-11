@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AddressService } from 'src/app/core/services/address.service';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { StoreService } from 'src/app/core/services/store.service';
@@ -8,6 +9,7 @@ import { TelephoneService } from 'src/app/core/services/telephone.service';
 import { DocumentType } from 'src/app/utils/enums/document-type.enum';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 import { Regex } from 'src/app/utils/enums/regex.enum';
+import { Roles } from 'src/app/utils/enums/roles.enum';
 
 @Component({
   selector: 'app-store-profile',
@@ -21,6 +23,7 @@ export class StoreProfileComponent implements OnInit {
   public documentMask: string;
   public imageSrc: string;
   public postalCodeMask = InputMasks.CEP;
+  public storeAdmin: boolean;
   public store: any;
   public telephone: any;
   public telephoneMask = InputMasks.TELEPHONE;
@@ -29,6 +32,7 @@ export class StoreProfileComponent implements OnInit {
   private profileImageSrc: string;
 
   constructor(
+    private authService: AuthenticationService,
     private addressService: AddressService,
     private loader: LoaderService,
     private modalService: ModalService,
@@ -43,8 +47,10 @@ export class StoreProfileComponent implements OnInit {
   }
 
   public changeProfileImage(): void {
-    const fileUpload = document.getElementById('profile-image-upload') as HTMLElement;
-    fileUpload.click();
+    if (this.storeAdmin) {
+      const fileUpload = document.getElementById('profile-image-upload') as HTMLElement;
+      fileUpload.click();
+    }
   }
 
   public deleteStore(): void {
@@ -57,11 +63,15 @@ export class StoreProfileComponent implements OnInit {
   }
 
   public setProfileImageHover(): void {
-    this.imageSrc = '../../../../assets/images/profile-image-hover.png';
+    if (this.storeAdmin) {
+      this.imageSrc = '../../../../assets/images/profile-image-hover.png';
+    }
   }
 
   public setProfileImage(): void {
-    this.imageSrc = this.profileImageSrc;
+    if (this.storeAdmin) {
+      this.imageSrc = this.profileImageSrc;
+    }
   }
 
   public updateAddress(): void {
@@ -105,6 +115,7 @@ export class StoreProfileComponent implements OnInit {
 
   private getData(): void {
     const storeId = parseInt(this.route.snapshot.queryParamMap.get('store'));
+    this.storeAdmin = this.authService.getAuthenticationState().roleId === Roles.STORE_ADMIN;
 
     if (storeId && storeId !== NaN) {
       this.loader.enable();
