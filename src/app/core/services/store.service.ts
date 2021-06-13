@@ -38,6 +38,16 @@ export class StoreService {
     );
   }
 
+  public deleteStore(storeId: number): any {
+
+    return this.http.delete<any>(`${this.baseApiUrl}/create/delete/${storeId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public getAllStores(): any {
 
     return this.http.get(`${this.baseApiUrl}/all`).pipe(

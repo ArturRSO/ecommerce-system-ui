@@ -15,9 +15,9 @@ export class TelephoneService {
     private http: HttpClient
   ) { }
 
-  public createTelephone(telephone: any): any {
+  public createTelephone(telephone: any, relateWithUser: boolean): any {
 
-    return this.http.post(`${this.baseApiUrl}/create`, telephone).pipe(
+    return this.http.post(`${this.baseApiUrl}/create?user=${relateWithUser}`, telephone).pipe(
       map(response => {
         return response;
       }),

@@ -67,8 +67,7 @@ export class StoreRegistrationComponent implements OnInit {
         this.loader.disable();
         if (response.success) {
           this.modalService.openSimpleModal('Sucesso', 'Loja atualizada com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-            // TO DO
-            // this.navigateToPage('cadastro/perfil');
+            this.navigateToPage('gerenciamento/lojas');
           });
         } else {
           this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
@@ -79,8 +78,7 @@ export class StoreRegistrationComponent implements OnInit {
         this.loader.disable();
         if (response.success) {
           this.modalService.openSimpleModal('Sucesso', 'Loja cadastrada com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-            // TO DO
-            // this.navigateToPage('cadastro/perfil');
+            this.navigateToPage('gerenciamento/lojas');
           });
         } else {
           this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);

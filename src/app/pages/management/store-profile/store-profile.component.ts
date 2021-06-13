@@ -4,12 +4,14 @@ import { AddressService } from 'src/app/core/services/address.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { StoreService } from 'src/app/core/services/store.service';
 import { TelephoneService } from 'src/app/core/services/telephone.service';
 import { DocumentType } from 'src/app/utils/enums/document-type.enum';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 import { Regex } from 'src/app/utils/enums/regex.enum';
 import { Roles } from 'src/app/utils/enums/roles.enum';
+import { RegistrationRequest } from 'src/app/utils/models/registration-request.model';
 
 @Component({
   selector: 'app-store-profile',
@@ -38,6 +40,7 @@ export class StoreProfileComponent implements OnInit {
     private modalService: ModalService,
     private route: ActivatedRoute,
     private router: Router,
+    private sessionStorageService: SessionStorageService,
     private storeService: StoreService,
     private telephoneService: TelephoneService
   ) { }
@@ -54,8 +57,22 @@ export class StoreProfileComponent implements OnInit {
   }
 
   public deleteStore(): void {
-    // TO DO
-    console.log('DELETE STORE');
+    this.modalService.openSimpleModal('Confirmação', 'Tem certeza que deseja desativar esta loja?', [{ text: 'Não' }, { text: 'Sim' }]).subscribe(response => {
+      if (response === 'Sim') {
+        this.loader.enable();
+
+        this.storeService.deleteStore(this.store.storeId).subscribe(response => {
+          this.loader.disable();
+          if (response.success) {
+            this.modalService.openSimpleModal('Sucesso', 'Loja desativada.', [{ text: 'OK' }]).subscribe(() => {
+              this.navigateToPage('loja/produtos');
+            });
+          } else {
+            this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
+          }
+        });
+      }
+    });
   }
 
   public navigateToOrders(): void {
@@ -75,18 +92,20 @@ export class StoreProfileComponent implements OnInit {
   }
 
   public updateAddress(): void {
-    // TO DO
-    console.log('UPDATE ADDRESS');
+    sessionStorage.setItem('nextRoute', 'gerenciamento/lojas');
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(this.address.addressId, true));
+    this.navigateToPage('cadastro/endereco');
   }
 
   public updateStore(): void {
-    // TO DO
-    console.log('UPDATE STORE');
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(this.store.storeId, true));
+    this.navigateToPage('cadastro/loja');
   }
 
   public updateTelephone(): void {
-    // TO DO
-    console.log('UPDATE TELEPHONE');
+    sessionStorage.setItem('nextRoute', 'gerenciamento/lojas');
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(this.telephone.telephoneId, true));
+    this.navigateToPage('cadastro/telefone');
   }
 
   public uploadImage(event: any): any {

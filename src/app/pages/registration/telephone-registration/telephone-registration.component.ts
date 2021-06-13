@@ -73,11 +73,20 @@ export class TelephoneRegistrationComponent implements OnInit {
         }
       });
     } else {
-      this.telephoneService.createTelephone(telephone).subscribe(response => {
+      const nextRoute = sessionStorage.getItem('nextRoute');
+      const relateWithUser = nextRoute !== 'gerenciamento/lojas';
+
+      this.telephoneService.createTelephone(telephone, relateWithUser).subscribe(response => {
         this.loader.disable();
         if (response.success) {
           this.modalService.openSimpleModal('Sucesso', 'Telefone cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-            this.navigateToPage('cadastro/perfil');
+            if (nextRoute) {
+              sessionStorage.removeItem('nextRoute');
+              this.navigateToPage(nextRoute);
+
+            } else {
+              this.navigateToPage('cadastro/perfil');
+            }
           });
         } else {
           this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);

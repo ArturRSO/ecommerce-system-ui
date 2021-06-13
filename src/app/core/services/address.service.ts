@@ -16,9 +16,9 @@ export class AddressService {
     private http: HttpClient
   ) { }
 
-  public createAddress(address: any): any {
+  public createAddress(address: any, relateWithUser: boolean): any {
 
-    return this.http.post(`${this.baseApiUrl}/create`, address).pipe(
+    return this.http.post(`${this.baseApiUrl}/create?user=${relateWithUser}`, address).pipe(
       map(response => {
         return response;
       }),

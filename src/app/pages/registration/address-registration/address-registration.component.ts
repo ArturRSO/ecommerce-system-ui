@@ -89,12 +89,13 @@ export class AddressRegistrationComponent implements OnInit {
         }
       });
     } else {
-      this.addressService.createAddress(address).subscribe(response => {
+      const nextRoute = sessionStorage.getItem('nextRoute');
+      const relateWithUser = nextRoute !== 'gerenciamento/lojas';
+
+      this.addressService.createAddress(address, relateWithUser).subscribe(response => {
         this.loader.disable();
         if (response.success) {
           this.modalService.openSimpleModal('Sucesso', 'Endereço cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-            const nextRoute = sessionStorage.getItem('nextRoute');
-
             if (nextRoute) {
               sessionStorage.removeItem('nextRoute');
               this.navigateToPage(nextRoute);
