@@ -20,6 +20,10 @@ import { ProductRegistrationComponent } from './product-registration/product-reg
 import { StoreRegistrationComponent } from './store-registration/store-registration.component';
 import { PasswordRegistrationComponent } from './password-registration/password-registration.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { ProductUpdateComponent } from './product-update/product-update.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,8 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
     ProductRegistrationComponent,
     StoreRegistrationComponent,
     PasswordRegistrationComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    ProductUpdateComponent
   ],
   imports: [
     CommonModule,
@@ -45,6 +50,9 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatDividerModule,
+    MatListModule,
+    CarouselModule.forRoot(),
     NgxMaskModule.forRoot()
   ]
 })

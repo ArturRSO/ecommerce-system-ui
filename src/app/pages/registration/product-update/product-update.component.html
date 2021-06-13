@@ -1,42 +1,12 @@
 <div class="container">
   <ng-container *ngIf="step === 1">
-    <form [formGroup]="productForm" (ngSubmit)="submitProduct()">
+    <form [formGroup]="productForm">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Cadastro de produto</mat-card-title>
+          <mat-card-title>Atualizar produto</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div class="form-row">
-            <div class="form-group col-12 col-md-6">
-              <mat-form-field class="full-width">
-                <mat-select placeholder="Tipo de produto" formControlName="productTypeId"
-                  (valueChange)="onProductTypeSelection($event)">
-                  <mat-option *ngFor="let productType of productTypes" [value]="productType.productTypeId">
-                    {{ productType.name }}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngFor="let validation of validationMessages.productTypeId">
-                  <mat-error *ngIf="pf.productTypeId.hasError(validation.type) && submitted">
-                    {{ validation.message }}
-                  </mat-error>
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="form-group col-12 col-md-6">
-              <mat-form-field class="full-width">
-                <mat-select placeholder="Subtipo de produto" formControlName="productSubtypeId"
-                  (valueChange)="onProductSubtypeSelection($event)">
-                  <mat-option *ngFor="let productSubtype of productSubtypes" [value]="productSubtype.productSubtypeId">
-                    {{ productSubtype.name }}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngFor="let validation of validationMessages.productSubtypeId">
-                  <mat-error *ngIf="pf.productSubtypeId.hasError(validation.type) && submitted">
-                    {{ validation.message }}
-                  </mat-error>
-                </mat-error>
-              </mat-form-field>
-            </div>
             <div class="form-group col-12 col-md-6">
               <mat-form-field class="full-width">
                 <input matInput placeholder="Nome" formControlName="name">
@@ -71,7 +41,12 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit">Cadastrar</button>
+          <button mat-raised-button color="primary" type="button" (click)="submitProduct(true)">
+            Atualizar detalhes
+          </button>
+          <button mat-raised-button color="primary" type="button" (click)="submitProduct(false)">
+            Finalizar
+          </button>
         </mat-card-actions>
       </mat-card>
     </form>
@@ -83,20 +58,11 @@
           <mat-card-title>Detalhes do produto</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <div class="form-row">
+          <h4>Selecione o detalhe que deseja atualizar</h4>
+          <div class="form-row" *ngIf="selectedDetail">
             <div class="form-group col-12 col-md-6">
               <mat-form-field class="full-width">
-                <mat-select placeholder="Rótulo do detalhe" formControlName="labelId"
-                  (valueChange)="onProductTypeSelection($event)">
-                  <mat-option *ngFor="let detailLabel of detailLabels" [value]="detailLabel.labelId">
-                    {{ detailLabel.label }}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngFor="let validation of validationMessages.labelId">
-                  <mat-error *ngIf="df.labelId.hasError(validation.type) && detailSubmitted">
-                    {{ validation.message }}
-                  </mat-error>
-                </mat-error>
+                <input matInput placeholder="Rótulo" formControlName="label">
               </mat-form-field>
             </div>
             <div class="form-group col-12 col-md-6">
@@ -110,11 +76,31 @@
               </mat-form-field>
             </div>
           </div>
+          <div class="row" *ngIf="!selectedDetail">
+            <div class="col-12">
+              <mat-list>
+                <ng-container *ngFor="let detail of product.details">
+                  <mat-list-item>
+                    <a (click)="selectDetail(detail)">
+                      <strong>{{ detail.label }}:</strong> {{ detail.value }}
+                    </a>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                </ng-container>
+              </mat-list>
+            </div>
+          </div>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit">Adicionar</button>
-          <button mat-raised-button color="primary" type="button" [disabled]="product.details.length < 1"
-            (click)="confirmDetails()">Finalizar</button>
+          <button mat-raised-button color="primary" type="submit" *ngIf="selectedDetail">
+            Atualizar
+          </button>
+          <button mat-raised-button color="primary" type="button" (click)="updateProduct(true)">
+            Atualizar imagens
+          </button>
+          <button mat-raised-button color="primary" type="button" (click)="updateProduct(false)">
+            Finalizar
+          </button>
         </mat-card-actions>
       </mat-card>
     </form>
@@ -125,10 +111,9 @@
         <mat-card-header>
           <mat-card-title>Imagens do produto</mat-card-title>
         </mat-card-header>
-        <h3>Você pode cadastrar até 4 imagens para um produto</h3>
-        <h4>Imagens restantes: {{ remainingImages * -1 }}</h4>
         <mat-card-content>
-          <div class="form-row">
+          <h4>Clique na imagem que deseja atualizar</h4>
+          <div class="form-row" *ngIf="selectedImage">
             <div class="form-group col-12 col-md-6">
               <input formControlName="file" id="file" type="file" class="form-control" (change)="uploadImage($event)"
                 [ngClass]="{ 'is-invalid': imageSubmitted && imgf.file.errors }">
@@ -140,11 +125,22 @@
             </div>
             <img [src]="imageSrc" *ngIf="imageSrc" style="height: 300px; width:500px">
           </div>
+          <div class="row" *ngIf="!selectedImage">
+            <div class="col-12">
+              <carousel>
+                <slide *ngFor="let image of product?.images">
+                  <a (click)="selectImage(image)">
+                    <img [src]="image.image | bypassSanitizer: 'url'" alt="product-image-slide"
+                      style="display: block; width: 300px; height: 300px;">
+                  </a>
+                </slide>
+              </carousel>
+            </div>
+          </div>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit" [disabled]="imageCount >= 4"
-            (click)="submitImage()">Cadastrar</button>
-          <button mat-raised-button color="primary" type="button" [disabled]="imageCount < 1" (click)="navigateToPage('gerenciamento/produtos')">Finalizar</button>
+          <button mat-raised-button color="primary" type="submit" (click)="submitImage()">Cadastrar</button>
+          <button mat-raised-button color="primary" type="button">Finalizar</button>
         </mat-card-actions>
       </mat-card>
     </form>

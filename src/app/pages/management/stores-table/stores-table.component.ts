@@ -28,8 +28,7 @@ export class StoresTableComponent implements OnInit {
   }
 
   public createStore(): void {
-    // TO DO
-    console.log('CREATE STORE');
+    this.navigateToPage('cadastro/loja');
   }
 
   public getStoreClick(store: any): void {

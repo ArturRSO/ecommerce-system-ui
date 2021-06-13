@@ -1,44 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { Regex } from 'src/app/utils/enums/regex.enum';
 
 @Component({
-  selector: 'app-product-registration',
-  templateUrl: './product-registration.component.html',
-  styleUrls: ['./product-registration.component.scss']
+  selector: 'app-product-update',
+  templateUrl: './product-update.component.html',
+  styleUrls: ['./product-update.component.scss']
 })
-export class ProductRegistrationComponent implements OnInit {
+export class ProductUpdateComponent implements OnInit {
 
   public detailForm: FormGroup;
-  public detailLabels = [];
   public detailSubmitted = false;
   public imageForm: FormGroup;
-  public imageCount = 0;
   public imageSrc: string;
   public imageSubmitted = false;
   public product: any;
   public productForm: FormGroup;
   public productSubtypes = [];
   public productTypes = [];
+  public newProduct: any;
+  public selectedDetail: any;
+  public selectedImage;
   public step = 1;
-  public remainingImages = -4;
   public submitted = false;
   public validationMessages: any;
 
   private image: any;
   private imagePattern = new RegExp(Regex.IMAGE_FILE);
-  private productId: number;
-  private storeId: number;
 
   constructor(
     private formBuilder: FormBuilder,
     private loader: LoaderService,
     private modalService: ModalService,
     private productService: ProductService,
+    private route: ActivatedRoute,
     private router: Router
   ) { }
 
@@ -59,41 +58,14 @@ export class ProductRegistrationComponent implements OnInit {
     return this.productForm.controls;
   }
 
-  public confirmDetails(): void {
-    this.loader.enable();
-    this.productService.createProduct(this.product).subscribe(response => {
-      this.loader.disable();
-      if (response.success) {
-        this.modalService.openSimpleModal('Sucesso', 'Produto cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-          this.productId = response.data;
-          this.step = 3;
-        });
-      } else {
-        this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
-      }
-    });
+  public selectDetail(detail: any): void {
+    this.selectedDetail = detail;
+    this.df.label.setValue(detail.label);
+    this.df.value.setValue(detail.value);
   }
 
-  public navigateToPage(route: string) {
-    this.router.navigateByUrl(route);
-  }
-
-  public onProductSubtypeSelection(value: any): void {
-    this.loader.enable();
-    this.productService.getProductDetailLabelsByProductSubtypeId(value).subscribe(response => {
-      this.loader.disable();
-      if (response.success) {
-        this.detailLabels = response.data;
-      }
-    });
-  }
-
-  public onProductTypeSelection(value: any): void {
-    this.loader.enable();
-    this.productService.getProductSubtypesByTypeId(value).subscribe(response => {
-      this.loader.disable();
-      this.productSubtypes = response.data;
-    });
+  public selectImage(image: any): void {
+    this.selectedImage = image;
   }
 
   public submitDetail(): void {
@@ -103,9 +75,11 @@ export class ProductRegistrationComponent implements OnInit {
       return;
     }
 
-    this.product.details.push(this.detailForm.value);
+    this.newProduct.details.push(this.detailForm.value);
 
     this.modalService.openSimpleModal('Sucesso', 'Detalhe adicionado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
+      this.product.details = this.product.details.filter(detail => detail.labelId !== this.selectedDetail.labelId);
+      this.selectedDetail = null;
       this.detailSubmitted = false;
       this.detailForm.reset();
     });
@@ -114,27 +88,21 @@ export class ProductRegistrationComponent implements OnInit {
   public submitImage(): void {
     this.imageSubmitted = true;
 
-    if (this.imageCount >= 4) {
-      this.modalService.openSimpleModal('Sucesso', 'Você já adicionou o máximo possível de imagens!', [{ text: 'OK' }]);
-      return;
-    }
-
     if (this.imageForm.invalid) {
       return;
     }
 
     this.loader.enable();
 
-    this.productService.changeProductImage(this.productId, this.image).subscribe(response => {
+    this.productService.updateProductImage(this.product.productId, this.selectedImage.productImageId, this.image).subscribe(response => {
       this.loader.disable();
       if (response.success) {
-        this.modalService.openSimpleModal('Sucesso', 'Imagem cadastrada com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-          this.imageCount += 1;
-          this.remainingImages += 1;
+        this.modalService.openSimpleModal('Sucesso', 'Detalhe adicionado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
 
           this.imageSubmitted = false;
           this.imageSrc = null;
           this.imageForm.reset();
+          this.selectImage = null;
         });
       } else {
         this.modalService.openSimpleModal('Atenção', response.messsage, [{ text: 'OK' }]).subscribe(() => {
@@ -146,18 +114,28 @@ export class ProductRegistrationComponent implements OnInit {
     });
   }
 
-  public submitProduct(): void {
+  public submitProduct(updateDetails: boolean): void {
     this.submitted = true;
 
     if (this.productForm.invalid) {
       return;
     }
 
-    this.product = this.productForm.value;
-    this.product.storeId = this.storeId;
-    this.product.isNew = true;
-    this.product.details = [];
-    this.step = 2;
+    this.newProduct = this.productForm.value;
+    this.newProduct.productId = this.product.productId;
+    this.newProduct.storeId = this.product.storeId;
+    this.newProduct.isNew = true;
+    this.newProduct.price = parseFloat(this.newProduct.price.replace(',', '.'));
+    this.newProduct.productTypeId = this.product.productType.productTypeId;
+    this.newProduct.productSubtypeId = this.product.productSubtype.productSubtypeId;
+
+    if (updateDetails) {
+      this.newProduct.details = [];
+      this.step = 2;
+
+    } else {
+      this.updateProduct(false);
+    }
   }
 
   public uploadImage(event: any): any {
@@ -180,48 +158,90 @@ export class ProductRegistrationComponent implements OnInit {
     }
   }
 
+  public updateProduct(updateImages: boolean): void {
+    this.loader.enable();
+
+    if (!this.newProduct.details || this.newProduct.details.length === 0) {
+      this.newProduct.details = this.product.details;
+    }
+
+    this.productService.updateProduct(this.newProduct).subscribe(response => {
+      this.loader.disable();
+      if (response.success) {
+        if (updateImages) {
+          this.step = 3;
+
+        } else {
+          this.modalService.openSimpleModal('Sucesso', 'Produto atualizado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
+            this.navigateToPage('gerenciamento/produtos');
+          });
+        }
+      } else {
+        this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
+      }
+    });
+  }
+
   private buildForms(): void {
     this.productForm = this.formBuilder.group({
-      productTypeId: ['', Validators.required],
-      productSubtypeId: ['', Validators.required],
       name: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0.1)]],
       quantity: ['', [Validators.required, Validators.min(1), Validators.pattern(Regex.ONLY_NUMBERS)]]
     });
 
     this.detailForm = this.formBuilder.group({
-      labelId: ['', Validators.required],
+      label: [{value: '', disabled: true}],
       value: ['', Validators.required]
     });
 
     this.imageForm = this.formBuilder.group({
-      file: [{ value: '', disabled: this.imageCount >= 4 }, Validators.required]
+      file: [ '', Validators.required]
     });
   }
 
-  private setInitialData(): void {
-    this.loader.enable();
-    this.productService.getProductTypes().subscribe(response => {
-      this.loader.disable();
-      this.productTypes = response.data;
-    });
+  private fillProductForm(): void {
+    this.pf.name.setValue(this.product.name);
+    this.pf.price.setValue(this.product.price.toString().replace('.', ','));
+    this.pf.quantity.setValue(this.product.quantity);
+  }
 
-    this.setValidationMessages();
+  private navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
+  }
+
+  private setInitialData(): void {
+    const productId = parseInt(this.route.snapshot.queryParamMap.get('product'));
+
+    if (productId && productId !== NaN) {
+      this.loader.enable();
+
+      this.productService.getProductById(productId).subscribe(response => {
+        if (response.success) {
+          this.loader.disable();
+          this.product = response.data;
+          this.fillProductForm();
+
+        } else {
+          this.loader.disable();
+          this.modalService.openSimpleModal('Atenção', response.data, [{ text: 'OK' }]).subscribe(() => {
+            this.navigateToPage('gerenciamento/produtos');
+          });
+        }
+      });
+
+      this.setValidationMessages();
+
+    } else {
+      this.modalService.openSimpleModal('Atenção', 'Forneça um ID de produto válido!', [{ text: 'OK' }]).subscribe(() => {
+        this.navigateToPage('gerenciamento/produtos');
+      });
+    }
   }
 
   private setValidationMessages(): void {
     this.validationMessages = {
-      productTypeId: [
-        { type: 'required', message: 'Selecione o tipo do produto' }
-      ],
-      productSubtypeId: [
-        { type: 'required', message: 'Selecione o subtipo do produto' }
-      ],
       name: [
         { type: 'required', message: 'Digite o nome do produto' }
-      ],
-      labelId: [
-        { type: 'required', message: 'Selecione o rótulo do detalhe' }
       ],
       value: [
         { type: 'required', message: 'Digite o conteúdo do detalhe' }

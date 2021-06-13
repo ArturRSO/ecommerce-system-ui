@@ -219,7 +219,7 @@ export class DashboardComponent implements OnInit {
         'Produtos',
         'card bg-c-yellow order-card',
         'category',
-        '',
+        'gerenciamento/produtos?store=:storeId:',
         {
           label: 'Total de produtos',
           value: this.productMetrics ? this.productMetrics.products : 0

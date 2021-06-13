@@ -4,6 +4,7 @@ import { AddressRegistrationComponent } from './address-registration/address-reg
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { PasswordRegistrationComponent } from './password-registration/password-registration.component';
 import { ProductRegistrationComponent } from './product-registration/product-registration.component';
+import { ProductUpdateComponent } from './product-update/product-update.component';
 import { StoreRegistrationComponent } from './store-registration/store-registration.component';
 import { TelephoneRegistrationComponent } from './telephone-registration/telephone-registration.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -29,6 +30,10 @@ const routes: Routes = [
   {
     path: 'perfil/atualizar',
     component: UserRegistrationComponent
+  },
+  {
+    path: 'produto/atualizar',
+    component: ProductUpdateComponent
   },
   {
     path: 'produto',

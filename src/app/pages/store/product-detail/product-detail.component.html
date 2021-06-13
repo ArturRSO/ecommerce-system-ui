@@ -4,8 +4,8 @@
       <div class="col-md-5 col-sm-12 col-xs-12">
         <div class="product-image">
           <carousel>
-            <slide *ngFor="let image of product.imageList">
-              <img [src]="image | bypassSanitizer: 'url'" alt="first slide" style="display: block; width: 100%;">
+            <slide *ngFor="let image of product?.images">
+              <img [src]="image.image | bypassSanitizer: 'url'" alt="product-image-slide" style="display: block; width: 500px; height: 500px;">
             </slide>
           </carousel>
         </div>
@@ -14,7 +14,7 @@
       <div class="col-md-6 col-md-offset-1 col-sm-12 col-xs-12">
         <h2 class="name">
           {{ product?.name }}
-          <small>Enviado e vendido por <a>Nome da loja</a></small>
+          <small *ngIf="!management">Enviado e vendido por <a (click)="goToStoreProfile()">{{ store?.name }}</a></small>
         </h2>
         <hr />
         <h3 class="price-container">
@@ -34,7 +34,8 @@
         <hr />
         <div class="row">
           <div class="col-sm-12 col-md-6 col-lg-6">
-            <a class="btn btn-success btn-lg" (click)="openCartModal(product)">Adicionar ao carrinho</a>
+            <a class="btn btn-success btn-lg" (click)="openCartModal(product)" *ngIf="!management">Adicionar ao carrinho</a>
+            <a class="btn btn-success btn-lg" (click)="updateProduct()" *ngIf="management">Atualizar produto</a>
           </div>
         </div>
       </div>
