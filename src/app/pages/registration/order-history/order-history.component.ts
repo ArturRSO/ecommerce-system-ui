@@ -41,14 +41,15 @@ export class OrderHistoryComponent implements OnInit {
     this.loader.enable();
     this.orderService.getOrdersByUserId(this.authService.getAuthenticationState().userId).subscribe(response => {
       this.loader.disable();
-      this.orders = response.data.sort(this.sortOrders);
+      if (response.success) {
+        this.orders = response.data.sort(this.sortOrders);
+        const sentOrder = this.orders.find(order => order.orderStatusId === OrderStatus.SENT);
 
-      const sentOrder = this.orders.find(order => order.orderStatusId === OrderStatus.SENT);
-
-      if (sentOrder) {
-        this.modalService.openSimpleModal('Atenção',
-          'Um ou mais pedidos já foram enviados, por favor, clique no pedido e clique no botão \"Já recebi meu pedido\" para marcar o pedido como recebido.',
-          [{ text: 'OK' }]);
+        if (sentOrder) {
+          this.modalService.openSimpleModal('Atenção',
+            'Um ou mais pedidos já foram enviados, por favor, clique no pedido e clique no botão \"Já recebi meu pedido\" para marcar o pedido como recebido.',
+            [{ text: 'OK' }]);
+        }
       }
     });
   }

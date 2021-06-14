@@ -36,8 +36,8 @@
           <div class="col-sm-12 col-md-6 col-lg-6">
             <a class="btn btn-success btn-lg" (click)="openCartModal(product)" *ngIf="!management">Adicionar ao carrinho</a>
             <ng-container *ngIf="management">
-              <a class="btn btn-success btn-lg" (click)="updateProduct()">Atualizar produto</a>
-              <a class="btn btn-danger btn-lg" (click)="deleteProduct()">Desativar produto</a>
+              <a class="btn btn-success btn-block" (click)="updateProduct()">Atualizar produto</a>
+              <a class="btn btn-danger btn-block" (click)="deleteProduct()">Desativar produto</a>
             </ng-container>
           </div>
         </div>

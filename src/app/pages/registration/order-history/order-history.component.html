@@ -32,4 +32,9 @@
       </div>
       <hr>
     </div>
+    <div class="row" *ngIf="orders.length < 1">
+      <div class="col-12">
+        <h3>Você ainda não fez nenhum pedido :(</h3>
+      </div>
+    </div>
   </div>

@@ -64,4 +64,14 @@ export class OrderService {
       catchError((error: any) => throwError(error))
     );
   }
+
+  public updateOrderStatus(orderId: number, statusId: number) {
+
+    return this.http.get<any>(`${this.baseApiUrl}/update/${orderId}/status/${statusId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
 }

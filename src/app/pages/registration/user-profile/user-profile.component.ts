@@ -22,6 +22,7 @@ import { UserRegistration } from 'src/app/utils/models/user-registration.model';
 })
 export class UserProfileComponent implements OnInit {
 
+  public authentication: any;
   public addresses = [];
   public documentMask = InputMasks.CPF;
   public imageSrc: string;
@@ -150,7 +151,7 @@ export class UserProfileComponent implements OnInit {
 
   public updateProfile(): void {
     const roles = new RolesList();
-    const role = roles.getRoleById(this.authService.getAuthenticationState().roleId);
+    const role = roles.getRoleById(this.authentication.roleId);
 
     this.sessionStorageService.setObject('userRegistration', new UserRegistration([role], true, null));
     this.navigateToPage('cadastro/perfil/atualizar');
@@ -203,11 +204,11 @@ export class UserProfileComponent implements OnInit {
   private getProfile(): void {
     this.loader.enable();
 
-    const authentication = this.authService.getAuthenticationState();
+    this.authentication = this.authService.getAuthenticationState();
     const userId = parseInt(this.route.snapshot.queryParamMap.get('user'));
 
     if (userId && userId !== NaN) {
-      if (authentication.roleId === Roles.SYSTEM_ADMIN) {
+      if (this.authentication.roleId === Roles.SYSTEM_ADMIN) {
         this.userService.getUserById(userId).subscribe(response => {
           this.loader.disable();
           if (response.success) {

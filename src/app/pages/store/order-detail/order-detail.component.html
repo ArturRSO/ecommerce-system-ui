@@ -43,8 +43,15 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <button type="button" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm" *ngIf="authentication.roleId === 2">Marcar pedido como enviado</button>
-              <button type="button" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm" *ngIf="authentication.roleId === 3">Já recebi meu pedido</button>
+              <button type="button" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm"
+                *ngIf="markAsSent" (click)="updateOrderStatus(3)">
+                Marcar pedido como enviado
+              </button>
+              <button type="button" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm"
+                *ngIf="markAsReceived" (click)="updateOrderStatus(4)">
+                Já recebi meu pedido
+              </button>
+              <button type="button" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm" (click)="return()">Voltar</button>
             </div>
           </div>
         </div>

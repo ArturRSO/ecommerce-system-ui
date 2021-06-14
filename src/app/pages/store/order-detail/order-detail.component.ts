@@ -5,6 +5,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { OrderService } from 'src/app/core/services/order.service';
 import { ProductService } from 'src/app/core/services/product.service';
+import { OrderStatus } from 'src/app/utils/enums/order-status.enum';
 import { Roles } from 'src/app/utils/enums/roles.enum';
 
 @Component({
@@ -17,6 +18,9 @@ export class OrderDetailComponent implements OnInit {
   public authentication: any;
   public order: any;
   public products = [];
+
+  public markAsReceived = false;
+  public markAsSent = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -36,6 +40,28 @@ export class OrderDetailComponent implements OnInit {
     this.router.navigateByUrl(route);
   }
 
+  public return(): void {
+    if (this.authentication.roleId === Roles.CUSTOMER) {
+      this.navigateToPage('cadastro/historico');
+
+    } else {
+      this.navigateToPage('gerenciamento/pedidos');
+    }
+  }
+
+  public updateOrderStatus(orderStatusId: number) {
+    this.loader.enable();
+    this.orderService.updateOrderStatus(this.order.orderId, orderStatusId).subscribe(response => {
+      if (response.success) {
+        this.modalService.openSimpleModal('Sucesso', 'Status do pedido atualizado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
+          this.return();
+        });
+      } else {
+        this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
+      }
+    });
+  }
+
   private getOrderInfo(): any {
     this.authentication = this.authService.getAuthenticationState();
     const orderId = parseInt(this.route.snapshot.queryParamMap.get('order'));
@@ -51,6 +77,8 @@ export class OrderDetailComponent implements OnInit {
             if (response.success) {
               this.order = response.data;
               this.getProductInfo(response.data.itens);
+
+              this.markAsReceived = this.order.orderStatusId === OrderStatus.SENT;
 
             } else {
               this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]).subscribe(() => {
@@ -71,6 +99,8 @@ export class OrderDetailComponent implements OnInit {
           if (response.success) {
             this.order = response.data;
             this.getProductInfo(response.data.itens);
+
+            this.markAsReceived = this.order.orderStatusId === OrderStatus.PAID;
 
           } else {
             this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]).subscribe(() => {
