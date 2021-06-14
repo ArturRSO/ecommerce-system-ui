@@ -34,6 +34,24 @@ export class ProductDetailComponent implements OnInit {
     this.getProduct();
   }
 
+  public deleteProduct(): void {
+    this.modalService.openSimpleModal('Atenção', 'Tem certeza que deseja desativar este produto', [{ text: 'Não' }, { text: 'Sim' }]).subscribe(response => {
+      if (response === 'Sim') {
+        this.loader.enable();
+        this.productService.deleteProduct(this.product.productId).subscribe(response => {
+          this.loader.disable();
+          if (response.success) {
+            this.modalService.openSimpleModal('Sucesso', 'Produto desativado.', [{ text: 'OK' }]).subscribe(() => {
+              this.navigateToPage('gerenciamento/produtos');
+            });
+          } else {
+            this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
+          }
+        });
+      }
+    });
+  }
+
   public goToStoreProfile(): void {
     this.navigateToPage(`gerenciamento/loja?store=${this.store.storeId}`);
   }

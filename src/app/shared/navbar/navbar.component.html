@@ -17,7 +17,7 @@
           </a>
         </li>
       </ng-container>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" *ngIf="authentication.roleId === 3 || !authentication.authenticated">
         <a class="nav-link" (click)="toggleProductsDropdown()">
           <i class="material-icons">
             category
@@ -60,7 +60,7 @@
         </ul>
       </li>
     </ul>
-    <form [formGroup]="searchForm" (ngSubmit)="searchByName()" class="form-inline ml-auto">
+    <form [formGroup]="searchForm" (ngSubmit)="searchByName()" class="form-inline ml-auto" *ngIf="authentication.roleId === 3 || !authentication.authenticated">
       <input class="form-control mr-sm-2" formControlName="searchField" type="search" placeholder="Pesquisar produto">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
     </form>

@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { StoreService } from 'src/app/core/services/store.service';
 import { Roles } from 'src/app/utils/enums/roles.enum';
+import { RegistrationRequest } from 'src/app/utils/models/registration-request.model';
 
 @Component({
   selector: 'app-stores-table',
@@ -20,6 +22,7 @@ export class StoresTableComponent implements OnInit {
     private authService: AuthenticationService,
     private loader: LoaderService,
     private router: Router,
+    private sessionStorageService: SessionStorageService,
     private storeService: StoreService
   ) { }
 
@@ -28,6 +31,7 @@ export class StoresTableComponent implements OnInit {
   }
 
   public createStore(): void {
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false));
     this.navigateToPage('cadastro/endereco');
   }
 

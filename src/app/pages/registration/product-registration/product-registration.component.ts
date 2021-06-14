@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { ProductService } from 'src/app/core/services/product.service';
@@ -39,6 +39,7 @@ export class ProductRegistrationComponent implements OnInit {
     private loader: LoaderService,
     private modalService: ModalService,
     private productService: ProductService,
+    private route: ActivatedRoute,
     private router: Router
   ) { }
 
@@ -59,6 +60,10 @@ export class ProductRegistrationComponent implements OnInit {
     return this.productForm.controls;
   }
 
+  public conclude(): void {
+    this.navigateToPage(`gerenciamento/produtos?store=${this.storeId}`);
+  }
+
   public confirmDetails(): void {
     this.loader.enable();
     this.productService.createProduct(this.product).subscribe(response => {
@@ -72,10 +77,6 @@ export class ProductRegistrationComponent implements OnInit {
         this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
       }
     });
-  }
-
-  public navigateToPage(route: string) {
-    this.router.navigateByUrl(route);
   }
 
   public onProductSubtypeSelection(value: any): void {
@@ -156,6 +157,7 @@ export class ProductRegistrationComponent implements OnInit {
     this.product = this.productForm.value;
     this.product.storeId = this.storeId;
     this.product.isNew = true;
+    this.product.price = parseFloat(this.product.price.replace('.', '').replace(',', '.'));
     this.product.details = [];
     this.step = 2;
   }
@@ -199,14 +201,27 @@ export class ProductRegistrationComponent implements OnInit {
     });
   }
 
-  private setInitialData(): void {
-    this.loader.enable();
-    this.productService.getProductTypes().subscribe(response => {
-      this.loader.disable();
-      this.productTypes = response.data;
-    });
+  private navigateToPage(route: string) {
+    this.router.navigateByUrl(route);
+  }
 
-    this.setValidationMessages();
+  private setInitialData(): void {
+    const storeId = parseInt(this.route.snapshot.queryParamMap.get('store'));
+
+    if (storeId && storeId !== NaN) {
+      this.loader.enable();
+      this.storeId = storeId;
+      this.productService.getProductTypes().subscribe(response => {
+        this.loader.disable();
+        this.productTypes = response.data;
+      });
+
+      this.setValidationMessages();
+    } else {
+      this.modalService.openSimpleModal('Atenção', 'Forneça um ID de loja válido', [{ text: 'OK' }]).subscribe(resposne => {
+        this.navigateToPage('gerenciar/dashboard');
+      });
+    }
   }
 
   private setValidationMessages(): void {

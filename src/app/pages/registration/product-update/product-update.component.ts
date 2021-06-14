@@ -125,7 +125,7 @@ export class ProductUpdateComponent implements OnInit {
     this.newProduct.productId = this.product.productId;
     this.newProduct.storeId = this.product.storeId;
     this.newProduct.isNew = true;
-    this.newProduct.price = parseFloat(this.newProduct.price.replace(',', '.'));
+    this.newProduct.price = parseFloat(this.newProduct.price.replace('.', '').replace(',', '.'));
     this.newProduct.productTypeId = this.product.productType.productTypeId;
     this.newProduct.productSubtypeId = this.product.productSubtype.productSubtypeId;
 

@@ -39,6 +39,16 @@ export class ProductService {
     );
   }
 
+  public deleteProduct(productId: number): any {
+
+    return this.http.delete<any>(`${this.baseApiUrl}/delete/${productId}`).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: any) => throwError(error))
+    );
+  }
+
   public getProductById(productId: number): any {
 
     return this.http.get(`${this.baseApiUrl}/${productId}`).pipe(

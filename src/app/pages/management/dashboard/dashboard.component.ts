@@ -107,13 +107,16 @@ export class DashboardComponent implements OnInit {
   private getStoreAdminMetrics(storeId: number): void {
     this.loader.enable();
     this.reportService.getStoreCashFlowRevenueReportsByStoreId(storeId).subscribe(response => {
-      this.revenueByStoreMetrics = response.data ? response.data.slice(-1).pop() : null;
-      this.reportService.getOrdersReportByStoreId(storeId).subscribe(response => {
-        this.orderMetrics = response.data;
-        this.reportService.getProductsReportByStoreId(storeId).subscribe(response => {
-          this.loader.disable();
-          this.productMetrics = response.data;
-          this.loadStoreCards();
+      this.revenueMetrics = response.data ? response.data.slice(-1).pop() : null;
+      this.reportService.getStoreCashFlowReportsByStoreId(storeId).subscribe(response => {
+        this.revenueByStoreMetrics = response.data ? response.data.slice(-1).pop() : null;
+        this.reportService.getOrdersReportByStoreId(storeId).subscribe(response => {
+          this.orderMetrics = response.data;
+          this.reportService.getProductsReportByStoreId(storeId).subscribe(response => {
+            this.loader.disable();
+            this.productMetrics = response.data;
+            this.loadStoreCards();
+          });
         });
       });
     });
@@ -151,7 +154,7 @@ export class DashboardComponent implements OnInit {
         },
         {
           label: 'Última receita',
-          value: this.revenueMetrics ? this.revenueByStoreMetrics.revenue : 0
+          value: this.revenueByStoreMetrics ? this.revenueByStoreMetrics.value : 0
         }
       ),
       new DashboardCard(
@@ -191,14 +194,14 @@ export class DashboardComponent implements OnInit {
         'Receita do dia',
         'card bg-c-green order-card',
         'monetization_on',
-        'gerenciamento/receitas',
+        'gerenciamento/receitas?store=:storeId:',
         {
           label: 'Receita do dia',
           value: this.revenueMetrics ? this.revenueMetrics.revenue : 0
         },
         {
           label: 'Última receita',
-          value: this.revenueMetrics ? this.revenueByStoreMetrics.revenue : 0
+          value: this.revenueByStoreMetrics ? this.revenueByStoreMetrics.value : 0
         }
       ),
       new DashboardCard(

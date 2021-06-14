@@ -15,8 +15,8 @@ import { ReportTypeList } from 'src/app/utils/lists/report-type.list';
 })
 export class RevenueTableComponent implements OnInit {
 
-  public columns = ['userId', 'firstName', 'lastName', 'email', 'documentNumber'];
-  public headers = ['ID', 'Nome', 'Sobrenome', 'E-mail', 'Documento'];
+  public columns = [];
+  public headers = [];
   public reports = [];
 
   public form: FormGroup;
@@ -99,7 +99,10 @@ export class RevenueTableComponent implements OnInit {
 
   private getStoreCashFlowReportsByStoreId(): void {
     this.reportService.getStoreCashFlowReportsByStoreId(this.storeId).subscribe(response => {
+      this.loader.disable();
       if (response.success) {
+        this.columns = ['orderId', 'productName', 'value', 'timestamp'];
+        this.headers = ['Pedido', 'Produto', 'Valor', 'Data do pedido']
         this.reports = response.data.reverse();
       }
     });
@@ -135,6 +138,8 @@ export class RevenueTableComponent implements OnInit {
     this.reportService.getSystemCashFlowReports().subscribe(response => {
       this.loader.disable();
       if (response.success) {
+        this.columns = ['orderId', 'storeName', 'value', 'timestamp'];
+        this.headers = ['Pedido', 'Loja', 'Valor', 'Data do pedido'];
         this.reports = response.data.reverse();
       }
     });

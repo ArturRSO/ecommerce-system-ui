@@ -144,7 +144,7 @@
         <mat-card-actions>
           <button mat-raised-button color="primary" type="submit" [disabled]="imageCount >= 4"
             (click)="submitImage()">Cadastrar</button>
-          <button mat-raised-button color="primary" type="button" [disabled]="imageCount < 1" (click)="navigateToPage('gerenciamento/produtos')">Finalizar</button>
+          <button mat-raised-button color="primary" type="button" [disabled]="imageCount < 1" (click)="conclude()">Finalizar</button>
         </mat-card-actions>
       </mat-card>
     </form>

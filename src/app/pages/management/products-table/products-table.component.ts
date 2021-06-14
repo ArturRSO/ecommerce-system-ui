@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { ProductService } from 'src/app/core/services/product.service';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import { RegistrationRequest } from 'src/app/utils/models/registration-request.model';
 
 @Component({
   selector: 'app-products-table',
@@ -15,12 +17,15 @@ export class ProductsTableComponent implements OnInit {
   public headers = ['ID', 'Nome', 'Preço', 'Quantidade'];
   public products = [];
 
+  private storeId: number;
+
   constructor(
     private loader: LoaderService,
     private modalService: ModalService,
     private productService: ProductService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private sessionStorageService: SessionStorageService
   ) { }
 
   ngOnInit(): void {
@@ -28,13 +33,15 @@ export class ProductsTableComponent implements OnInit {
   }
 
   public createProduct(): void {
-    this.navigateToPage('cadastro/produto');
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false));
+    this.navigateToPage(`cadastro/produto?store=${this.storeId}`);
   }
 
   public getData(): void {
     const storeId = parseInt(this.route.snapshot.queryParamMap.get('store'));
 
     if (storeId && storeId !== NaN) {
+      this.storeId = storeId;
       this.loader.enable();
       this.productService.getProductsByStoreIdAndQuantity(storeId, 0).subscribe(response => {
         this.products = response.data;
