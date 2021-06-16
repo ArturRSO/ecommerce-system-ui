@@ -19,27 +19,39 @@ const routes: Routes = [
   },
   {
     path: 'loja',
-    component: StoreProfileComponent
+    component: StoreProfileComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN] }
   },
   {
     path: 'lojas',
-    component: StoresTableComponent
+    component: StoresTableComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Roles.SYSTEM_ADMIN] }
   },
   {
     path: 'pedidos',
-    component: OrdersTableComponent
+    component: OrdersTableComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Roles.STORE_ADMIN] }
   },
   {
     path: 'produtos',
-    component: ProductsTableComponent
+    component: ProductsTableComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Roles.STORE_ADMIN] }
   },
   {
     path: 'receitas',
-    component: RevenueTableComponent
+    component: RevenueTableComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Roles.SYSTEM_ADMIN, Roles.STORE_ADMIN] }
   },
   {
     path: 'usuarios',
-    component: UsersTableComponent
+    component: UsersTableComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [Roles.SYSTEM_ADMIN] }
   },
   {
     path: '**',
