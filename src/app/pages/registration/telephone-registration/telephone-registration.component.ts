@@ -25,6 +25,7 @@ export class TelephoneRegistrationComponent implements OnInit {
   public validationMessages: any;
 
   private registration: any;
+  private telephoneTypeList = new TelephoneTypeList();
 
   constructor(
     private authService: AuthenticationService,
@@ -57,7 +58,7 @@ export class TelephoneRegistrationComponent implements OnInit {
     telephone.internationalCode = '+55';
 
     this.loader.enable();
-    sessionStorage.removeItem('userRegistration');
+    sessionStorage.removeItem('registerRequest');
 
     if (this.registration.update) {
       telephone.telephoneId = this.registration.id;
@@ -73,26 +74,40 @@ export class TelephoneRegistrationComponent implements OnInit {
         }
       });
     } else {
-      const nextRoute = sessionStorage.getItem('nextRoute');
-      const relateWithUser = nextRoute !== 'gerenciamento/lojas';
+
+      let nextRoute = 'cadastro/perfil';
+      let relateWithUser = true;
+      let storeRegistration = false;
+
+      if (this.registration.additionalInfo) {
+        if (this.registration.additionalInfo?.storeRegistration) {
+          nextRoute = 'cadastro/loja';
+          relateWithUser = false;
+          storeRegistration = true;
+        }
+      }
 
       this.telephoneService.createTelephone(telephone, relateWithUser).subscribe(response => {
         this.loader.disable();
         if (response.success) {
-          this.modalService.openSimpleModal('Sucesso', 'Telefone cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-            if (nextRoute) {
-              sessionStorage.removeItem('nextRoute');
-              this.navigateToPage(nextRoute);
 
-            } else {
-              this.navigateToPage('cadastro/perfil');
-            }
+          if (storeRegistration) {
+            this.registration.additionalInfo.telephoneId = response.data;
+            this.sessionStorageService.setObject('registerRequest', this.registration);
+          }
+
+          this.modalService.openSimpleModal('Sucesso', 'Telefone cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
+            this.navigateToPage(nextRoute);
           });
         } else {
           this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
         }
       });
     }
+  }
+
+  public setTelephoneMask(telephoneTypeId: any) {
+    this.telephoneMask = this.telephoneTypeList.getTelephoneTypeById(telephoneTypeId).mask;
   }
 
   private buildForm(): void {
@@ -120,7 +135,7 @@ export class TelephoneRegistrationComponent implements OnInit {
       });
     }
 
-    this.telephoneTypes = new TelephoneTypeList().getAllTelephoneTypes();
+    this.telephoneTypes = this.telephoneTypeList.getAllTelephoneTypes();
 
     this.setValidationMessages();
   }

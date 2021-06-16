@@ -104,7 +104,10 @@ export class ProductRegistrationComponent implements OnInit {
       return;
     }
 
-    this.product.details.push(this.detailForm.value);
+    const detail = this.detailForm.value;
+
+    this.product.details.push(detail);
+    this.detailLabels = this.detailLabels.filter(detailLabel => detailLabel.labelId !== detail.labelId);
 
     this.modalService.openSimpleModal('Sucesso', 'Detalhe adicionado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
       this.detailSubmitted = false;

@@ -31,7 +31,7 @@ export class StoresTableComponent implements OnInit {
   }
 
   public createStore(): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false));
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false, {storeRegistration: true}));
     this.navigateToPage('cadastro/endereco');
   }
 

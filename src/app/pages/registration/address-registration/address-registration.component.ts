@@ -73,7 +73,7 @@ export class AddressRegistrationComponent implements OnInit {
     address.userId = this.authService.getAuthenticationState().userId;
 
     this.loader.enable();
-    sessionStorage.removeItem('userRegistration');
+    sessionStorage.removeItem('registerRequest');
 
     if (this.registration.update) {
       address.addressId = this.registration.id;
@@ -89,20 +89,30 @@ export class AddressRegistrationComponent implements OnInit {
         }
       });
     } else {
-      const nextRoute = sessionStorage.getItem('nextRoute');
-      const relateWithUser = nextRoute !== 'gerenciamento/lojas';
+
+      let nextRoute = 'cadastro/perfil';
+      let relateWithUser = true;
+      let storeRegistration = false;
+
+      if (this.registration.additionalInfo) {
+        if (this.registration.additionalInfo?.storeRegistration) {
+          nextRoute = 'cadastro/telefone';
+          relateWithUser = false;
+          storeRegistration = true;
+        }
+      }
 
       this.addressService.createAddress(address, relateWithUser).subscribe(response => {
         this.loader.disable();
         if (response.success) {
-          this.modalService.openSimpleModal('Sucesso', 'Endereço cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-            if (nextRoute) {
-              sessionStorage.removeItem('nextRoute');
-              this.navigateToPage(nextRoute);
 
-            } else {
-              this.navigateToPage('cadastro/perfil');
-            }
+          if (storeRegistration) {
+            this.registration.additionalInfo.addressId = response.data;
+            this.sessionStorageService.setObject('registerRequest', this.registration);
+          }
+
+          this.modalService.openSimpleModal('Sucesso', 'Endereço cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
+            this.navigateToPage(nextRoute);
           });
         } else {
           this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);

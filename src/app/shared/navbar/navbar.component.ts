@@ -191,7 +191,7 @@ export class NavbarComponent implements OnInit {
 
   private getStores(): void {
     this.loader.enable();
-    this.storeService.getStoresByUserId(this.authentication.roleId).subscribe(response => {
+    this.storeService.getStoresByUserId(this.authentication.userId).subscribe(response => {
       this.loader.disable();
       this.stores = response.data;
     });

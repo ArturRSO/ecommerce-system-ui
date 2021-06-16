@@ -118,12 +118,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   public registerAddress(): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false));
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false, null));
     this.navigateToPage('cadastro/endereco');
   }
 
   public registerTelephone(): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false));
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false, null));
     this.navigateToPage('cadastro/telefone');
   }
 
@@ -140,7 +140,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   public updateAddress(addressId: number): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(addressId, true));
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(addressId, true, null));
     this.navigateToPage('cadastro/endereco');
   }
 
@@ -158,7 +158,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   public updateTelephone(telephoneId: number): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(telephoneId, true));
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(telephoneId, true, null));
     this.navigateToPage('cadastro/telefone');
   }
 

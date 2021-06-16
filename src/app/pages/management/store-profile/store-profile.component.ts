@@ -93,18 +93,18 @@ export class StoreProfileComponent implements OnInit {
 
   public updateAddress(): void {
     sessionStorage.setItem('nextRoute', 'gerenciamento/lojas');
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(this.address.addressId, true));
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(this.address.addressId, true, null));
     this.navigateToPage('cadastro/endereco');
   }
 
   public updateStore(): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(this.store.storeId, true));
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(this.store.storeId, true, null));
     this.navigateToPage('cadastro/loja');
   }
 
   public updateTelephone(): void {
     sessionStorage.setItem('nextRoute', 'gerenciamento/lojas');
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(this.telephone.telephoneId, true));
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(this.telephone.telephoneId, true, null));
     this.navigateToPage('cadastro/telefone');
   }
 

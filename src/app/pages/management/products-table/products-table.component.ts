@@ -33,7 +33,7 @@ export class ProductsTableComponent implements OnInit {
   }
 
   public createProduct(): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false));
+    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false, null));
     this.navigateToPage(`cadastro/produto?store=${this.storeId}`);
   }
 

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h2>Lojas</h2>
+      <h2>Produtos</h2>
       <app-table [addButton]="true" [dateFilter]="false" [columns]="columns" [headers]="headers" [data]="products" (addRequest)="createProduct()" (objectSent)="getProductClick($event)"></app-table>
     </div>
   </div>

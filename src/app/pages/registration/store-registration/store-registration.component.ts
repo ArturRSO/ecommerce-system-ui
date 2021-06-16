@@ -57,6 +57,13 @@ export class StoreRegistrationComponent implements OnInit {
 
     const store = this.form.value;
 
+    if (this.registration.additionalInfo) {
+      if (this.registration.additionalInfo?.storeRegistration) {
+        store.addressId = this.registration.additionalInfo.addressId;
+        store.telephoneId = this.registration.additionalInfo.telephoneId;
+      }
+    }
+
     this.loader.enable();
     sessionStorage.removeItem('registerRequest');
 
