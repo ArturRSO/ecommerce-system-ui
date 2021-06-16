@@ -74,7 +74,7 @@ export class ShippingComponent implements OnInit {
   public registerAddress(): void {
     this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false, null));
     sessionStorage.setItem('nextRoute', 'loja/transporte');
-    this.navigateToPage('cadastro/telefone');
+    this.navigateToPage('cadastro/endereco');
   }
 
   private getAddresses(): void {

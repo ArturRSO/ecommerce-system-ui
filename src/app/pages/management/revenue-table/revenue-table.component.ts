@@ -112,6 +112,8 @@ export class RevenueTableComponent implements OnInit {
     this.reportService.getStoreCashFlowReportsByDateRangeAndStoreId(dateRange.startDate, dateRange.endDate, this.storeId).subscribe(response => {
       this.loader.disable();
       if (response.success) {
+        this.columns = ['orderId', 'productName', 'value', 'timestamp'];
+        this.headers = ['Pedido', 'Produto', 'Valor', 'Data do pedido']
         this.reports = response.data.reverse();
       }
     });
@@ -120,6 +122,8 @@ export class RevenueTableComponent implements OnInit {
   private getStoreCashFlowRevenueReportsByStoreId(): void {
     this.reportService.getStoreCashFlowRevenueReportsByStoreId(this.storeId).subscribe(response => {
       if (response.success) {
+        this.columns = ['revenue', 'timestamp'];
+        this.headers = ['Receita', 'Data do pedido'];
         this.reports = response.data.reverse();
       }
     });
@@ -129,6 +133,8 @@ export class RevenueTableComponent implements OnInit {
     this.reportService.getStoreCashFlowRevenueReportsByDateRangeAndStoreId(dateRange.startDate, dateRange.endDate, this.storeId).subscribe(response => {
       this.loader.disable();
       if (response.success) {
+        this.columns = ['revenue', 'timestamp'];
+        this.headers = ['Receita', 'Data do pedido'];
         this.reports = response.data.reverse();
       }
     });
@@ -149,6 +155,8 @@ export class RevenueTableComponent implements OnInit {
     this.reportService.getSystemCashFlowReportsByDateRange(dateRange.startDate, dateRange.endDate).subscribe(response => {
       this.loader.disable();
       if (response.success) {
+        this.columns = ['orderId', 'storeName', 'value', 'timestamp'];
+        this.headers = ['Pedido', 'Loja', 'Valor', 'Data do pedido'];
         this.reports = response.data.reverse();
       }
     });
@@ -158,6 +166,8 @@ export class RevenueTableComponent implements OnInit {
     this.reportService.getSystemCashFlowRevenueReports().subscribe(response => {
       this.loader.disable();
       if (response.success) {
+        this.columns = ['revenue', 'timestamp'];
+        this.headers = ['Receita', 'Data do pedido'];
         this.reports = response.data.reverse();
       }
     });
@@ -167,6 +177,8 @@ export class RevenueTableComponent implements OnInit {
     this.reportService.getSystemCashFlowRevenueReportsByDateRange(dateRange.startDate, dateRange.endDate).subscribe(response => {
       this.loader.disable();
       if (response.success) {
+        this.columns = ['revenue', 'timestamp'];
+        this.headers = ['Receita', 'Data do pedido'];
         this.reports = response.data.reverse();
       }
     });
@@ -182,7 +194,7 @@ export class RevenueTableComponent implements OnInit {
     this.currentReportTypeId = this.f.reportTypeId.value;
 
     if (dateRangeFilter) {
-      if (this.authentication.roleId === Roles.STORE_ADMIN) {
+      if (this.authentication.roleId === Roles.SYSTEM_ADMIN) {
         switch (this.currentReportTypeId) {
           case this.reportTypesList.history.id:
             this.getSystemCashFlowReportsByDateRange(dateRangeFilter);
@@ -202,7 +214,7 @@ export class RevenueTableComponent implements OnInit {
         }
       }
     } else {
-      if (this.authentication.roleId === Roles.STORE_ADMIN) {
+      if (this.authentication.roleId === Roles.SYSTEM_ADMIN) {
         switch (this.currentReportTypeId) {
           case this.reportTypesList.history.id:
             this.getSystemCashFlowReports();

@@ -37,6 +37,16 @@
                   </div>
                 </div>
               </ng-container>
+              <ng-container *ngIf="!addresses || addresses.length < 1">
+                <div class="row">
+                  <div class="col-12">
+                    <h3>Voce ainda não cadastrou nenhum endereço</h3>
+                  </div>
+                  <div class="col-12">
+                    <a class="btn btn-success btn-lg" (click)="registerAddress()" >Cadastrar endereço</a>
+                  </div>
+                </div>
+              </ng-container>
             </div>
           </div>
         </div>

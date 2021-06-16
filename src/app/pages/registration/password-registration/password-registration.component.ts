@@ -95,7 +95,7 @@ export class PasswordRegistrationComponent implements OnInit {
   }
 
   private setInitialData(): void {
-    this.updateRequest = this.sessionStorageService.getObject('userRegistration');
+    this.updateRequest = this.sessionStorageService.getObject('passwordUpdate');
 
     this.setValidationMessages();
   }

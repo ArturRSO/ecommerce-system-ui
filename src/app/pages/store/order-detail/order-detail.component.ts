@@ -45,13 +45,17 @@ export class OrderDetailComponent implements OnInit {
       this.navigateToPage('cadastro/historico');
 
     } else {
-      this.navigateToPage('gerenciamento/pedidos');
+      this.navigateToPage('gerenciamento/dashboard');
     }
   }
 
   public updateOrderStatus(orderStatusId: number) {
     this.loader.enable();
-    this.orderService.updateOrderStatus(this.order.orderId, orderStatusId).subscribe(response => {
+
+    const orderId = orderStatusId === OrderStatus.FINISHED ? this.order.orderSummaryId : this.order.orderId;
+
+    this.orderService.updateOrderStatus(orderId, orderStatusId).subscribe(response => {
+      this.loader.disable();
       if (response.success) {
         this.modalService.openSimpleModal('Sucesso', 'Status do pedido atualizado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
           this.return();
@@ -65,12 +69,12 @@ export class OrderDetailComponent implements OnInit {
   private getOrderInfo(): any {
     this.authentication = this.authService.getAuthenticationState();
     const orderId = parseInt(this.route.snapshot.queryParamMap.get('order'));
-    const isSummary = this.route.snapshot.queryParamMap.get('summary');
+    const isSummary = this.route.snapshot.queryParamMap.get('summary') === 'true';
 
     this.loader.enable();
 
     if (orderId && orderId !== NaN) {
-      if (isSummary) {
+      if (!isSummary) {
         if (this.authentication.roleId !== Roles.CUSTOMER) {
           this.orderService.getOrderById(orderId).subscribe(response => {
             this.loader.disable();
@@ -78,7 +82,7 @@ export class OrderDetailComponent implements OnInit {
               this.order = response.data;
               this.getProductInfo(response.data.itens);
 
-              this.markAsReceived = this.order.orderStatusId === OrderStatus.SENT;
+              this.markAsSent = this.order.orderStatusId === OrderStatus.PAID;
 
             } else {
               this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]).subscribe(() => {
@@ -88,6 +92,7 @@ export class OrderDetailComponent implements OnInit {
           });
 
         } else {
+          this.loader.disable();
           this.modalService.openSimpleModal('Atenção', 'Você não tem acesso a esse recurso.', [{ text: 'OK' }]).subscribe(() => {
             this.navigateToPage('loja/produtos');
           });
@@ -100,7 +105,7 @@ export class OrderDetailComponent implements OnInit {
             this.order = response.data;
             this.getProductInfo(response.data.itens);
 
-            this.markAsReceived = this.order.orderStatusId === OrderStatus.PAID;
+            this.markAsReceived = this.order.orderStatusId === OrderStatus.SENT;
 
           } else {
             this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]).subscribe(() => {
@@ -110,6 +115,7 @@ export class OrderDetailComponent implements OnInit {
         });
       }
     } else {
+      this.loader.disable();
       this.modalService.openSimpleModal('Atenção', 'Forneça um id de pedido válido!', [{ text: 'OK' }]).subscribe(() => {
         this.navigateToPage('loja/produtos');
       });

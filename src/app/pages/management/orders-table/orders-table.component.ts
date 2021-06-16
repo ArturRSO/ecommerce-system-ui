@@ -29,7 +29,7 @@ export class OrdersTableComponent implements OnInit {
   }
 
   public getOrderClick(order: any) {
-    this.navigateToPage(`loja/pedido?order=${order.orderId}`);
+    this.navigateToPage(`loja/pedido?order=${order.orderId}&summary=false`);
   }
 
   private getData(): void {

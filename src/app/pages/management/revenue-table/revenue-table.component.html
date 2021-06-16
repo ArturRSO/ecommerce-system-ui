@@ -7,7 +7,7 @@
       <div class="form-row">
         <div class="form-group col-12 col-md-10">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Filtrar por tipo de usuário" formControlName="reportTypeId">
+            <mat-select placeholder="Selecionar tipo de relatório" formControlName="reportTypeId">
               <mat-option *ngFor="let type of reportTypes" [value]="type.id">
                 {{ type.name }}
               </mat-option>

@@ -85,6 +85,8 @@ export class TelephoneRegistrationComponent implements OnInit {
           relateWithUser = false;
           storeRegistration = true;
         }
+      } else if (sessionStorage.getItem('nextRoute')) {
+        nextRoute = sessionStorage.getItem('nextRoute');
       }
 
       this.telephoneService.createTelephone(telephone, relateWithUser).subscribe(response => {
@@ -96,6 +98,7 @@ export class TelephoneRegistrationComponent implements OnInit {
             this.sessionStorageService.setObject('registerRequest', this.registration);
           }
 
+          sessionStorage.removeItem("nextRoute");
           this.modalService.openSimpleModal('Sucesso', 'Telefone cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
             this.navigateToPage(nextRoute);
           });

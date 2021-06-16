@@ -10,6 +10,7 @@ import { CartItem } from 'src/app/utils/models/cart-item.model';
 })
 export class CartItemQuantityFormComponent implements OnInit {
 
+  @Input() maxQuantity: number;
   @Input() productId: number;
   @Input() quantity: number;
 
@@ -42,7 +43,7 @@ export class CartItemQuantityFormComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      quantity: [this.quantity, [Validators.required, Validators.min(1), Validators.pattern(Regex.ONLY_NUMBERS)]]
+      quantity: [this.quantity, [Validators.required, Validators.min(1), Validators.max(this.maxQuantity), Validators.pattern(Regex.ONLY_NUMBERS)]]
     });
   }
 
@@ -51,6 +52,7 @@ export class CartItemQuantityFormComponent implements OnInit {
       quantity: [
         { type: 'required', message: 'Digite a quantidade' },
         { type: 'min', message: 'Digite um valor maior que zero.' },
+        { type: 'max', message: 'Estoque insuficiente do produto para atender este pedido.' },
         { type: 'pattern', message: 'Digite um valor válido.' }
       ]
     }

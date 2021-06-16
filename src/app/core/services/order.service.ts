@@ -67,7 +67,7 @@ export class OrderService {
 
   public updateOrderStatus(orderId: number, statusId: number) {
 
-    return this.http.get<any>(`${this.baseApiUrl}/update/${orderId}/status/${statusId}`).pipe(
+    return this.http.put<any>(`${this.baseApiUrl}/update/${orderId}/status/${statusId}`, null).pipe(
       map(response => {
         return response;
       }),

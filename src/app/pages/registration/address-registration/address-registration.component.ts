@@ -100,6 +100,8 @@ export class AddressRegistrationComponent implements OnInit {
           relateWithUser = false;
           storeRegistration = true;
         }
+      } else if (sessionStorage.getItem('nextRoute')) {
+        nextRoute = sessionStorage.getItem('nextRoute');
       }
 
       this.addressService.createAddress(address, relateWithUser).subscribe(response => {
@@ -111,6 +113,7 @@ export class AddressRegistrationComponent implements OnInit {
             this.sessionStorageService.setObject('registerRequest', this.registration);
           }
 
+          sessionStorage.removeItem("nextRoute");
           this.modalService.openSimpleModal('Sucesso', 'Endereço cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
             this.navigateToPage(nextRoute);
           });

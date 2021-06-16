@@ -90,6 +90,12 @@ export class NavbarComponent implements OnInit {
     this.navigateToPage('/loja/produtos');
   }
 
+  public goToHomepage(): void {
+    if (this.authentication.roleId === 3 || !this.authentication.authenticated) {
+      this.navigateToPage('loja/produtos');
+    }
+  }
+
   public goToStoreDashboard(storeId: number): void {
     this.navigateToPage(`gerenciamento/dashboard?store=${storeId}`);
   }

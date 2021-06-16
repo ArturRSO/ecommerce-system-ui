@@ -100,7 +100,7 @@ export class UserService {
 
   public resetPassword(token: string, password: string): any {
 
-    return this.http.post<any>(`${this.baseApiUrl}/recover/password?token=${encodeURIComponent(token)}`, password).pipe(
+    return this.http.put<any>(`${this.baseApiUrl}/recover/password?token=${encodeURIComponent(token)}`, password).pipe(
       map(response => {
         return response;
       }),

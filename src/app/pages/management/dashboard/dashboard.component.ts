@@ -106,9 +106,10 @@ export class DashboardComponent implements OnInit {
 
   private getStoreAdminMetrics(storeId: number): void {
     this.loader.enable();
-    this.reportService.getStoreCashFlowRevenueReportsByStoreId(storeId).subscribe(response => {
+    const date = new Date().toISOString().split("T")[0];
+    this.reportService.getStoreCashFlowRevenueReportsByDateRangeAndStoreId(date, date, storeId).subscribe(response => {
       this.revenueMetrics = response.data ? response.data.slice(-1).pop() : null;
-      this.reportService.getStoreCashFlowReportsByStoreId(storeId).subscribe(response => {
+      this.reportService.getStoreCashFlowReportsByDateRangeAndStoreId(date, date, storeId).subscribe(response => {
         this.revenueByStoreMetrics = response.data ? response.data.slice(-1).pop() : null;
         this.reportService.getOrdersReportByStoreId(storeId).subscribe(response => {
           this.orderMetrics = response.data;

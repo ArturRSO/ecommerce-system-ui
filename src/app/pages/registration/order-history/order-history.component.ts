@@ -34,7 +34,7 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   public goToOrderDetail(orderId: number) {
-    this.navigateToPage(`loja/pedido?order=${orderId}`);
+    this.navigateToPage(`loja/pedido?order=${orderId}&summary=true`);
   }
 
   private getOrders(): void {
@@ -47,7 +47,7 @@ export class OrderHistoryComponent implements OnInit {
 
         if (sentOrder) {
           this.modalService.openSimpleModal('Atenção',
-            'Um ou mais pedidos já foram enviados, por favor, clique no pedido e clique no botão \"Já recebi meu pedido\" para marcar o pedido como recebido.',
+            'Um ou mais pedidos já foram enviados, se você já recebeu o pedido, por favor, clique no pedido e clique no botão \"Já recebi meu pedido\" para marcar o pedido como recebido.',
             [{ text: 'OK' }]);
         }
       }

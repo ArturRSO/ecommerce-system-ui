@@ -41,7 +41,7 @@ export class AddToCartModalComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      quantity: [1, [Validators.required, Validators.min(1), Validators.pattern(Regex.ONLY_NUMBERS)]]
+      quantity: [1, [Validators.required, Validators.min(1), Validators.max(this.data.product.quantity), Validators.pattern(Regex.ONLY_NUMBERS)]]
     });
   }
 
@@ -62,6 +62,7 @@ export class AddToCartModalComponent implements OnInit {
       quantity: [
         { type: 'required', message: 'Digite a quantidade' },
         { type: 'min', message: 'Digite um valor maior que zero.' },
+        { type: 'max', message: 'Estoque insuficiente do produto para atender este pedido.' },
         { type: 'pattern', message: 'Digite um valor válido.' }
       ]
     }
