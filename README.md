@@ -1,6 +1,8 @@
-# E-Commerce System
+# E-Commerce System UI
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.8.
+
+User interface of the e-commerce system created as an end-of-course project, for the Bachelor's Degree in Information Systems of the University of Mogi das Cruzes (UMC).
 
 ## Development server
 
