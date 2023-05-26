@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
@@ -13,15 +13,15 @@ import { Regex } from 'src/app/utils/enums/regex.enum';
 })
 export class ProductRegistrationComponent implements OnInit {
 
-  public detailForm: FormGroup;
+  public detailForm: UntypedFormGroup;
   public detailLabels = [];
   public detailSubmitted = false;
-  public imageForm: FormGroup;
+  public imageForm: UntypedFormGroup;
   public imageCount = 0;
   public imageSrc: string;
   public imageSubmitted = false;
   public product: any;
-  public productForm: FormGroup;
+  public productForm: UntypedFormGroup;
   public productSubtypes = [];
   public productTypes = [];
   public step = 1;
@@ -35,7 +35,7 @@ export class ProductRegistrationComponent implements OnInit {
   private storeId: number;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
     private modalService: ModalService,
     private productService: ProductService,

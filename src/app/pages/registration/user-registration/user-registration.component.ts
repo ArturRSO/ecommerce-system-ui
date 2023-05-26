@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -20,7 +20,7 @@ import { MustMatch } from 'src/app/utils/validators/must-match.validator';
 export class UserRegistrationComponent implements OnInit {
 
   public documentMask = InputMasks.CPF;
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public registration: any;
   public roles = [];
   public submitted = false;
@@ -34,7 +34,7 @@ export class UserRegistrationComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
     private modalService: ModalService,
     private router: Router,

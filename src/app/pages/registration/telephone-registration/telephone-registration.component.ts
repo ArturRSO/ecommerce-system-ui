@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -17,7 +17,7 @@ import { TelephoneTypeList } from 'src/app/utils/lists/telephone-type.list';
 })
 export class TelephoneRegistrationComponent implements OnInit {
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public localCodeMask = InputMasks.TWO_DIGIT;
   public submitted = false;
   public telephoneMask = InputMasks.TELEPHONE;
@@ -29,7 +29,7 @@ export class TelephoneRegistrationComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
     private modalService: ModalService,
     private router: Router,

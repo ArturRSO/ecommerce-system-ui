@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -19,7 +19,7 @@ export class StoreRegistrationComponent implements OnInit {
 
   public documentMask = InputMasks.CPF;
   public documentTypes = [];
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public submitted = false;
   public validationMessages: any;
 
@@ -27,7 +27,7 @@ export class StoreRegistrationComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
     private modalService: ModalService,
     private router: Router,

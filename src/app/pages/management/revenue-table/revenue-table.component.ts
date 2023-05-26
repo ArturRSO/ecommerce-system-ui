@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -19,7 +19,7 @@ export class RevenueTableComponent implements OnInit {
   public headers = [];
   public reports = [];
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public reportTypes = [];
   public reportTypesList = new ReportTypeList();
   public submitted = false;
@@ -31,7 +31,7 @@ export class RevenueTableComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
     private modalService: ModalService,
     private reportService: ReportService,

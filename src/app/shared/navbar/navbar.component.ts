@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
   public productsDropdownOpen = false;
   public productSubtypes = [];
   public productTypes = [];
-  public searchForm: FormGroup;
+  public searchForm: UntypedFormGroup;
   public storesDropdownOpen = false;
   public stores = [];
 
@@ -60,7 +60,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
     private modalService: ModalService,
     private productService: ProductService,

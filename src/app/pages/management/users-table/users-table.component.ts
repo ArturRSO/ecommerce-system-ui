@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
@@ -18,13 +18,13 @@ export class UsersTableComponent implements OnInit {
   public headers = ['ID', 'Nome', 'Sobrenome', 'E-mail', 'Documento'];
   public users = [];
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public roles = [];
   public submitted = false;
   public validationMessages: any;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
     private router: Router,
     private userService: UserService,

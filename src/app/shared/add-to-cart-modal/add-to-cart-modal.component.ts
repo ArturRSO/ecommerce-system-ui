@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Regex } from 'src/app/utils/enums/regex.enum';
 import { CartItem } from 'src/app/utils/models/cart-item.model';
@@ -11,14 +11,14 @@ import { CartItem } from 'src/app/utils/models/cart-item.model';
 })
 export class AddToCartModalComponent implements OnInit {
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public submitted = false;
   public validationMessages: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<AddToCartModalComponent>,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) { }
 
   ngOnInit(): void {

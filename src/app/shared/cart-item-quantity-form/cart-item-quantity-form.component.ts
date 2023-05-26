@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Regex } from 'src/app/utils/enums/regex.enum';
 import { CartItem } from 'src/app/utils/models/cart-item.model';
 
@@ -16,12 +16,12 @@ export class CartItemQuantityFormComponent implements OnInit {
 
   @Output() itemSent: EventEmitter<CartItem> = new EventEmitter();
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public submitted = false;
   public validationMessages: any;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) { }
 
   ngOnInit(): void {

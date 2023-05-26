@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
@@ -12,12 +12,12 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class PasswordResetComponent implements OnInit {
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public submitted = false;
   public validationMessages: any;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
     private modalService: ModalService,
     private router: Router,

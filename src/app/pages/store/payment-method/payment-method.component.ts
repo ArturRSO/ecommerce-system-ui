@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
@@ -15,12 +15,12 @@ export class PaymentMethodComponent implements OnInit {
   public creditCardMask = InputMasks.CREDIT_CARD;
   public cvvMask = InputMasks.CVV
   public expirationDateMask = InputMasks.TWO_DIGIT;
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public submitted = false;
   public validationMessages: any;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private sessionStorageService: SessionStorageService
   ) { }

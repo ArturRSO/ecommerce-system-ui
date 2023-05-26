@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AddressService } from 'src/app/core/services/address.service';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
@@ -15,7 +15,7 @@ import { InputMasks } from 'src/app/utils/enums/input-masks.enum';
 })
 export class AddressRegistrationComponent implements OnInit {
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public postalCodeMask = InputMasks.CEP;
   public submitted = false;
   public validationMessages: any;
@@ -25,7 +25,7 @@ export class AddressRegistrationComponent implements OnInit {
   constructor(
     private addressService: AddressService,
     private authService: AuthenticationService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
     private modalService: ModalService,
     private router: Router,

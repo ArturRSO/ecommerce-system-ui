@@ -1,7 +1,7 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 export function DateRange(startControlName: string, endControlName: string) {
-  return (formGroup: FormGroup) => {
+  return (formGroup: UntypedFormGroup) => {
     const startControl = formGroup.controls[startControlName];
     const endControl = formGroup.controls[endControlName];
 
