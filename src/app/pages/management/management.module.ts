@@ -10,10 +10,10 @@ import { NgxMaskModule } from 'ngx-mask';
 import { OrdersTableComponent } from './orders-table/orders-table.component';
 import { UsersTableComponent } from './users-table/users-table.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { RevenueTableComponent } from './revenue-table/revenue-table.component';
 import { ProductsTableComponent } from './products-table/products-table.component';
 

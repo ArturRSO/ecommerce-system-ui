@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Observable, Subject } from 'rxjs';
 import { AddToCartModalComponent } from 'src/app/shared/add-to-cart-modal/add-to-cart-modal.component';
 import { PaymentMethodPickModalComponent } from 'src/app/shared/payment-method-pick-modal/payment-method-pick-modal.component';
