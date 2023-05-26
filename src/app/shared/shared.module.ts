@@ -20,40 +20,37 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
-  declarations: [
-    NavbarComponent,
-    FooterComponent,
-    SimpleModalComponent,
-    AddToCartModalComponent,
-    CartItemQuantityFormComponent,
-    PaymentMethodPickModalComponent,
-    TableComponent
-  ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatTabsModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    DragDropModule,
-    MatDatepickerModule,
-    MatNativeDateModule
-  ],
-  exports: [
-    NavbarComponent,
-    FooterComponent,
-    SimpleModalComponent,
-    AddToCartModalComponent,
-    CartItemQuantityFormComponent,
-    PaymentMethodPickModalComponent,
-    TableComponent
-  ],
-  entryComponents: [
-    SimpleModalComponent
-  ]
+    declarations: [
+        NavbarComponent,
+        FooterComponent,
+        SimpleModalComponent,
+        AddToCartModalComponent,
+        CartItemQuantityFormComponent,
+        PaymentMethodPickModalComponent,
+        TableComponent
+    ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatTabsModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        DragDropModule,
+        MatDatepickerModule,
+        MatNativeDateModule
+    ],
+    exports: [
+        NavbarComponent,
+        FooterComponent,
+        SimpleModalComponent,
+        AddToCartModalComponent,
+        CartItemQuantityFormComponent,
+        PaymentMethodPickModalComponent,
+        TableComponent
+    ]
 })
 export class SharedModule { }
