@@ -18,10 +18,9 @@ import { UserRegistration } from 'src/app/utils/models/user-registration.model';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
-
   public authentication: any;
   public addresses = [];
   public documentMask = InputMasks.CPF;
@@ -45,7 +44,7 @@ export class UserProfileComponent implements OnInit {
     private sessionStorageService: SessionStorageService,
     private telephoneService: TelephoneService,
     private userService: UserService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getProfile();
@@ -53,64 +52,106 @@ export class UserProfileComponent implements OnInit {
 
   public changeProfileImage(): void {
     if (this.profile) {
-      const fileUpload = document.getElementById('profile-image-upload') as HTMLElement;
+      const fileUpload = document.getElementById(
+        'profile-image-upload'
+      ) as HTMLElement;
       fileUpload.click();
     }
   }
 
   public deleteAddress(addressId: number): void {
-    this.modalService.openSimpleModal('Confirmação', 'Tem certeza que deseja deleter este endereço?', [{ text: 'Não' }, { text: 'Sim' }]).subscribe(response => {
-      if (response === 'Sim') {
-        this.loader.enable();
+    this.modalService
+      .openSimpleModal(
+        'Confirmação',
+        'Tem certeza que deseja deleter este endereço?',
+        [{ text: 'Não' }, { text: 'Sim' }]
+      )
+      .subscribe((response) => {
+        if (response === 'Sim') {
+          this.loader.enable();
 
-        this.addressService.deleteAddress(addressId).subscribe(response => {
-          if (response.success) {
-            this.modalService.openSimpleModal('Sucesso', 'Endereço deletado', [{ text: 'OK' }]).subscribe(() => {
-              this.getAddressesAndTelephones();
-            });
-          } else {
-            this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
-          }
-        });
-      }
-    });
+          this.addressService.deleteAddress(addressId).subscribe((response) => {
+            if (response.success) {
+              this.modalService
+                .openSimpleModal('Sucesso', 'Endereço deletado', [
+                  { text: 'OK' },
+                ])
+                .subscribe(() => {
+                  this.getAddressesAndTelephones();
+                });
+            } else {
+              this.modalService.openSimpleModal('Atenção', response.message, [
+                { text: 'OK' },
+              ]);
+            }
+          });
+        }
+      });
   }
 
   public deleteProfile() {
-    this.modalService.openSimpleModal('Confirmação', 'Tem certeza que deseja desativar seu perfil?', [{ text: 'Não' }, { text: 'Sim' }]).subscribe(response => {
-      if (response === 'Sim') {
-        this.loader.enable();
+    this.modalService
+      .openSimpleModal(
+        'Confirmação',
+        'Tem certeza que deseja desativar seu perfil?',
+        [{ text: 'Não' }, { text: 'Sim' }]
+      )
+      .subscribe((response) => {
+        if (response === 'Sim') {
+          this.loader.enable();
 
-        this.userService.deleteUser(this.user.userId).subscribe(response => {
-          this.loader.disable();
-          if (response.success) {
-            this.modalService.openSimpleModal('Sucesso', 'Perfil desativado.', [{ text: 'OK' }]).subscribe(() => {
-              this.navigateToPage('loja/produtos');
+          this.userService
+            .deleteUser(this.user.userId)
+            .subscribe((response) => {
+              this.loader.disable();
+              if (response.success) {
+                this.modalService
+                  .openSimpleModal('Sucesso', 'Perfil desativado.', [
+                    { text: 'OK' },
+                  ])
+                  .subscribe(() => {
+                    this.navigateToPage('loja/produtos');
+                  });
+              } else {
+                this.modalService.openSimpleModal('Atenção', response.message, [
+                  { text: 'OK' },
+                ]);
+              }
             });
-          } else {
-            this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
-          }
-        });
-      }
-    });
+        }
+      });
   }
 
   public deleteTelephone(telephoneId: number): void {
-    this.modalService.openSimpleModal('Confirmação', 'Tem certeza que deseja deleter este telefone?', [{ text: 'Não' }, { text: 'Sim' }]).subscribe(response => {
-      if (response === 'Sim') {
-        this.loader.enable();
+    this.modalService
+      .openSimpleModal(
+        'Confirmação',
+        'Tem certeza que deseja deleter este telefone?',
+        [{ text: 'Não' }, { text: 'Sim' }]
+      )
+      .subscribe((response) => {
+        if (response === 'Sim') {
+          this.loader.enable();
 
-        this.telephoneService.deleteTelephone(telephoneId).subscribe(response => {
-          if (response.success) {
-            this.modalService.openSimpleModal('Sucesso', 'Telefone deletado', [{ text: 'OK' }]).subscribe(() => {
-              this.getAddressesAndTelephones();
+          this.telephoneService
+            .deleteTelephone(telephoneId)
+            .subscribe((response) => {
+              if (response.success) {
+                this.modalService
+                  .openSimpleModal('Sucesso', 'Telefone deletado', [
+                    { text: 'OK' },
+                  ])
+                  .subscribe(() => {
+                    this.getAddressesAndTelephones();
+                  });
+              } else {
+                this.modalService.openSimpleModal('Atenção', response.message, [
+                  { text: 'OK' },
+                ]);
+              }
             });
-          } else {
-            this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
-          }
-        });
-      }
-    });
+        }
+      });
   }
 
   public navigateToPage(route: string): void {
@@ -118,12 +159,18 @@ export class UserProfileComponent implements OnInit {
   }
 
   public registerAddress(): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false, null));
+    this.sessionStorageService.setObject(
+      'registerRequest',
+      new RegistrationRequest(null, false, null)
+    );
     this.navigateToPage('cadastro/endereco');
   }
 
   public registerTelephone(): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false, null));
+    this.sessionStorageService.setObject(
+      'registerRequest',
+      new RegistrationRequest(null, false, null)
+    );
     this.navigateToPage('cadastro/telefone');
   }
 
@@ -140,12 +187,18 @@ export class UserProfileComponent implements OnInit {
   }
 
   public updateAddress(addressId: number): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(addressId, true, null));
+    this.sessionStorageService.setObject(
+      'registerRequest',
+      new RegistrationRequest(addressId, true, null)
+    );
     this.navigateToPage('cadastro/endereco');
   }
 
   public updatePassword(): void {
-    this.sessionStorageService.setObject('passwordUpdate', new PasswordUpdate(null, false));
+    this.sessionStorageService.setObject(
+      'passwordUpdate',
+      new PasswordUpdate(null, false)
+    );
     this.navigateToPage('cadastro/senha');
   }
 
@@ -153,12 +206,18 @@ export class UserProfileComponent implements OnInit {
     const roles = new RolesList();
     const role = roles.getRoleById(this.authentication.roleId);
 
-    this.sessionStorageService.setObject('userRegistration', new UserRegistration([role], true, null));
+    this.sessionStorageService.setObject(
+      'userRegistration',
+      new UserRegistration([role], true, null)
+    );
     this.navigateToPage('cadastro/perfil/atualizar');
   }
 
   public updateTelephone(telephoneId: number): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(telephoneId, true, null));
+    this.sessionStorageService.setObject(
+      'registerRequest',
+      new RegistrationRequest(telephoneId, true, null)
+    );
     this.navigateToPage('cadastro/telefone');
   }
 
@@ -169,36 +228,49 @@ export class UserProfileComponent implements OnInit {
       if (file.type.match(this.imagePattern)) {
         this.loader.enable();
 
-        this.userService.changeProfileImage(this.user.userId, file).subscribe(response => {
-          this.loader.disable();
-          if (response.success) {
-            this.modalService.openSimpleModal('Sucesso', response.message, [{ text: 'OK' }]).subscribe(() => {
-              this.getProfile();
-            });
-          } else {
-            this.modalService.openSimpleModal('Erro', response.message, [{ text: 'OK' }]);
-          }
-        });
-
+        this.userService
+          .changeProfileImage(this.user.userId, file)
+          .subscribe((response) => {
+            this.loader.disable();
+            if (response.success) {
+              this.modalService
+                .openSimpleModal('Sucesso', response.message, [{ text: 'OK' }])
+                .subscribe(() => {
+                  this.getProfile();
+                });
+            } else {
+              this.modalService.openSimpleModal('Erro', response.message, [
+                { text: 'OK' },
+              ]);
+            }
+          });
       } else {
-        this.modalService.openSimpleModal('Atenção', 'Envie um arquivo de imagem válido!', [{ text: 'OK' }]);
+        this.modalService.openSimpleModal(
+          'Atenção',
+          'Envie um arquivo de imagem válido!',
+          [{ text: 'OK' }]
+        );
       }
     }
   }
 
   private getAddressesAndTelephones(): any {
-    this.addressService.getAddressesByUserId(this.user.userId).subscribe(response => {
-      if (response.success) {
-        this.addresses = response.data;
-      }
-
-      this.telephoneService.getTelephonesByUserId(this.user.userId).subscribe(response => {
-        this.loader.disable();
+    this.addressService
+      .getAddressesByUserId(this.user.userId)
+      .subscribe((response) => {
         if (response.success) {
-          this.telephones = response.data;
+          this.addresses = response.data;
         }
+
+        this.telephoneService
+          .getTelephonesByUserId(this.user.userId)
+          .subscribe((response) => {
+            this.loader.disable();
+            if (response.success) {
+              this.telephones = response.data;
+            }
+          });
       });
-    });
   }
 
   private getProfile(): void {
@@ -207,9 +279,9 @@ export class UserProfileComponent implements OnInit {
     this.authentication = this.authService.getAuthenticationState();
     const userId = parseInt(this.route.snapshot.queryParamMap.get('user'));
 
-    if (userId && userId !== NaN) {
+    if (userId) {
       if (this.authentication.roleId === Roles.SYSTEM_ADMIN) {
-        this.userService.getUserById(userId).subscribe(response => {
+        this.userService.getUserById(userId).subscribe((response) => {
           this.loader.disable();
           if (response.success) {
             this.profile = false;
@@ -221,10 +293,14 @@ export class UserProfileComponent implements OnInit {
           }
         });
       } else {
-        this.modalService.openSimpleModal('Atenção', 'Você não possui acesso a esse recurso.', [{ text: 'OK' }]);
+        this.modalService.openSimpleModal(
+          'Atenção',
+          'Você não possui acesso a esse recurso.',
+          [{ text: 'OK' }]
+        );
       }
     } else {
-      this.userService.getProfile().subscribe(response => {
+      this.userService.getProfile().subscribe((response) => {
         this.user = response.data;
         this.profileImageSrc = `data:image;base64, ${response.data.profileImage}`;
         this.imageSrc = this.profileImageSrc;

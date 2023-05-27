@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  UntypedFormBuilder,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ModalService } from 'src/app/core/services/modal.service';
@@ -9,10 +13,9 @@ import { Regex } from 'src/app/utils/enums/regex.enum';
 @Component({
   selector: 'app-product-registration',
   templateUrl: './product-registration.component.html',
-  styleUrls: ['./product-registration.component.scss']
+  styleUrls: ['./product-registration.component.scss'],
 })
 export class ProductRegistrationComponent implements OnInit {
-
   public detailForm: UntypedFormGroup;
   public detailLabels = [];
   public detailSubmitted = false;
@@ -41,7 +44,7 @@ export class ProductRegistrationComponent implements OnInit {
     private productService: ProductService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.buildForms();
@@ -66,35 +69,45 @@ export class ProductRegistrationComponent implements OnInit {
 
   public confirmDetails(): void {
     this.loader.enable();
-    this.productService.createProduct(this.product).subscribe(response => {
+    this.productService.createProduct(this.product).subscribe((response) => {
       this.loader.disable();
       if (response.success) {
-        this.modalService.openSimpleModal('Sucesso', 'Produto cadastrado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-          this.productId = response.data;
-          this.step = 3;
-        });
+        this.modalService
+          .openSimpleModal('Sucesso', 'Produto cadastrado com sucesso!', [
+            { text: 'OK' },
+          ])
+          .subscribe(() => {
+            this.productId = response.data;
+            this.step = 3;
+          });
       } else {
-        this.modalService.openSimpleModal('Atenção', response.message, [{ text: 'OK' }]);
+        this.modalService.openSimpleModal('Atenção', response.message, [
+          { text: 'OK' },
+        ]);
       }
     });
   }
 
   public onProductSubtypeSelection(value: any): void {
     this.loader.enable();
-    this.productService.getProductDetailLabelsByProductSubtypeId(value).subscribe(response => {
-      this.loader.disable();
-      if (response.success) {
-        this.detailLabels = response.data;
-      }
-    });
+    this.productService
+      .getProductDetailLabelsByProductSubtypeId(value)
+      .subscribe((response) => {
+        this.loader.disable();
+        if (response.success) {
+          this.detailLabels = response.data;
+        }
+      });
   }
 
   public onProductTypeSelection(value: any): void {
     this.loader.enable();
-    this.productService.getProductSubtypesByTypeId(value).subscribe(response => {
-      this.loader.disable();
-      this.productSubtypes = response.data;
-    });
+    this.productService
+      .getProductSubtypesByTypeId(value)
+      .subscribe((response) => {
+        this.loader.disable();
+        this.productSubtypes = response.data;
+      });
   }
 
   public submitDetail(): void {
@@ -107,19 +120,29 @@ export class ProductRegistrationComponent implements OnInit {
     const detail = this.detailForm.value;
 
     this.product.details.push(detail);
-    this.detailLabels = this.detailLabels.filter(detailLabel => detailLabel.labelId !== detail.labelId);
+    this.detailLabels = this.detailLabels.filter(
+      (detailLabel) => detailLabel.labelId !== detail.labelId
+    );
 
-    this.modalService.openSimpleModal('Sucesso', 'Detalhe adicionado com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-      this.detailSubmitted = false;
-      this.detailForm.reset();
-    });
+    this.modalService
+      .openSimpleModal('Sucesso', 'Detalhe adicionado com sucesso!', [
+        { text: 'OK' },
+      ])
+      .subscribe(() => {
+        this.detailSubmitted = false;
+        this.detailForm.reset();
+      });
   }
 
   public submitImage(): void {
     this.imageSubmitted = true;
 
     if (this.imageCount >= 4) {
-      this.modalService.openSimpleModal('Sucesso', 'Você já adicionou o máximo possível de imagens!', [{ text: 'OK' }]);
+      this.modalService.openSimpleModal(
+        'Sucesso',
+        'Você já adicionou o máximo possível de imagens!',
+        [{ text: 'OK' }]
+      );
       return;
     }
 
@@ -129,25 +152,33 @@ export class ProductRegistrationComponent implements OnInit {
 
     this.loader.enable();
 
-    this.productService.changeProductImage(this.productId, this.image).subscribe(response => {
-      this.loader.disable();
-      if (response.success) {
-        this.modalService.openSimpleModal('Sucesso', 'Imagem cadastrada com sucesso!', [{ text: 'OK' }]).subscribe(() => {
-          this.imageCount += 1;
-          this.remainingImages += 1;
+    this.productService
+      .changeProductImage(this.productId, this.image)
+      .subscribe((response) => {
+        this.loader.disable();
+        if (response.success) {
+          this.modalService
+            .openSimpleModal('Sucesso', 'Imagem cadastrada com sucesso!', [
+              { text: 'OK' },
+            ])
+            .subscribe(() => {
+              this.imageCount += 1;
+              this.remainingImages += 1;
 
-          this.imageSubmitted = false;
-          this.imageSrc = null;
-          this.imageForm.reset();
-        });
-      } else {
-        this.modalService.openSimpleModal('Atenção', response.messsage, [{ text: 'OK' }]).subscribe(() => {
-          this.imageSubmitted = false;
-          this.imageSrc = null;
-          this.imageForm.reset();
-        });
-      }
-    });
+              this.imageSubmitted = false;
+              this.imageSrc = null;
+              this.imageForm.reset();
+            });
+        } else {
+          this.modalService
+            .openSimpleModal('Atenção', response.messsage, [{ text: 'OK' }])
+            .subscribe(() => {
+              this.imageSubmitted = false;
+              this.imageSrc = null;
+              this.imageForm.reset();
+            });
+        }
+      });
   }
 
   public submitProduct(): void {
@@ -160,7 +191,9 @@ export class ProductRegistrationComponent implements OnInit {
     this.product = this.productForm.value;
     this.product.storeId = this.storeId;
     this.product.isNew = true;
-    this.product.price = parseFloat(this.product.price.replace('.', '').replace(',', '.'));
+    this.product.price = parseFloat(
+      this.product.price.replace('.', '').replace(',', '.')
+    );
     this.product.details = [];
     this.step = 2;
   }
@@ -177,10 +210,13 @@ export class ProductRegistrationComponent implements OnInit {
         };
 
         this.image = file;
-
       } else {
         this.imageForm.reset();
-        this.modalService.openSimpleModal('Atenção', 'Envie um arquivo de imagem válido!', [{ text: 'OK' }]);
+        this.modalService.openSimpleModal(
+          'Atenção',
+          'Envie um arquivo de imagem válido!',
+          [{ text: 'OK' }]
+        );
       }
     }
   }
@@ -191,16 +227,26 @@ export class ProductRegistrationComponent implements OnInit {
       productSubtypeId: ['', Validators.required],
       name: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(0.1)]],
-      quantity: ['', [Validators.required, Validators.min(1), Validators.pattern(Regex.ONLY_NUMBERS)]]
+      quantity: [
+        '',
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern(Regex.ONLY_NUMBERS),
+        ],
+      ],
     });
 
     this.detailForm = this.formBuilder.group({
       labelId: ['', Validators.required],
-      value: ['', Validators.required]
+      value: ['', Validators.required],
     });
 
     this.imageForm = this.formBuilder.group({
-      file: [{ value: '', disabled: this.imageCount >= 4 }, Validators.required]
+      file: [
+        { value: '', disabled: this.imageCount >= 4 },
+        Validators.required,
+      ],
     });
   }
 
@@ -211,51 +257,47 @@ export class ProductRegistrationComponent implements OnInit {
   private setInitialData(): void {
     const storeId = parseInt(this.route.snapshot.queryParamMap.get('store'));
 
-    if (storeId && storeId !== NaN) {
+    if (storeId) {
       this.loader.enable();
       this.storeId = storeId;
-      this.productService.getProductTypes().subscribe(response => {
+      this.productService.getProductTypes().subscribe((response) => {
         this.loader.disable();
         this.productTypes = response.data;
       });
 
       this.setValidationMessages();
     } else {
-      this.modalService.openSimpleModal('Atenção', 'Forneça um ID de loja válido', [{ text: 'OK' }]).subscribe(resposne => {
-        this.navigateToPage('gerenciar/dashboard');
-      });
+      this.modalService
+        .openSimpleModal('Atenção', 'Forneça um ID de loja válido', [
+          { text: 'OK' },
+        ])
+        .subscribe((resposne) => {
+          this.navigateToPage('gerenciar/dashboard');
+        });
     }
   }
 
   private setValidationMessages(): void {
     this.validationMessages = {
       productTypeId: [
-        { type: 'required', message: 'Selecione o tipo do produto' }
+        { type: 'required', message: 'Selecione o tipo do produto' },
       ],
       productSubtypeId: [
-        { type: 'required', message: 'Selecione o subtipo do produto' }
+        { type: 'required', message: 'Selecione o subtipo do produto' },
       ],
-      name: [
-        { type: 'required', message: 'Digite o nome do produto' }
-      ],
-      labelId: [
-        { type: 'required', message: 'Selecione o rótulo do detalhe' }
-      ],
-      value: [
-        { type: 'required', message: 'Digite o conteúdo do detalhe' }
-      ],
-      file: [
-        { type: 'required', message: 'Forneça uma imagem' }
-      ],
+      name: [{ type: 'required', message: 'Digite o nome do produto' }],
+      labelId: [{ type: 'required', message: 'Selecione o rótulo do detalhe' }],
+      value: [{ type: 'required', message: 'Digite o conteúdo do detalhe' }],
+      file: [{ type: 'required', message: 'Forneça uma imagem' }],
       price: [
         { type: 'required', message: 'Digite o preço do produto' },
-        { type: 'min', message: 'Digite um valor maior que zero.' }
+        { type: 'min', message: 'Digite um valor maior que zero.' },
       ],
       quantity: [
         { type: 'required', message: 'Digite a quantidade em estoque' },
         { type: 'min', message: 'Digite um valor maior que zero.' },
-        { type: 'pattern', message: 'Digite um valor válido.' }
-      ]
-    }
+        { type: 'pattern', message: 'Digite um valor válido.' },
+      ],
+    };
   }
 }

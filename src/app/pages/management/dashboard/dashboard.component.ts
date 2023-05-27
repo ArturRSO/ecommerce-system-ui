@@ -12,10 +12,9 @@ import { DashboardCard } from 'src/app/utils/models/dashboard-card.model';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-
   public authentication: any;
   public cards: any;
   public orderMetrics: any;
@@ -34,7 +33,7 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private storeService: StoreService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getData();
@@ -46,7 +45,10 @@ export class DashboardComponent implements OnInit {
 
     if (parameter) {
       const value = this.getValueFromParameterName(parameter[1]);
-      route = route.replace(new RegExp(Regex.ROUTE_PARAMETER), value.toString());
+      route = route.replace(
+        new RegExp(Regex.ROUTE_PARAMETER),
+        value.toString()
+      );
     }
 
     this.navigateToPage(route);
@@ -63,32 +65,42 @@ export class DashboardComponent implements OnInit {
       this.loader.enable();
       const storeId = parseInt(this.route.snapshot.queryParamMap.get('store'));
 
-      if (storeId && storeId !== NaN) {
-        this.storeService.getStoreById(storeId).subscribe(response => {
+      if (storeId) {
+        this.storeService.getStoreById(storeId).subscribe((response) => {
           this.loader.disable();
           if (response.success) {
             this.store = response.data;
             this.getStoreAdminMetrics(storeId);
-
           } else {
-            this.modalService.openSimpleModal('Atenção', 'Loja não encontrada!', [{ text: 'OK' }]).subscribe(() => {
-              this.navigateToPage('gerenciamento/lojas');
-            });
+            this.modalService
+              .openSimpleModal('Atenção', 'Loja não encontrada!', [
+                { text: 'OK' },
+              ])
+              .subscribe(() => {
+                this.navigateToPage('gerenciamento/lojas');
+              });
           }
         });
       } else {
-        this.storeService.getStoresByUserId(this.authentication.userId).subscribe(response => {
-          this.loader.disable();
-          if (response.success) {
-            this.store = response.data[0];
-            this.getStoreAdminMetrics(this.store.storeId);
-
-          } else {
-            this.modalService.openSimpleModal('Atenção', 'Você não possui lojas cadastradas.', [{ text: 'OK' }]).subscribe(() => {
-              this.navigateToPage('gerenciamento/lojas');
-            });
-          }
-        });
+        this.storeService
+          .getStoresByUserId(this.authentication.userId)
+          .subscribe((response) => {
+            this.loader.disable();
+            if (response.success) {
+              this.store = response.data[0];
+              this.getStoreAdminMetrics(this.store.storeId);
+            } else {
+              this.modalService
+                .openSimpleModal(
+                  'Atenção',
+                  'Você não possui lojas cadastradas.',
+                  [{ text: 'OK' }]
+                )
+                .subscribe(() => {
+                  this.navigateToPage('gerenciamento/lojas');
+                });
+            }
+          });
       }
     } else {
       this.getSystemAdminReports();
@@ -106,40 +118,58 @@ export class DashboardComponent implements OnInit {
 
   private getStoreAdminMetrics(storeId: number): void {
     this.loader.enable();
-    const date = new Date().toISOString().split("T")[0];
-    this.reportService.getStoreCashFlowRevenueReportsByDateRangeAndStoreId(date, date, storeId).subscribe(response => {
-      this.revenueMetrics = response.data ? response.data.slice(-1).pop() : null;
-      this.reportService.getStoreCashFlowReportsByDateRangeAndStoreId(date, date, storeId).subscribe(response => {
-        this.revenueByStoreMetrics = response.data ? response.data.slice(-1).pop() : null;
-        this.reportService.getOrdersReportByStoreId(storeId).subscribe(response => {
-          this.orderMetrics = response.data;
-          this.reportService.getProductsReportByStoreId(storeId).subscribe(response => {
-            this.loader.disable();
-            this.productMetrics = response.data;
-            this.loadStoreCards();
+    const date = new Date().toISOString().split('T')[0];
+    this.reportService
+      .getStoreCashFlowRevenueReportsByDateRangeAndStoreId(date, date, storeId)
+      .subscribe((response) => {
+        this.revenueMetrics = response.data
+          ? response.data.slice(-1).pop()
+          : null;
+        this.reportService
+          .getStoreCashFlowReportsByDateRangeAndStoreId(date, date, storeId)
+          .subscribe((response) => {
+            this.revenueByStoreMetrics = response.data
+              ? response.data.slice(-1).pop()
+              : null;
+            this.reportService
+              .getOrdersReportByStoreId(storeId)
+              .subscribe((response) => {
+                this.orderMetrics = response.data;
+                this.reportService
+                  .getProductsReportByStoreId(storeId)
+                  .subscribe((response) => {
+                    this.loader.disable();
+                    this.productMetrics = response.data;
+                    this.loadStoreCards();
+                  });
+              });
           });
-        });
       });
-    });
   }
 
   private getSystemAdminReports(): void {
     this.loader.enable();
-    const date = new Date().toISOString().split("T")[0];
-    this.reportService.getSystemCashFlowRevenueReportsByDateRange(date, date).subscribe(response => {
-      this.revenueMetrics = response.data ? response.data[0] : null;
-      this.reportService.getSystemCashFlowReportsByDateRange(date, date).subscribe(response => {
-        this.revenueByStoreMetrics = response.data ? response.data.slice(-1).pop() : null;
-        this.reportService.getStoresCountReport().subscribe(response => {
-          this.storeMetrics = response.data ? response.data[0] : null;
-          this.reportService.getUsersCountReport().subscribe(response => {
-            this.userMetrics = response.data ? response.data[0] : null;
-            this.loadAdminCards();
-            this.loader.disable();
+    const date = new Date().toISOString().split('T')[0];
+    this.reportService
+      .getSystemCashFlowRevenueReportsByDateRange(date, date)
+      .subscribe((response) => {
+        this.revenueMetrics = response.data ? response.data[0] : null;
+        this.reportService
+          .getSystemCashFlowReportsByDateRange(date, date)
+          .subscribe((response) => {
+            this.revenueByStoreMetrics = response.data
+              ? response.data.slice(-1).pop()
+              : null;
+            this.reportService.getStoresCountReport().subscribe((response) => {
+              this.storeMetrics = response.data ? response.data[0] : null;
+              this.reportService.getUsersCountReport().subscribe((response) => {
+                this.userMetrics = response.data ? response.data[0] : null;
+                this.loadAdminCards();
+                this.loader.disable();
+              });
+            });
           });
-        });
       });
-    })
   }
 
   private loadAdminCards(): void {
@@ -151,11 +181,13 @@ export class DashboardComponent implements OnInit {
         'gerenciamento/receitas',
         {
           label: 'Receita do dia',
-          value: this.revenueMetrics ? this.revenueMetrics.revenue : 0
+          value: this.revenueMetrics ? this.revenueMetrics.revenue : 0,
         },
         {
           label: 'Última receita',
-          value: this.revenueByStoreMetrics ? this.revenueByStoreMetrics.value : 0
+          value: this.revenueByStoreMetrics
+            ? this.revenueByStoreMetrics.value
+            : 0,
         }
       ),
       new DashboardCard(
@@ -165,11 +197,11 @@ export class DashboardComponent implements OnInit {
         'gerenciamento/lojas',
         {
           label: 'Total de lojas',
-          value: this.storeMetrics ? this.storeMetrics.stores : 0
+          value: this.storeMetrics ? this.storeMetrics.stores : 0,
         },
         {
           label: 'Lojas ativas',
-          value: this.storeMetrics ? this.storeMetrics.activeStores : 0
+          value: this.storeMetrics ? this.storeMetrics.activeStores : 0,
         }
       ),
       new DashboardCard(
@@ -179,14 +211,14 @@ export class DashboardComponent implements OnInit {
         'gerenciamento/usuarios',
         {
           label: 'Usuários',
-          value: this.userMetrics ? this.userMetrics.users : 0
+          value: this.userMetrics ? this.userMetrics.users : 0,
         },
         {
           label: 'Lojistas',
-          value: this.userMetrics ? this.userMetrics.storeAdmins : 0
+          value: this.userMetrics ? this.userMetrics.storeAdmins : 0,
         }
-      )
-    ]
+      ),
+    ];
   }
 
   private loadStoreCards(): void {
@@ -198,11 +230,13 @@ export class DashboardComponent implements OnInit {
         'gerenciamento/receitas?store=:storeId:',
         {
           label: 'Receita do dia',
-          value: this.revenueMetrics ? this.revenueMetrics.revenue : 0
+          value: this.revenueMetrics ? this.revenueMetrics.revenue : 0,
         },
         {
           label: 'Última receita',
-          value: this.revenueByStoreMetrics ? this.revenueByStoreMetrics.value : 0
+          value: this.revenueByStoreMetrics
+            ? this.revenueByStoreMetrics.value
+            : 0,
         }
       ),
       new DashboardCard(
@@ -212,11 +246,11 @@ export class DashboardComponent implements OnInit {
         'gerenciamento/pedidos?store=:storeId:',
         {
           label: 'Total de pedidos',
-          value: this.orderMetrics ? this.orderMetrics.orders : 0
+          value: this.orderMetrics ? this.orderMetrics.orders : 0,
         },
         {
           label: 'Pedidos concluídos',
-          value: this.orderMetrics ? this.orderMetrics.finishedOrders : 0
+          value: this.orderMetrics ? this.orderMetrics.finishedOrders : 0,
         }
       ),
       new DashboardCard(
@@ -226,13 +260,13 @@ export class DashboardComponent implements OnInit {
         'gerenciamento/produtos?store=:storeId:',
         {
           label: 'Total de produtos',
-          value: this.productMetrics ? this.productMetrics.products : 0
+          value: this.productMetrics ? this.productMetrics.products : 0,
         },
         {
           label: 'Produtos em estoque',
-          value: this.productMetrics ? this.productMetrics.activeProducts : 0
+          value: this.productMetrics ? this.productMetrics.activeProducts : 0,
         }
-      )
+      ),
     ];
   }
 }

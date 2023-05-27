@@ -9,11 +9,10 @@ import { RegistrationRequest } from 'src/app/utils/models/registration-request.m
 @Component({
   selector: 'app-products-table',
   templateUrl: './products-table.component.html',
-  styleUrls: ['./products-table.component.scss']
+  styleUrls: ['./products-table.component.scss'],
 })
 export class ProductsTableComponent implements OnInit {
-
-  public columns = ['productId', 'name', 'price', 'quantity',];
+  public columns = ['productId', 'name', 'price', 'quantity'];
   public headers = ['ID', 'Nome', 'Preço', 'Quantidade'];
   public products = [];
 
@@ -26,31 +25,40 @@ export class ProductsTableComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private sessionStorageService: SessionStorageService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getData();
   }
 
   public createProduct(): void {
-    this.sessionStorageService.setObject('registerRequest', new RegistrationRequest(null, false, null));
+    this.sessionStorageService.setObject(
+      'registerRequest',
+      new RegistrationRequest(null, false, null)
+    );
     this.navigateToPage(`cadastro/produto?store=${this.storeId}`);
   }
 
   public getData(): void {
     const storeId = parseInt(this.route.snapshot.queryParamMap.get('store'));
 
-    if (storeId && storeId !== NaN) {
+    if (storeId) {
       this.storeId = storeId;
       this.loader.enable();
-      this.productService.getProductsByStoreIdAndQuantity(storeId, 0).subscribe(response => {
-        this.products = response.data;
-        this.loader.disable();
-      });
+      this.productService
+        .getProductsByStoreIdAndQuantity(storeId, 0)
+        .subscribe((response) => {
+          this.products = response.data;
+          this.loader.disable();
+        });
     } else {
-      this.modalService.openSimpleModal('Atenção', 'Forneça um ID de loja válido!', [{ text: 'OK' }]).subscribe(() => {
-        this.navigateToPage('gerenciamento/dashboard');
-      });
+      this.modalService
+        .openSimpleModal('Atenção', 'Forneça um ID de loja válido!', [
+          { text: 'OK' },
+        ])
+        .subscribe(() => {
+          this.navigateToPage('gerenciamento/dashboard');
+        });
     }
   }
 
