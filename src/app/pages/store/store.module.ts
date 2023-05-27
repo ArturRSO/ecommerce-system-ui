@@ -18,7 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ShippingComponent } from './shipping/shipping.component';
 import { OrderConclusionComponent } from './order-conclusion/order-conclusion.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -46,5 +46,6 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
     NgxMaskDirective,
     NgxMaskPipe,
   ],
+  providers: [provideNgxMask()],
 })
 export class StoreModule {}
