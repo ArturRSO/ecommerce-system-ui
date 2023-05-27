@@ -6,7 +6,7 @@ import { StoresTableComponent } from './stores-table/stores-table.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { StoreProfileComponent } from './store-profile/store-profile.component';
 import { UtilsModule } from 'src/app/utils/utils.module';
-import { NgxMaskModule } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { OrdersTableComponent } from './orders-table/orders-table.component';
 import { UsersTableComponent } from './users-table/users-table.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,7 +25,7 @@ import { ProductsTableComponent } from './products-table/products-table.componen
     OrdersTableComponent,
     UsersTableComponent,
     RevenueTableComponent,
-    ProductsTableComponent
+    ProductsTableComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +37,8 @@ import { ProductsTableComponent } from './products-table/products-table.componen
     MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
-    NgxMaskModule.forRoot()
-  ]
+    NgxMaskDirective,
+    NgxMaskPipe,
+  ],
 })
-export class ManagementModule { }
+export class ManagementModule {}

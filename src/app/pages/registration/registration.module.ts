@@ -10,7 +10,7 @@ import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/materia
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { NgxMaskModule } from 'ngx-mask';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UtilsModule } from 'src/app/utils/utils.module';
@@ -35,7 +35,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     StoreRegistrationComponent,
     PasswordRegistrationComponent,
     OrderHistoryComponent,
-    ProductUpdateComponent
+    ProductUpdateComponent,
   ],
   imports: [
     CommonModule,
@@ -53,7 +53,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     MatDividerModule,
     MatListModule,
     CarouselModule.forRoot(),
-    NgxMaskModule.forRoot()
-  ]
+    NgxMaskDirective,
+    NgxMaskPipe,
+  ],
 })
-export class RegistrationModule { }
+export class RegistrationModule {}

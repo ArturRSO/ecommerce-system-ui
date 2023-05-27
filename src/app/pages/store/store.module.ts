@@ -15,10 +15,10 @@ import { ProductCartComponent } from './product-cart/product-cart.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PaymentMethodComponent } from './payment-method/payment-method.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxMaskModule } from 'ngx-mask';
 import { ShippingComponent } from './shipping/shipping.component';
 import { OrderConclusionComponent } from './order-conclusion/order-conclusion.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
     PaymentMethodComponent,
     ShippingComponent,
     OrderConclusionComponent,
-    OrderDetailComponent
+    OrderDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -43,7 +43,8 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
     CarouselModule.forRoot(),
     SharedModule,
     ReactiveFormsModule,
-    NgxMaskModule.forRoot()
-  ]
+    NgxMaskDirective,
+    NgxMaskPipe,
+  ],
 })
-export class StoreModule { }
+export class StoreModule {}
