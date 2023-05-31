@@ -4,12 +4,12 @@ import { RegistrationRoutingModule } from './registration-routing.module';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatSelectModule } from '@angular/material/select';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -22,7 +22,7 @@ import { PasswordRegistrationComponent } from './password-registration/password-
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { ProductUpdateComponent } from './product-update/product-update.component';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatListModule } from '@angular/material/list';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @NgModule({
